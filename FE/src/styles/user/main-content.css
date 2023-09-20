@@ -1,0 +1,192 @@
+.main-content .header-content {
+    background: white !important;
+    height: 300px;
+    width: 80%;
+    margin-left: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #dfdaec;
+}
+
+.top-content {
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #DADDE1;
+}
+
+.right-top-content a{
+    color: #919396
+}
+
+.top-select {
+    position: relative;
+}
+
+.top-select::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+    height: 3.5px;
+    background: rgb(24, 118, 242);
+}
+
+.top-content i:before {
+    font-size: 90%;
+}
+
+.left-top-content {
+    width: 50%;
+    height: 50px;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 5px;
+    margin-right: -5px;
+}
+
+.right-top-content {
+    width: 50%;
+    height: 50px;
+    text-align: center;
+    transition: var(--tran);
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 5px;
+    margin-right: -5px;
+}
+
+.left-top-content i,
+.right-top-content i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3px;
+}
+
+.right-top-content:hover {
+    background: #DADDE1;
+}
+
+.header-content span {
+    font-size: 20px;
+    padding-left: 5px;
+}
+
+.body-content {
+    padding: 10px;
+}
+
+.story img {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    left: 3px;
+    top: 3px;
+    border-radius: 5px solid #626262;
+}
+
+.story h6 {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+}
+
+.story-galley {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.story:hover {
+    background: linear-gradient(#a4a4a45f, rgba(0,0,0,0.1)),
+    url("../../pages/user/img/avatar-main.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+.story-one:hover {
+    background: linear-gradient(#a4a4a45f, rgba(0,0,0,0.1)),
+    url("../../pages/user/img/advertisement.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.story-two:hover {
+    background: linear-gradient(#a4a4a45f, rgba(0,0,0,0.1)), url("../../pages/user/img/feed-image-1.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.story-three:hover {
+    background: linear-gradient(#a4a4a45f, rgba(0,0,0,0.1)), url("../../pages/user/img/cover.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.story {
+    height: 220px;
+    flex-basis: 18%;
+    /* padding-top: 37.5%; */
+    padding-left: 24%;
+    position: relative;
+    background-image: linear-gradient(transparent, rgba(0,0,0,0.5)),
+     url("../../pages/user/img/avatar-main.jpg");
+    background-position: center;
+    background-size: cover;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: var(--tran);
+}
+
+.story-one {
+    flex-basis: 18%;
+    padding-top: 37.5%;
+    padding-left: 24%;
+    position: relative;
+    background-image: linear-gradient(transparent, rgba(0,0,0,0.5)), url("../../pages/user/img/advertisement.png");
+    background-position: center;
+    background-size: cover;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: var(--tran);
+}
+
+.story-two {
+    flex-basis: 18%;
+    padding-top: 37.5%;
+    padding-left: 24%;
+    position: relative;
+    background-image: linear-gradient(transparent, rgba(0,0,0,0.5)), url("../../pages/user/img/feed-image-1.png");
+    background-position: center;
+    background-size: cover;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: var(--tran);
+}
+
+.story-three {
+    flex-basis: 18%;
+    padding-top: 37.5%;
+    padding-left: 24%;
+    position: relative;
+    background-image: linear-gradient(transparent, rgba(0,0,0,0.5)), url("../../pages/user/img/cover.png");
+    background-position: center;
+    background-size: cover;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: var(--tran);
+}

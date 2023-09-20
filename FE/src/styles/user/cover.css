@@ -1,0 +1,23 @@
+.edit-profile-cover {
+    position: absolute;
+    bottom: 30px;
+    right: 25px;
+}
+
+.edit-profile-cover button {
+    background-color: #4b4b4b8f ;
+    border: none;
+}
+
+.edit-profile-cover button:hover {
+    background-color: #4b4b4be5 ;
+}
+
+.edit-profile-cover span {
+    font-weight: 600;
+    color: #fff;
+}
+
+.fa-camera-retro {
+    color: #fff
+}

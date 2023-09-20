@@ -1,0 +1,50 @@
+.fade.toast.show {
+    position: fixed;
+    left: 80px;
+    top: calc(100vh - 180px);
+    z-index: 1000;
+    background: white;
+}
+
+.toast-body {
+    height: 110px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.toast-avatar {
+    border: 1px solid #ebe1e1;
+    border-radius: 50%;
+}
+
+.toast-avatar img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.toast-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fa-circle {
+    color: #0D6EFD;
+    position: absolute;
+    right: -40px;
+}
+
+.toast-content {
+    width: 200px;
+}
+
+.toast-content span {
+    margin-top: -20px
+}
+
+.me-auto {
+    font-size: 15px;
+    color: black;
+}

@@ -1,0 +1,122 @@
+.user-post-profile p:hover {
+    text-decoration: underline !important;
+    cursor: pointer; 
+}
+
+.user-post-profile svg {
+    margin-top: -2px;
+}
+
+.post-user-name {
+    display: flex;
+}
+
+.post-user-name p:hover {
+    text-decoration: underline !important;
+    cursor: pointer; 
+}
+
+.icon-post-user {
+    padding: 5px 5px 0 5px;
+}
+
+.post-action {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #ddd7d7;
+    padding-top: 5px;
+    margin-top: 5px;
+}
+
+.post-like {
+    width: 50%;
+    /* text-align: center */
+}
+
+.post-like .buttonLike {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}
+
+.post-like .buttonLike-span {
+    padding: 0 5px;
+}
+
+.post-comment span {
+    padding: 0 5px;
+    transform: translateY(-1px);    
+}
+
+.post-comment {
+    width: 50%;
+    text-align: center;
+}
+
+.post-comment button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+}
+
+.write-post-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-action-post button {
+    border-radius: 50%;
+}
+
+
+.user-action-post {
+    position: relative;
+}
+
+.user-action-post ol {
+    list-style-type: none;
+}
+
+.show-post-menu li {
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.show-post-menu li:hover {
+    background: #eaeaea8c;
+    border-radius: 3px;
+}
+
+.show-post-menu li span {
+    color: black;
+    font-size: 15px;
+    margin-left : 5px;
+}
+
+.show-post-menu li:nth-child(2) span{
+    margin-left : 8px;
+}
+
+.show-post-menu {
+    position: absolute;
+    z-index: 1000;
+    width: 130px;
+    padding: 5px;
+    top: 60px;
+    right: -15px;
+    margin-bottom: unset;
+    border-radius: 5px;
+    background: white;
+    margin-top: -8px;
+    color: black;
+    box-shadow: 0px 0px 8px #ddd;
+    font-weight: 600;
+}

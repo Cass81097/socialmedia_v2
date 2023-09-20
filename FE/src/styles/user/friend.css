@@ -1,0 +1,65 @@
+.friend-avatar {
+    overflow: hidden;
+    border-radius: 6px;
+    width: 130px;
+    height: 100px;
+    border: 1px solid #efecec;
+}
+
+.friend-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.friend-detail {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 15px;
+}
+
+.friend-detail h6 {
+    color: black;
+    font-weight: 500;
+    display: inline-block;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.friend-detail h6:hover {
+    text-decoration: underline !important;
+}
+
+.friend-detail h6:nth-child(2) {
+    font-size: small;
+}
+
+.friend-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.friend-container-left {
+    width: 50%;
+    padding: 10px;
+}
+
+.friend-container-avatar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e5dddd;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.form-control:focus {
+    box-shadow: unset;
+}
+
+.search-profile-friend {
+    display: flex;
+    justify-content: flex-end;
+}

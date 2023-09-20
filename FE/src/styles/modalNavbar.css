@@ -1,0 +1,165 @@
+.modal-block-container {
+    margin-top: 50px;
+}
+
+.modal-block-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0 5px 0;
+}
+
+.modal-block-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-block-main p {
+    font-weight: 600;
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+.modal-title {
+    transform: translateX(150px);
+}
+
+.modal-block-avatar {
+    overflow: hidden;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #e1dddd;
+}
+
+.modal-block-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* Modal Common Friend */
+.modal-commonFriend-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0 5px 0;
+}
+
+.modal-commonFriend-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-commonFriend-main p {
+    font-weight: 600;
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+.modal-commonFriend-avatar {
+    overflow: hidden;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #e1dddd;
+}
+
+.modal-commonFriend-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.modal-commonFriend-main .fa-user {
+    font-weight: 500;
+}
+
+.modal-commonFriend-main span {
+    margin-left: 5px;
+}
+
+.modal-commonFriend-user p:hover {
+    text-decoration: underline !important;
+    cursor: pointer;
+}
+
+/* Modal Like List */
+.modal-like-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0 5px 0;
+}
+
+.modal-like-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-like-user p {
+    transition: 0.3s;
+}
+
+.modal-like-user p:hover {
+    text-decoration: underline !important;
+    cursor: pointer;
+}
+
+.modal-like-main p {
+    font-weight: 600;
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.modal-title {
+    transform: translateX(150px);
+}
+
+.modal-like-avatar {
+    overflow: hidden;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #e1dddd;
+}
+
+.modal-like-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.like-avatar {
+    position: absolute;
+    right: -5px;
+    bottom: -10px;
+    padding: 0 3px 3px 3px;
+    border-radius: 50%;
+    background: #31A2FD;
+    cursor: pointer;
+}
+
+.like-avatar svg {
+    color: white;
+}
+
+.like-edit {
+    background: #E4E6EB !important;
+    border: 1px solid white !important;
+}
+
+.like-edit i {
+    font-weight: 600;
+    color: black;
+}
+
+.like-edit span {
+    margin-left: 5px;
+}

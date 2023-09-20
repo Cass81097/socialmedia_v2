@@ -1,0 +1,58 @@
+.privacy-icon {
+    width: fit-content;
+    border-radius: 50%;
+    padding: 10px 20px 15px 20px;
+    background: #E4E6EB;
+    font-size: 25px;
+}
+
+.privacy-select {
+    padding: 10px 0;
+    margin-right: 15px;
+}
+
+.modal-privacy-select {
+    display: flex;
+    justify-content: space-between;
+    transition: 0.3s;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.modal-privacy-select:hover {
+    background: #eaeaeaa8;
+    border-radius: 10px;
+}
+
+.privacy-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h5 {
+    margin-bottom: unset !important;
+}
+
+.input-radio input {
+    zoom: 1.5;
+}
+
+.user-post-profile small {
+    transition: 0.3s;
+    padding: 1px 5px;
+}
+
+.user-post-profile small:hover {
+    background: #efefef;
+    border-radius: 50%;
+}
+
+.post-privacy-change i {
+    transition: 0.3s;
+}
+
+.post-privacy-change i:hover {
+    border-radius: 50%;
+    background: #efefef;
+}

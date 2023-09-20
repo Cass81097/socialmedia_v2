@@ -1,0 +1,142 @@
+
+
+
+#invoiceholder{
+    width:100%;
+    hieght: 100%;
+    padding-top: 50px;
+}
+#invoice-right{
+    position: relative;
+    margin: 0 auto;
+    width: 60%;
+    background: #FFF;
+    border-right: 0.5px gray solid ;
+}
+
+#invoice{
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    background: #FFF;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+[id*='invoice-']{ /* Targets all id with 'col-' */
+    border-bottom: 1px solid #EEE;
+    padding: 30px;
+}
+
+#invoice-top{min-height: 120px;}
+#invoice-mid{min-height: 120px; text-align: center}
+#invoice-bot{ min-height: 250px;}
+
+.logo{
+    float: left;
+    height: 60px;
+    width: 60px;
+    background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;
+    background-size: 60px 60px;
+}
+.clientlogo{
+    float: left;
+    height: 60px;
+    width: 60px;
+    background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
+    background-size: 60px 60px;
+    border-radius: 50px;
+}
+.info{
+    display: block;
+    float:left;
+    margin-left: 20px;
+}
+.title{
+    float: right;
+}
+.title p{text-align: right;}
+#project{margin-left: 52%;}
+table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td{
+    padding: 5px 0 5px 15px;
+    border: 1px solid #EEE
+}
+.tabletitle{
+    padding: 5px;
+    background: #EEE;
+}
+.service{border: 1px solid #EEE;}
+.item{width: 35%;}
+.Hours{width : 50%}
+.itemtext{font-size: 1.2em;}
+
+.itemicon {
+   background-color: white;
+    border: none;
+    font-size: 30px;
+}
+#legalcopy{
+    margin-top: 30px;
+}
+
+.item-table {
+    font-size: 30px;
+    margin: 10%;
+    color: rgb(13,110,253);
+
+}
+.item-table:hover {
+    cursor: pointer;
+}
+
+
+.effect2
+{
+    position: relative;
+}
+.effect2:before, .effect2:after
+{
+    z-index: -1;
+    position: absolute;
+    content: "";
+    bottom: 15px;
+    left: 10px;
+    width: 60%;
+    top: 80%;
+    max-width:300px;
+    background: #777;
+    -webkit-box-shadow: 0 15px 10px #777;
+    -moz-box-shadow: 0 15px 10px #777;
+    box-shadow: 0 15px 10px #777;
+    -webkit-transform: rotate(-3deg);
+    -moz-transform: rotate(-3deg);
+    -o-transform: rotate(-3deg);
+    -ms-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+}
+.effect2:after
+{
+    -webkit-transform: rotate(3deg);
+    -moz-transform: rotate(3deg);
+    -o-transform: rotate(3deg);
+    -ms-transform: rotate(3deg);
+    transform: rotate(3deg);
+    right: 10px;
+    left: auto;
+}
+
+.error-message {
+    color: red;
+}
+
+.service {
+    color: black;
+}
+

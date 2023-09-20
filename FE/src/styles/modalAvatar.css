@@ -1,0 +1,9 @@
+.modal-avatar-title {
+    transform: translateX(120px);
+}
+
+.modal-avatar-top button{
+    width: 100%;
+    background: #E7F3FF;
+    border: 0px solid;
+}

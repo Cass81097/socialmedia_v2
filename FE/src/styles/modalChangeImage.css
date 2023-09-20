@@ -1,0 +1,25 @@
+.modal-body-change-image {
+    width: 40vw;
+}
+
+.modal-body-image-change-container {
+    padding: 5px;
+}
+
+.image-change-container {
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+}
+
+.image-change-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+.image-change-container.image-two {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}

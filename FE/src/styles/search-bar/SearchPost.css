@@ -1,0 +1,38 @@
+.container-status {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin-bottom: 30px;
+
+
+}
+.sidebar-left-status{
+    width: 20%;
+    height: 100vh;
+}
+.search-notification{
+    position: fixed;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+.mid-status {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    text-align: left;
+}
+.sidebar-right-status{
+    width: 15%;
+}
+.index-content-status {
+    width: 700px;
+    margin-top: 5%;
+}
+.post-comment {
+    width: 49% !important;
+}
+
+.post-like {
+    width: 49%!important;
+}

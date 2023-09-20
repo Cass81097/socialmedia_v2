@@ -1,0 +1,228 @@
+.right-sidebar-ads h4 {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+.sidebar-ads img {
+    width: 150px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+.ads-one {
+    position: relative;
+    height: 100%;
+}
+
+.ads-two {
+    position: relative;
+    height: 100%;
+}
+
+.ads-one a {
+    height: 120px;
+    padding-left: 7px;
+    display: flex;
+    align-items: center;
+    transition: var(--tran);
+    border-radius: 10px;
+}
+
+.ads-two a {
+    height: 120px;
+    padding-left: 7px;
+    display: flex;
+    align-items: center;
+    transition: var(--tran);
+    border-radius: 10px;
+}
+
+.ads-one h5 {
+    color: black;
+    font-weight: 500;
+}
+
+.ads-two h5 {
+    color: black;
+    font-weight: 500;
+}
+
+.ads-title {
+    margin-left: 20px;
+}
+
+.ads-title span {
+    font-size: 10px;
+    color: rgb(162, 162, 154);
+}
+
+.ads-one a:hover,
+.ads-two a:hover {
+    background: var(--primary-color);
+    box-shadow: 0px 0px 20px -2px rgba(0, 0, 0, 0.75);
+}
+
+.button-remove {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #e13737;
+    text-align: center;
+    line-height: 30px !important;
+    color: white;
+    border-radius: 30px;
+    cursor: pointer;
+    left: calc(100% - 40px);
+    top: 10px;
+    opacity: 0;
+    transition: 0.3s ease-in-out;
+}
+
+.button-remove:hover {
+    box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.75);
+}
+
+.ads-one:hover .button-remove {
+    opacity: 1;
+}
+
+.ads-two:hover .button-remove {
+    opacity: 1;
+}
+
+.rightbar-birthday h4 {
+    font-weight: 600;
+    font-size: 16px;
+    margin: 20px 0px 10px 10px;
+}
+
+.birthday {
+    height: 36px;
+    width: 36px;
+    background-image: url(https://static.xx.fbcdn.net/rsrc.php/v3/yX/r/rbQUMcxWjZR.png);
+    background-position: 0 0;
+    background-size: 36px 364px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.birthday-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 7px;
+    margin-top: 5px;
+}
+
+.birthday-info p {
+    line-height: 20px;
+    transform: translateY(-50%);
+    position: absolute;
+    top: 50%;
+}
+
+.birthday-info a {
+    color: black;
+    font-weight: 600;
+}
+
+.birthday-content {
+    position: relative;
+    flex-grow: 1;
+}
+
+.rightbar-contact {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.rightbar-icon {
+    margin-top: -7px;
+    margin-left: 100px;
+}
+
+.rightbar-contact h4 {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.right-icon {
+    color: #707070;
+    font-size: 20px;
+}
+
+.rightbar-icon i:hover {
+    background: #754ef9;
+    color: #fdfdfd;
+}
+
+.rightbar-icon i {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    transition: var(--tran)
+}
+
+.online-list {
+    position: relative;
+    margin-top: 10px;
+    transition: var(--tran);
+    border-radius: 6px;
+}
+
+.avatar-contact {
+    position: relative;
+    margin-top: 27px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    /* border: 0.1rem solid #dfdaec; */
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    background-size: cover;
+    background-position: center;
+}
+
+.online-list::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    margin-top: -5px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #41db51;
+    position: absolute;
+    bottom: 5px;
+    left: 35px;
+}
+
+.online-list a {
+    display: flex;
+    align-items: center;
+    padding-bottom: 25px;
+    padding-left: 10px;
+    height: 50px;
+}
+
+.online-list:hover {
+    background: #DADDE1;
+}
+
+.online-list .name-contact {
+    margin: 35px 0px 0px 20px;
+}
+
+.name-contact h5 {
+    color: black;
+    font-size: 15px;
+    font-weight: 500;
+}
+

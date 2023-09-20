@@ -1,0 +1,26 @@
+.react-emoji {
+    margin-top: -15px;
+}
+
+.react-emoji-picker--wrapper {
+    top: unset !important;
+    box-shadow: 0px 0px 4px #ddd;
+    overflow: hidden !important;
+    border-radius: 10px;
+}
+
+.react-input-emoji--input {
+    color: black;
+}
+
+.post-button {
+    width: 100%;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed !important;
+}
+
+.btn:disabled {
+    pointer-events: stroke !important;
+}
