@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import Profile from "./pages/Profile";
+import Chat from './pages/Chat';
 import Loading from "./components/common/Loading"
 import { PostContextProvider } from './context/PostContext';
 
@@ -32,7 +33,6 @@ export default function App() {
       <SearchContextProvider>
         <ProfileContextProvider user={user}>
           <PostContextProvider>
-
             <Routes>
               <Route path="/loading" element={<Loading />} />
               <Route path="/404" element={<PageNotFound />} />
@@ -47,8 +47,8 @@ export default function App() {
                     element={user ? <Profile user={username} /> : <Login />}
                   />
                 ))}
-             <Route path="/status" element={<SearchPost />} />
-
+              <Route path="/status" element={<SearchPost />} />
+              <Route path="/messages" element={<Chat />} />
             </Routes>
           </PostContextProvider>
         </ProfileContextProvider>

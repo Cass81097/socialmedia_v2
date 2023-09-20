@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { ProfileContext } from "../../context/ProfileContext";
 import { SearchBar } from "../search/SearchBar";
 import { SearchResultsList } from "../search/SearchResultsList";
+import { CometChatUI } from '../../cometchat-chat-uikit-react-3/CometChatWorkspace/src';
 
 export default function Navbar() {
     const { user } = useContext(AuthContext);
@@ -65,7 +66,7 @@ export default function Navbar() {
                                 data-placement="bottom"
                                 title="Messenger"
                             style={{ transform: "translateY(7px)" }}
-                            >
+                            >   
                                 <i className="fab fa-facebook-messenger"></i>
                             </Link>
                             <Link

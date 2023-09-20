@@ -9,6 +9,7 @@ import { ProfileContext } from "../context/ProfileContext";
 import "../index.css";
 import "../styles/buttonGoogle.css";
 
+
 const Home = (props) => {
     const navigate = useNavigate();
     const {userProfile} = useContext(ProfileContext)
@@ -34,7 +35,7 @@ const Home = (props) => {
     return (
         <>
             <Navbar></Navbar>
-            <ToastContainer />
+            <ToastContainer />         
         </>
     );
 }

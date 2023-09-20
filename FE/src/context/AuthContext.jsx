@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-    
+    const { cometChat, setIsLoading } = useContext(CometChatContext);
     const [registerFinish, setRegisterFinish] = useState(false);
     const [loginFinish, setLoginFinish] = useState(false);
     const [allUser, setAllUser] = useState(null);
@@ -33,15 +33,13 @@ export const AuthContextProvider = ({ children }) => {
         const fetchAllUsers = async () => {
             try {
                 const response = await getRequest(`${baseUrl}/users/username`);
-                setAllUser(response); 
+                setAllUser(response);
             } catch (error) {
                 console.error("Error fetching all users:", error);
             }
         };
         fetchAllUsers();
     }, []);
-
-    const { cometChat, setIsLoading } = useContext(CometChatContext);
 
     const generateAvatar = () => {
         const avatars = [
@@ -55,21 +53,23 @@ export const AuthContextProvider = ({ children }) => {
         return avatars[avatarPosition];
     };
 
-    // const createCometChatAccount = ({ userUuid, fullname, userAvatar }) => {
-    //     const authKey = `${process.env.REACT_APP_COMETCHAT_AUTH_KEY}`;
-    //     const user = new cometChat.User(userUuid);
-    //     console.log(user);
-    //     user.setName(fullname);
-    //     user.setAvatar(userAvatar);
-    //     cometChat.createUser(user, authKey).then(
-    //         user => {
-    //             setIsLoading(false);
-    //         }, error => {
-    //             setIsLoading(false);
-    //         }
-    //     )
-    // };
-
+    const createCometChatAccount = ({ userUuid, fullname, userAvatar }) => {
+        console.log(userUuid);
+        console.log(userAvatar);
+        const authKey = `${process.env.REACT_APP_COMETCHAT_AUTH_KEY}`;
+        console.log(authKey);
+        const user = new cometChat.User(userUuid);
+        console.log(user);
+        user.setName(fullname);
+        user.setAvatar(userAvatar);
+        cometChat.createUser(user, authKey).then(
+            user => {
+                setIsLoading(false);
+            }, error => {
+                setIsLoading(false);
+            }
+        )
+    };
 
     useEffect(() => {
         const user = localStorage.getItem("User")
@@ -96,8 +96,8 @@ export const AuthContextProvider = ({ children }) => {
         setIsRegisterLoading(true);
         setRegisterError(null)
 
-        const avatar = generateAvatar(); // Generate the avatar synchronously
-        const username = registerInfo.email.split("@")[0]; // Extract the username part before the @ symbol
+        const avatar = generateAvatar();
+        const username = registerInfo.email.split("@")[0];
 
         const registerInfoWithAvatar = { ...registerInfo, avatar, username: username };
 
@@ -109,18 +109,17 @@ export const AuthContextProvider = ({ children }) => {
 
         setIsRegisterLoading(false);
 
-        // const userId = response.userId.toString(); // Convert userId to a string
-        // createCometChatAccount({
-        //     userUuid: userId,
-        //     fullname: registerInfo.username,
-        //     userAvatar: registerInfo.avatar,
-        // });
+        const userId = response.userId.toString();
+        createCometChatAccount({
+            userUuid: userId,
+            fullname: registerInfoWithAvatar.username,
+            userAvatar: registerInfoWithAvatar.avatar,
+        });
 
         setRegisterFinish(true)
     }, [registerInfo])
 
     const loginUser = useCallback(async () => {
-
         setIsLoginLoading(true);
         setLoginError(null);
 
@@ -149,7 +148,21 @@ export const AuthContextProvider = ({ children }) => {
         setIsLoginLoading(false);
         localStorage.setItem("User", JSON.stringify(response));
         setUser(response);
-        setLoginFinish(true)
+        setLoginFinish(true);
+
+        const authKey = `${process.env.REACT_APP_COMETCHAT_AUTH_KEY}`;
+        console.log(authKey);
+        cometChat.login(response.id, authKey).then(
+            User => {
+                setIsLoading(false);
+                localStorage.setItem('auth', JSON.stringify(response));
+                console.log("cometChat.login thành công!");
+            },
+            error => {
+                console.log("cometChat.login thất bại:", error);
+            }
+        );
+
     }, [loginInfo]);
 
     const logOutUser = useCallback((info) => {

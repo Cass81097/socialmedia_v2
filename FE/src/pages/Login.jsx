@@ -133,7 +133,7 @@ const Login = (props) => {
         } else if (email.length < 3) {
             toast.error("Địa chỉ Email không được dưới 3 kí tự.", toastOptions);
             return false;
-        } else if (!emailRegex.test(email)) { // Check if email format is valid
+        } else if (!emailRegex.test(email)) { 
             toast.error("Vui lòng nhập đúng định dạng địa chỉ Email.", toastOptions);
             return false;
         } else if (password.length < 6) {

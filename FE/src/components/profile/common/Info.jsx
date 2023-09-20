@@ -14,9 +14,6 @@ export default function Info() {
     console.log(userProfile)
     const user = userProfile[0]
 
-
-
-
     return (
         <>
             <div className="user-info">
@@ -61,11 +58,6 @@ export default function Info() {
                     </div>
                 </div>
             </div>
-
-
-
-
-
                     <div className="user-info">
                         <div className="item-Left">
                             <div className="item-icon">
@@ -102,9 +94,6 @@ export default function Info() {
 
 
             <div className="user-info">
-
-
-
                         <div className="item-Left">
                             <div className="item-icon">
                                 <i className="fas fa-map-marker-alt"></i>
@@ -132,13 +121,8 @@ export default function Info() {
                                 </div>
                             </div>
                         </div>
-
-
-
             </div>
             <div className="user-info">
-
-
                         <div className="item-Left">
                             <div className="item-icon">
                                 <i className="fas fa-phone-alt"></i>
@@ -166,13 +150,7 @@ export default function Info() {
                                 </div>
                             </div>
                         </div>
-
-
-
-
             </div>
-
-
             <ToastContainer />
         </>
     )

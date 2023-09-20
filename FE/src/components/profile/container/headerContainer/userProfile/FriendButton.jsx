@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../../../../context/AuthContext";
 import { ProfileContext } from "../../../../../context/ProfileContext";
-import "../../../../../styles/toast.css";  
+import "../../../../../styles/toast.css";
 import { baseUrl, getRequest, postRequest } from "../../../../../utils/services";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -31,7 +31,7 @@ export default function FriendButton() {
   const handleShowAlertUnfriend = () => {
     setShowAlertUnFriend(true);
   }
-  
+
   const goProfileUser = (username) => {
     setShowToast(false)
     navigate(`/${username}`);
@@ -56,15 +56,14 @@ export default function FriendButton() {
     if (socket === null) return;
 
     socket.on("friendRequest", (res) => {
-      console.log(res);
       setFriendRequest(res);
-     
+
     });
 
     socket.on("friendRequestAccepted", (res) => {
       setUserAccepted(true)
       setFriendRequest(res);
-    
+
     });
 
     return () => {
@@ -104,7 +103,6 @@ export default function FriendButton() {
       setFriendStatus({ status: "pending", userSendReq: user.id });
 
       if (socket) {
-        console.log(user.id, userProfile[0]?.id);
         socket.emit("sendFriendRequest", {
           senderId: user.id,
           receiverId: userProfile[0]?.id,
@@ -123,7 +121,7 @@ export default function FriendButton() {
       setFriendStatus();
       setShowAlertUnFriend(false);
       await fetchPostUser();
-     
+
     } catch (error) {
       console.error("Error canceling friend request:", error);
     }
@@ -134,11 +132,30 @@ export default function FriendButton() {
       const response = await postRequest(`${baseUrl}/friendships/unfriend/${userProfile[0]?.id}/${user.id}/`)
       setFriendStatus();
 
-     
+
     } catch (error) {
       console.error("Error canceling friend request:", error);
     }
   };
+
+  // const handleAcceptFriend = async () => {
+  //   try {
+  //     const response = await postRequest(`${baseUrl}/friendships/accept/${userProfile[0]?.id}/${user.id}`)
+  //     setFriendStatus({ status: "friend" });
+  //     fetchPostUser();
+
+  //     if (socket) {
+  //       console.log(user.id, userProfile[0]?.id);
+  //       socket.emit("acceptFriendRequest", {
+  //         senderId: user.id,
+  //         receiverId: userProfile[0]?.id,
+  //       });
+  //     }
+
+  //   } catch (error) {
+  //     console.error("Error canceling friend request:", error);
+  //   }
+  // };
 
   const handleAcceptFriend = async () => {
     try {
@@ -147,13 +164,45 @@ export default function FriendButton() {
       fetchPostUser();
 
       if (socket) {
-        console.log(user.id, userProfile[0]?.id);
         socket.emit("acceptFriendRequest", {
           senderId: user.id,
           receiverId: userProfile[0]?.id,
         });
       }
 
+      if (!userProfile[0]?.id || !user?.id) {
+        return;
+      }
+      console.log("comet add friend");
+      const cometChatAppId = `${process.env.REACT_APP_COMETCHAT_APP_ID}`;
+      const cometChatAppRegion = `${process.env.REACT_APP_COMETCHAT_REGION}`;
+      const cometChatApiKey = `${process.env.REACT_APP_COMETCHAT_API_KEY}`;
+      const url = `https://${cometChatAppId}.api-${cometChatAppRegion}.cometchat.io/v3/users/${user?.id}/friends`;
+      const options = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          appId: cometChatAppId,
+          apiKey: cometChatApiKey,
+        },
+        body: JSON.stringify({ accepted: [userProfile[0]?.id] }),
+      };
+
+      console.log(cometChatAppId);
+
+      const responseCometAddFriend = await fetch(url, options);
+      console.log(responseCometAddFriend);
+      if (responseCometAddFriend) {
+        const customMessage = {
+          message: `${user?.fullname} has accepted your friend request`,
+          type: 'friend',
+          receiverId: userProfile[0]?.id
+        };
+        // sendCustomMessage(customMessage);
+        // setHasNewFriend(true);
+        // alert(`${selectedUser.fullname} was added as a friend succesfully`);
+      } 
     } catch (error) {
       console.error("Error canceling friend request:", error);
     }

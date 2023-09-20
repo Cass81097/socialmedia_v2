@@ -2,12 +2,12 @@ import $ from 'jquery';
 import React, { useContext, useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Toast from 'react-bootstrap/Toast';
 import { BiSolidLike, BiSolidLockAlt } from 'react-icons/bi';
 import { FaUserFriends } from 'react-icons/fa';
 import { FaEarthAmericas } from 'react-icons/fa6';
 import InputEmoji from "react-input-emoji";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { PostContext } from "../../../context/PostContext";
@@ -18,10 +18,9 @@ import "../../../styles/user/post/inputEmoji.css";
 import "../../../styles/user/post/postImage.css";
 import "../../../styles/user/post/postUser.css";
 import "../../../styles/user/post/privacy.css";
-import { baseUrl, deleteRequest, postRequest, putRequest, getRequest } from "../../../utils/services";
+import { baseUrl, deleteRequest, getRequest, postRequest, putRequest } from "../../../utils/services";
 import Like from "../../common/Like";
 import LoadingNew from "../../common/LoadingNew";
-import Toast from 'react-bootstrap/Toast';
 
 export default function ContainerPostProfile(props) {
     const { user, userProfile, setShowLikeList, setLikeListIndex, setShowPostEdit, setPostEditIndex } = props;
@@ -741,7 +740,6 @@ export default function ContainerPostProfile(props) {
 
                                 <div className="post-user">
                                     <p className="post-text">{post.content}</p>
-
                                     {postImageUser[index]?.length > 0 && postImageUser[index] && (
                                         <div className={`post-image ${postImageUser[index]?.length === 4 ? 'four' :
                                             postImageUser[index]?.length === 5 ? 'five' :
@@ -774,11 +772,9 @@ export default function ContainerPostProfile(props) {
                                             </div>
                                         )
                                     )}
-
                                 </div>
 
                                 <div className="post-action">
-
                                     <div className="post-like">
                                         <Like key={post.id} postId={post.id} countLike={post.acountLike} checkStatusLike={post.isLiked}
                                             isCountLike={isCountLike} setIsCountLike={setIsCountLike}
