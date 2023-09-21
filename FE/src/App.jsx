@@ -13,6 +13,7 @@ import { PostContextProvider } from './context/PostContext';
 
 import { SearchContextProvider } from './context/SearchContext';
 import SearchPost from './components/search/SearchPost';
+import { HomeContextProvider } from './context/HomeContext';
 
 export default function App() {
   const { user, allUser } = useContext(AuthContext);
@@ -31,27 +32,29 @@ export default function App() {
   return (
     <Router>
       <SearchContextProvider>
-        <ProfileContextProvider user={user}>
-          <PostContextProvider>
-            <Routes>
-              <Route path="/loading" element={<Loading />} />
-              <Route path="/404" element={<PageNotFound />} />
-              <Route path="/" element={user ? <Home /> : <Login />} />
-              <Route path="/login" element={user ? <Home /> : <Login />} />
-              <Route path="/home" element={user ? <Home /> : <Login />} />
-              {allUser?.length > 0 &&
-                allUser.map((username) => (
-                  <Route
-                    key={username}
-                    path={`/${username}`}
-                    element={user ? <Profile user={username} /> : <Login />}
-                  />
-                ))}
-              <Route path="/status" element={<SearchPost />} />
-              <Route path="/messages" element={<Chat />} />
-            </Routes>
-          </PostContextProvider>
-        </ProfileContextProvider>
+        <HomeContextProvider>
+          <ProfileContextProvider user={user}>
+            <PostContextProvider>
+              <Routes>
+                <Route path="/loading" element={<Loading />} />
+                <Route path="/404" element={<PageNotFound />} />
+                <Route path="/" element={user ? <Home /> : <Login />} />
+                <Route path="/login" element={user ? <Home /> : <Login />} />
+                <Route path="/home" element={user ? <Home /> : <Login />} />
+                {allUser?.length > 0 &&
+                  allUser.map((username) => (
+                    <Route
+                      key={username}
+                      path={`/${username}`}
+                      element={user ? <Profile user={username} /> : <Login />}
+                    />
+                  ))}
+                <Route path="/status" element={<SearchPost />} />
+                <Route path="/messages" element={<Chat />} />
+              </Routes>
+            </PostContextProvider>
+          </ProfileContextProvider>
+        </HomeContextProvider>
       </SearchContextProvider>
     </Router>
   );

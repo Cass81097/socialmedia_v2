@@ -10,8 +10,10 @@ import uploadImage from "../../../../../hooks/Upload";
 import "../../../../../styles/modalAvatar.css";
 import "../../../../../styles/upload.css";
 import { baseUrl } from "../../../../../utils/services";
+import { CometChatContext } from "../../../../../context/CometChatContext";
 
 export default function Avatar() {
+    const { cometChat } = useContext(CometChatContext)
     const { user, setUser } = useContext(AuthContext);
     const { userProfile, countFriend, fetchUserProfile } = useContext(ProfileContext);
     const [show, setShow] = useState(false);
@@ -26,15 +28,20 @@ export default function Avatar() {
         };
 
         try {
-            const response = await axios.put(`${baseUrl}/users/avatar/${user.id}`, newData)
-            console.log(response);
+            const response = await axios.put(`${baseUrl}/users/avatar/${user.id}`, newData);
             setShow(false);
             const userData = JSON.parse(localStorage.getItem("User"));
             userData.avatar = newData.avatar;
             localStorage.setItem("User", JSON.stringify(userData));
             fetchUserProfile();
-            setUser(JSON.parse(localStorage.getItem("User")))
-            console.log("Thay avatar thành công");
+            setUser(JSON.parse(localStorage.getItem("User")));
+
+            // Handle Change Avatar Cometchat
+            const authKey = `${process.env.REACT_APP_COMETCHAT_AUTH_KEY}`;
+            const cometId = new cometChat.User(user.id.toString());
+            cometId.setAvatar(imageSrc);
+            const responseComet = await cometChat.updateUser(cometId, authKey);
+            console.log(responseComet);
         } catch (error) {
             console.error("Error adding product:", error);
         }
@@ -69,7 +76,7 @@ export default function Avatar() {
             <div className="pd-row">
                 <div style={{ position: "relative" }}>
                     <div className="avatar-container" >
-                        <img className="pd-image" src={userProfile[0]?.avatar} alt="avatar" style={{cursor:"pointer"}} onClick={() => goPageAvatar(userProfile[0]?.avatar)}/>
+                        <img className="pd-image" src={userProfile[0]?.avatar} alt="avatar" style={{ cursor: "pointer" }} onClick={() => goPageAvatar(userProfile[0]?.avatar)} />
                         {userProfile[0]?.username && user.username && userProfile[0]?.username === user.username ? (
                             <div className="change-avatar" onClick={handleShow}>
                                 <i className="fas fa-camera"></i>

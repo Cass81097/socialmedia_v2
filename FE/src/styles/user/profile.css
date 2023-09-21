@@ -15,7 +15,7 @@ header {
     width: 100%;
     padding: 20px 17%;
     color: #626262;
-    position: absolute;
+    /* position: absolute; */
 }
 
 .cover-image {
@@ -138,6 +138,27 @@ header {
     justify-content: center;
     align-items: center;
     padding: 10px;
+}
+
+.unfriend-button {
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    top: 45px;
+    min-width: fit-content;
+}
+
+.unfriend-icon {
+    padding: 5px;
+    background: #efefef;
+    border-radius: 4px;
+    box-shadow: 0px 0px 4px #ddd;
+    transition: 0.3s;
+}
+
+.unfriend-icon:hover {
+    background: #e9e8e8;
+    transition: 0.3s;
 }
 
 .all-task {

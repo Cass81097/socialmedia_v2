@@ -61,7 +61,7 @@ export default function Navbar() {
                     <div className="home-media">
                         <div className="social-media">
                             <Link
-                                to=""
+                                to="/messages"
                                 data-toggle="tooltip"
                                 data-placement="bottom"
                                 title="Messenger"

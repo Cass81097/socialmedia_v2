@@ -1,0 +1,22 @@
+.cometchat {
+    height: calc(100vh - 70px) !important;
+    background: #ffff;
+    position: relative;
+    top: 70px;
+}
+
+.chat__header {
+    padding: 13.5px !important;
+}
+
+.css-oo4eva >button[value=no] {
+    background-color: #39f;
+}
+
+.css-vro7g0 * { 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+}
+
+.chat__details {
+    margin-left: -10px !important;
+}
