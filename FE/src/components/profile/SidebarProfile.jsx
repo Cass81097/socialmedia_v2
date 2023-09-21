@@ -1,51 +1,56 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function SidebarProfile() {
     const { user } = useContext(AuthContext);
+    const goHome = () => {
+        console.log("ab");
+    }
 
     return (
         <>
             <div className="left-sidebar">
                 <div className="container-top-content">
-                    <li className="links">
-                        <a href="">
+                    <li className="links" onClick={goHome}>
+                        <Link to="/">
                             <i
                                 className="fas fa-home icon"
-                                style={{ color: "black", minWidth:"50px" }}
+                                style={{ color: "black", minWidth: "48px", cursor:"pointer !important" }}
+                                
                             />
-                        </a>
+                        </Link>
                     </li>
-                    <li className="links link-avatar select" style={{transform:"translate(6px)"}}>
-                            <div className="sidebar-avatar">
-                                <img 
-                                    src={user.avatar} alt="load" />
-                            </div>
+                    
+                    <li className="links link-avatar select" style={{ transform: "translate(6px)" }}>
+                        <div className="sidebar-avatar">
+                            <img src={user.avatar} alt="load" />
+                        </div>
                     </li>
                 </div>
                 <div className="mid-content">
                     <li>
-                        <a href="">
+                        <Link to="/watch">
                             <i className="watch icon" />
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="">
+                        <Link to="/page">
                             <i className="page icon" />
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="">
+                        <Link to="/market">
                             <i className="market icon" />
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="">
+                        <Link to="/game">
                             <i className="game icon" />
-                        </a>
+                        </Link>
                     </li>
                 </div>
             </div>
         </>
-    )
+    );
 }
