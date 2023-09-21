@@ -37,7 +37,7 @@ export default function Profile() {
           <Cover></Cover>
           <div className="profile-details">
             <Avatar></Avatar>
-            <FriendButton></FriendButton>
+            <FriendButton setIsProfile={setIsProfile} setIsPost={setIsPost} setIsFriend={setIsFriend}></FriendButton>
           </div>
           <NavbarContainer isPost={isPost} setIsPost={setIsPost} isFriend={isFriend} setIsFriend={setIsFriend} isProfile={isProfile} setIsProfile={setIsProfile}></NavbarContainer>
           {isPost && !isFriend && !isProfile ? (

@@ -140,6 +140,27 @@ header {
     padding: 10px;
 }
 
+.unfriend-button {
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    top: 45px;
+    min-width: fit-content;
+}
+
+.unfriend-icon {
+    padding: 5px;
+    background: #efefef;
+    border-radius: 4px;
+    box-shadow: 0px 0px 4px #ddd;
+    transition: 0.3s;
+}
+
+.unfriend-icon:hover {
+    background: #e9e8e8;
+    transition: 0.3s;
+}
+
 .all-task {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;

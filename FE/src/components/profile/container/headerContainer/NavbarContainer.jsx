@@ -28,7 +28,7 @@ export default function NavbarContainer(props) {
         autoClose: 8000,
         pauseOnHover: true,
         draggable: true,
-        theme: "dark",
+        theme: "light",
     };
 
     const handleClose = () => {
@@ -98,6 +98,29 @@ export default function NavbarContainer(props) {
             setIsShowAlertUser(false);
             toast.success("Chặn thành công", toastOptions);
             fetchBlockList();
+
+            // Comet UnFriend
+            if (!userProfile[0]?.id || !user?.id) {
+                return;
+            }
+
+            const cometChatAppId = process.env.REACT_APP_COMETCHAT_APP_ID;
+            const cometChatAppRegion = process.env.REACT_APP_COMETCHAT_REGION;
+            const cometChatApiKey = process.env.REACT_APP_COMETCHAT_API_KEY;
+            const url = `https://${cometChatAppId}.api-${cometChatAppRegion}.cometchat.io/v3/users/${user?.id}/friends`;
+            const options = {
+                method: "DELETE",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    appId: cometChatAppId,
+                    apiKey: cometChatApiKey,
+                },
+                body: JSON.stringify({
+                    friends: [userProfile[0]?.id]
+                }),
+            };
+            const responseCometUnfriend = await fetch(url, options);
         } catch (error) {
             console.error("Error canceling friend request:", error);
         }

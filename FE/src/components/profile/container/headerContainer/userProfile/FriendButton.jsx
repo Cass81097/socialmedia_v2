@@ -10,10 +10,14 @@ import { baseUrl, getRequest, postRequest } from "../../../../../utils/services"
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { PostContext } from '../../../../../context/PostContext';
+import $ from 'jquery';
+import { HomeContext } from '../../../../../context/HomeContext';
 
-export default function FriendButton() {
+export default function FriendButton(props) {
+  const { setIsProfile, setIsPost, setIsFriend } = props;
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const { setProfileId } = useContext(HomeContext)
   const { userProfile, socket } = useContext(ProfileContext);
   const { fetchPostUser } = useContext(PostContext)
   const [showToast, setShowToast] = useState(false);
@@ -122,6 +126,29 @@ export default function FriendButton() {
       setShowAlertUnFriend(false);
       await fetchPostUser();
 
+      // Comet UnFriend
+      if (!userProfile[0]?.id || !user?.id) {
+        return;
+      }
+
+      const cometChatAppId = process.env.REACT_APP_COMETCHAT_APP_ID;
+      const cometChatAppRegion = process.env.REACT_APP_COMETCHAT_REGION;
+      const cometChatApiKey = process.env.REACT_APP_COMETCHAT_API_KEY;
+      const url = `https://${cometChatAppId}.api-${cometChatAppRegion}.cometchat.io/v3/users/${user?.id}/friends`;
+      const options = {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          appId: cometChatAppId,
+          apiKey: cometChatApiKey,
+        },
+        body: JSON.stringify({
+          friends: [userProfile[0]?.id]
+        }),
+      };
+      const responseCometUnfriend = await fetch(url, options);
+
     } catch (error) {
       console.error("Error canceling friend request:", error);
     }
@@ -132,30 +159,10 @@ export default function FriendButton() {
       const response = await postRequest(`${baseUrl}/friendships/unfriend/${userProfile[0]?.id}/${user.id}/`)
       setFriendStatus();
 
-
     } catch (error) {
       console.error("Error canceling friend request:", error);
     }
   };
-
-  // const handleAcceptFriend = async () => {
-  //   try {
-  //     const response = await postRequest(`${baseUrl}/friendships/accept/${userProfile[0]?.id}/${user.id}`)
-  //     setFriendStatus({ status: "friend" });
-  //     fetchPostUser();
-
-  //     if (socket) {
-  //       console.log(user.id, userProfile[0]?.id);
-  //       socket.emit("acceptFriendRequest", {
-  //         senderId: user.id,
-  //         receiverId: userProfile[0]?.id,
-  //       });
-  //     }
-
-  //   } catch (error) {
-  //     console.error("Error canceling friend request:", error);
-  //   }
-  // };
 
   const handleAcceptFriend = async () => {
     try {
@@ -170,10 +177,11 @@ export default function FriendButton() {
         });
       }
 
+      // Comet Add Friend
       if (!userProfile[0]?.id || !user?.id) {
         return;
       }
-      console.log("comet add friend");
+
       const cometChatAppId = `${process.env.REACT_APP_COMETCHAT_APP_ID}`;
       const cometChatAppRegion = `${process.env.REACT_APP_COMETCHAT_REGION}`;
       const cometChatApiKey = `${process.env.REACT_APP_COMETCHAT_API_KEY}`;
@@ -188,25 +196,27 @@ export default function FriendButton() {
         },
         body: JSON.stringify({ accepted: [userProfile[0]?.id] }),
       };
-
-      console.log(cometChatAppId);
-
       const responseCometAddFriend = await fetch(url, options);
-      console.log(responseCometAddFriend);
-      if (responseCometAddFriend) {
-        const customMessage = {
-          message: `${user?.fullname} has accepted your friend request`,
-          type: 'friend',
-          receiverId: userProfile[0]?.id
-        };
-        // sendCustomMessage(customMessage);
-        // setHasNewFriend(true);
-        // alert(`${selectedUser.fullname} was added as a friend succesfully`);
-      } 
+
     } catch (error) {
       console.error("Error canceling friend request:", error);
     }
   };
+
+  const messageUser = (userId) => {
+    setProfileId(userId)
+    navigate("/messages");
+  }
+
+  const showUnfriend = () => {
+    $('.unfriend-button').toggle();
+  };
+
+  const goInfoUser = () => {
+    setIsProfile(true);
+    setIsPost(false);
+    setIsFriend(false);
+  }
 
   return (
     <>
@@ -245,18 +255,25 @@ export default function FriendButton() {
           </div>
         </div>
       ) : friendStatus?.status === "friend" ? (
-        <div className="pd-right">
-          <div className="add-button" style={{ minWidth: "100px" }}>
+        <div className="pd-right" style={{ position: "relative" }}>
+          <div className="add-button" style={{ minWidth: "100px" }} onClick={showUnfriend}>
             <button type="button" className="btn btn-primary btn-add btn-add-friend">
               <i className="fas fa-user">
                 <span>Bạn bè</span>
               </i>
             </button>
+            <div className="edit-button unfriend-button" style={{display: "none" }} onClick={handleShowAlertUnfriend}>
+              <div className='unfriend-icon'>
+                <i className="fas fa-user-slash" style={{ color: "black" }}>
+                  <span>Hủy kết bạn</span>
+                </i>
+              </div>
+            </div>
           </div>
           <div className="edit-button" style={{ minWidth: "160px" }}>
-            <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" onClick={handleShowAlertUnfriend}>
-              <i className="fas fa-user-slash" style={{ color: "black" }}>
-                <span>Hủy kết bạn</span>
+            <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" onClick={() => messageUser(userProfile[0]?.id)}>
+              <i className="fab fa-facebook-messenger" style={{ color: "black" }}>
+                <span>Nhắn tin</span>
               </i>
             </button>
           </div>
@@ -271,7 +288,7 @@ export default function FriendButton() {
             </button>
           </div>
           <div className="edit-button">
-            <button type="button" className="btn btn-secondary btn-edit btn-edit-friend">
+            <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" onClick={goInfoUser}>
               <i className="fas fa-pen fa-xz">
                 <span>Chỉnh sửa trang cá nhân</span>
               </i>

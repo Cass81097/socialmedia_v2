@@ -1,0 +1,204 @@
+.container-top-content-sidebar,
+.mid-content-container {
+    margin-left: -10px;
+}
+
+.home-container ul {
+    padding-left: 0px !important
+}
+
+.left-sidebar-container .text{
+   font-size: 16px;
+   font-weight: 500;
+   color: black;
+   transition: 0.3s;
+   white-space: nowrap;
+}
+
+.left-sidebar-container li{
+    height: 50px;
+    /* margin-top: 10px; */
+    list-style: none;
+    display: flex;
+    align-items: center;  
+}
+ 
+.left-sidebar-container button{
+    margin-left: 15px;
+}
+
+.left-sidebar-container .icon{
+    color: rgb(24, 118, 242);
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+    font-size: 24px;
+    min-width: 45px;
+}
+
+.left-sidebar-container a{
+    height: 100%;
+    text-decoration: none;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;  
+    justify-content: left;
+    transition: 0.3s;
+}
+
+.left-ava {
+    display: flex;
+    align-items: center;
+    margin-top: -27px;
+}
+
+.left-avatar {
+    margin-top: 27px;
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    /* background-image: url('../img/avatar.jpg'); */
+    background-size: cover;
+    background-position: center;
+}
+
+.watch {
+    background-image: url(https://static.xx.fbcdn.net/rsrc.php/v3/yS/r/k0KA7vAWVRx.png);
+    background-position: 0 -26px;
+    background-size: 26px 52px;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: -10px;
+}
+
+.page {
+    background-image: url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/RYxlK-kabun.png);
+    background-position: 0 0;
+    background-size: 26px 132px;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin : 0px -10px 0px 10px;
+}
+
+.market {
+    background-image: url(https://static.xx.fbcdn.net/rsrc.php/v3/yS/r/k0KA7vAWVRx.png);
+    background-position: 0 0;
+    background-size: 26px 52px;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin : 0px -10px 0px 10px;
+}
+
+.game {
+    background-image: url(https://static.xx.fbcdn.net/rsrc.php/v3/yJ/r/ifDWuF24bJF.png);
+    background-position: 0 0;
+    background-size: 26px 52px;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin : 0px -10px 0px 10px;
+}
+
+.all-list {
+    background-image: url(https://static.xx.fbcdn.net/rsrc.php/v3/yu/r/4Bet0WAe24e.png);
+    background-position: 4px -158px;
+    background-size: 34px 248px;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin : 0px -10px 0px 10px;
+}
+
+.shortcut{
+    background-image: url(https://static.xx.fbcdn.net/rsrc.php/v3/yu/r/4Bet0WAe24e.png);
+    background-position: 1px -176px;
+    background-size: 34px 248px;
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin : 0px -10px 0px 10px;
+}
+
+.nav-text {
+    width: 200px;
+}
+
+.left-sidebar-container li a:hover {
+    background: var(--primary-color);
+}
+
+.left-sidebar-container li a:hover .icon,
+.left-sidebar-container li a:hover .text {
+    color: var(--sidebar-color);
+}
+
+hr {
+    width: 245px;
+    margin-top: 5px;
+}
+
+.mid-content-container li:nth-child(1),
+.bottom-content li:nth-child(1) {
+    margin-top: 5px;
+}
+
+.select {
+    position: relative;
+}
+
+.select::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    left: -35px;
+    height: 5px;
+    background: rgb(24, 118, 242);
+    transform: rotate(90deg);
+    border-radius: 50px 50px 0px 0px;
+}
+
+.left-sidebar-container {
+    margin-top: 5px;
+    width: 27%;
+    padding: 10px 14px;
+    position: fixed;
+    top: 71px;
+}
+
+.sidebar-avatar-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
+    transition: 0.3s;
+    white-space: nowrap;
+    margin-left: 5px;
+    width: 205px;
+}
+
+.sidebar-link-avatar {
+    padding-left: 5px;
+    width: 244px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sidebar-link-avatar:hover {
+    background: var(--primary-color);
+    border-radius: 6px;
+}   
+
+.sidebar-link-avatar:hover p {
+    color: var(--sidebar-color);
+}

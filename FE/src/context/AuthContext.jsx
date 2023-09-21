@@ -54,12 +54,8 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     const createCometChatAccount = ({ userUuid, fullname, userAvatar }) => {
-        console.log(userUuid);
-        console.log(userAvatar);
         const authKey = `${process.env.REACT_APP_COMETCHAT_AUTH_KEY}`;
-        console.log(authKey);
         const user = new cometChat.User(userUuid);
-        console.log(user);
         user.setName(fullname);
         user.setAvatar(userAvatar);
         cometChat.createUser(user, authKey).then(
@@ -151,7 +147,6 @@ export const AuthContextProvider = ({ children }) => {
         setLoginFinish(true);
 
         const authKey = `${process.env.REACT_APP_COMETCHAT_AUTH_KEY}`;
-        console.log(authKey);
         cometChat.login(response.id, authKey).then(
             User => {
                 setIsLoading(false);
