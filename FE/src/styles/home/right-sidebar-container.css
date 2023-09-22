@@ -146,7 +146,7 @@
     margin-top: 20px;
 }
 
-.rightbar-icon {
+.rightbar-icon-home {
     margin-top: -7px;
     margin-left: 100px;
 }
@@ -156,24 +156,26 @@
     font-size: 16px;
 }
 
-.right-icon {
+.right-icon-home {
     color: #707070;
     font-size: 20px;
 }
 
-.rightbar-icon i:hover {
-    background: #754ef9;
-    color: #fdfdfd;
+.rightbar-icon-home i:hover {
+    background: #e5e5e5cc;
+    /* color: #fdfdfd; */
 }
 
-.rightbar-icon i {
+.rightbar-icon-home i {
     display: inline-flex;
     justify-content: center;
     align-items: center;
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
+    font-size: 20px;
     transition: var(--tran)
+
 }
 
 .online-user::after {

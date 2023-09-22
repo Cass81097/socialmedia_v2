@@ -85,10 +85,10 @@ export default function RightSidebar() {
 
             <div className="rightbar-contact-home">
                 <h4>Người liên hệ</h4>
-                <div className="rightbar-icon">
+                <div className="rightbar-icon-home">
                     <Link to="">
                         <i
-                            className="bx fas fa-video right-icon"
+                            className="bx fas fa-video right-icon-home"
                             data-bs-toggle="tooltip"
                             data-bs-placement="bottom"
                             title="Cuộc gọi mới"
@@ -96,7 +96,7 @@ export default function RightSidebar() {
                     </Link>
                     <Link to="">
                         <i
-                            className="bx fas fa-search right-icon"
+                            className="bx fas fa-search right-icon-home"
                             data-bs-toggle="tooltip"
                             data-bs-placement="bottom"
                             title="Tìm kiếm"

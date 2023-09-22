@@ -17,7 +17,7 @@ export default function FriendButton(props) {
   const { setIsProfile, setIsPost, setIsFriend } = props;
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  const { setProfileId } = useContext(HomeContext)
+  const { setProfileId, fetchFriendUser } = useContext(HomeContext)
   const { userProfile, socket } = useContext(ProfileContext);
   const { fetchPostUser } = useContext(PostContext)
   // const [showToast, setShowToast] = useState(false);
@@ -124,6 +124,7 @@ export default function FriendButton(props) {
       setFriendStatus();
       setShowAlertUnFriend(false);
       await fetchPostUser();
+      await fetchFriendUser()
 
       // Comet UnFriend
       if (!userProfile[0]?.id || !user?.id) {
@@ -168,6 +169,7 @@ export default function FriendButton(props) {
       const response = await postRequest(`${baseUrl}/friendships/accept/${userProfile[0]?.id}/${user.id}`)
       setFriendStatus({ status: "friend" });
       fetchPostUser();
+      fetchFriendUser();
 
       if (socket) {
         socket.emit("acceptFriendRequest", {

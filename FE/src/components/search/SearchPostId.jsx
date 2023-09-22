@@ -21,11 +21,7 @@ export default function SearchPostId() {
     const [isCountLike, setIsCountLike] = useState([]);
     const { postUser, postImageUser, fetchPostUser, fetchImagePostUser } = useContext(PostContext);
     const [listStatus, setListStatus] = useState([])
-
     const [checkFriendStatus, setCheckFriendStatus] = useState(null);
-
-    console.log(listStatus)
-    console.log(checkFriendStatus);
 
     useEffect(() => {
         const fetchFriendStatus = async () => {

@@ -12,6 +12,15 @@ export const HomeContextProvider = ({ children }) => {
     const [onlineUsers, setOnlineUser] = useState([]);
     const [profileId, setProfileId] = useState(null);
     
+    const fetchFriendUser = async () => {
+        try {
+            const response = await getRequest(`${baseUrl}/friendShips/listFriend/username/${user?.username}`);
+            setFriendUser(response);
+        } catch (error) {
+            console.error("Error fetching user profiles:", error);
+        }
+    };
+
     useEffect(() => {
         const fetchFriendUser = async () => {
             try {
@@ -49,7 +58,7 @@ export const HomeContextProvider = ({ children }) => {
     }, [socket])
 
     return (
-        <HomeContext.Provider value={{ friendUser, onlineUsers, profileId, setProfileId }}>
+        <HomeContext.Provider value={{ friendUser, onlineUsers, profileId, setProfileId, fetchFriendUser }}>
             {children}
         </HomeContext.Provider>
     );

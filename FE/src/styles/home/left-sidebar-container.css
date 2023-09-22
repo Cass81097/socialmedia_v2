@@ -136,13 +136,13 @@
 }
 
 .left-sidebar-container li a:hover {
-    background: var(--primary-color);
+    background: #d5d5d5b5;
 }
 
-.left-sidebar-container li a:hover .icon,
+/* .left-sidebar-container li a:hover .icon,
 .left-sidebar-container li a:hover .text {
     color: var(--sidebar-color);
-}
+} */
 
 hr {
     width: 245px;
@@ -195,10 +195,10 @@ hr {
 }
 
 .sidebar-link-avatar:hover {
-    background: var(--primary-color);
+    background: #d5d5d5b5;
     border-radius: 6px;
 }   
 
-.sidebar-link-avatar:hover p {
+/* .sidebar-link-avatar:hover p {
     color: var(--sidebar-color);
-}
+} */
