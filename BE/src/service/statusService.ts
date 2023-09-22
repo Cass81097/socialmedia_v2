@@ -274,6 +274,23 @@ export class StatusService {
         }
     } 
 
+    findByStatusId =  async (statusId) => {
+        try {
+            return await  await this.statusRepository.find({
+                relations: {
+                    receiver: true,
+                    images : true,
+                    sender : true
+                },
+                where: {
+                    id: statusId
+                }
+            });
+        } catch (error) {
+            throw new Error('Error finding status by ID');
+        }
+    }
+
 
 }
 export default new StatusService()

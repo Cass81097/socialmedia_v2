@@ -1,6 +1,7 @@
 import { AppDataSource } from "../data-source";
 import { FriendShip } from "../entity/friendShip";
 import { User } from "../entity/user";
+import { Not } from "typeorm";
 
 export class FriendShipService {
     private friendRepository;
@@ -221,49 +222,17 @@ export class FriendShipService {
         }
     };
 
-    // findMutualFriendByUserId = async (user1Id, user2Id) => {
-    //     try {
-    //         const relationships = await this.friendRepository.find({
-    //             relations: {
-    //                 user1: true,
-    //                 user2: true,
-    //             },
-    //         });
-
-    //         const result = relationships.map((relationship) => {
-    //             const user1 = {
-    //                 id: relationship.user1.id,
-    //                 username: relationship.user1.username,
-    //             };
-
-    //             const user2 = {
-    //                 id: relationship.user2.id,
-    //                 username: relationship.user2.username,
-    //             };
-
-    //             let data = { user1, user2 }
-
-    //             const sharedIds = [];
-
-    //             relationships.forEach((relationship) => {
-    //                 const { data } = relationship;
-
-    //                 if (
-    //                     (user1.id === user1Id && user2.id === user2Id) ||
-    //                     (user1.id === user2Id && user2.id === user1Id)
-    //                 ) {
-    //                     sharedIds.push(user1.id);
-    //                 }
-    //             });
-
-    //             return sharedIds
-
-    //         });
-
-    //         return result;
-    //     } catch (error) {
-    //         throw new Error('Error retrieving users');
-    //     }
-    // };
+    findPendingFriend = async (user1Id) => {
+        return await this.friendRepository.find({
+            relations: {
+                user1: true,
+                user2: true
+            },
+            where: [
+                { user1: { id: user1Id }, status: "pending", userSendReq: Not(user1Id) },
+                { user2: { id: user1Id }, status: "pending", userSendReq: Not(user1Id)  }
+            ]
+        });
+    };
 }
 export default new FriendShipService();

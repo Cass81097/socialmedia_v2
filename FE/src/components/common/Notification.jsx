@@ -18,8 +18,6 @@ export default function Notification(props) {
     const [userAccepted, setUserAccepted] = useState(false)
     const [userRequest, setUserRequest] = useState([])
 
-    console.log(friendRequest);
-
     useEffect(() => {
         if (socket === null) return;
 

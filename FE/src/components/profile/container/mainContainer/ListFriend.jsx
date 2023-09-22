@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 export default function ListFriend() {
-    const { userProfile, countFriend } = useContext(ProfileContext);
+    const { userProfile, countFriend, checkFriendStatus } = useContext(ProfileContext);
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
     const [commonFriendNumber, setCommonFriendNumber] = useState([]);
@@ -22,17 +22,22 @@ export default function ListFriend() {
         setShow(false);
     }
 
-    const handleShow = async (username) => {
-        if (username && userProfile && userProfile.length > 0 && userProfile[0].username) {
-          try {
-            const response = await getRequest(`${baseUrl}/users/find/${username}`);
-            setCommonFriendList(response);
-          } catch (error) {
-            console.log(error);
-            return null;
-          }
-          setShow(true);
-        }
+    // const handleShow = async (username) => {
+    //     if (username && userProfile && userProfile.length > 0 && userProfile[0].username) {
+    //       try {
+    //         const response = await getRequest(`${baseUrl}/users/find/${username}`);
+    //         setCommonFriendList(response);
+    //       } catch (error) {
+    //         console.log(error);
+    //         return null;
+    //       }
+    //       setShow(true);
+    //     }
+    // };
+
+    const handleShow = (arr) => {
+        setCommonFriendList(arr);
+        setShow(true);
     };
 
     const goFriendProfile = (username) => {
@@ -53,6 +58,7 @@ export default function ListFriend() {
         const findCommonFriendNumber = async (index) => {
             try {
                 const response = await getRequest(`${baseUrl}/friendShips/commonFriend/username/${userProfile[0].username}/${countFriend[index].username}`);
+                console.log(response);
                 return response;
             } catch (error) {
                 console.log(error);
@@ -67,82 +73,95 @@ export default function ListFriend() {
                 commonFriendNumbers.push(commonFriendNumber);
             }
             setCommonFriendNumber(commonFriendNumbers);
+            console.log(commonFriendNumber, "commonFriendNumber");
         };
-
         getCommonFriendNumbers();
     }, [userProfile, countFriend]);
 
     return (
         <>
-            <div className="container-fluid">
-                <nav className="row navbar">
-                    <div className="col-6">
-                        <a className="navbar-brand" style={{ fontWeight: "700" }}>Bạn bè</a>
-                    </div>
-                    <div className="col-6 search-profile-friend">
-                        <div className="form-inline" style={{ display: "flex" }}>
-                            <div style={{
-                                display: "flex",
-                                outline: "none",
-                                borderRadius: "50px",
-                                fontSize: "16px",
-                                backgroundColor: "rgba(255, 255,255, 0.5)"
-                            }}>
-                                <input value={searchValue} onChange={handleInputChange} className="form-control mr-sm-2"
-                                    style={{
-                                        outline: "none",
-                                        border: "1px solid lightgrey",
-                                    }} placeholder='Tìm kiếm bạn bè'
-                                    aria-label="Search" />
-                            </div>
-                            <Link to="/listPendFriend"><button type="button" className="btn btn-link"><span style={{ fontWeight: "500" }}>Lời mời kết bạn</span></button></Link>
+            {checkFriendStatus?.status === "friend" || user?.id === userProfile[0]?.id ? (
+                <div className="container-fluid">
+                    <nav className="row navbar">
+                        <div className="col-6">
+                            <a className="navbar-brand" style={{ fontWeight: "700" }}>Bạn bè</a>
                         </div>
+                        <div className="col-6 search-profile-friend">
+                            <div className="form-inline" style={{ display: "flex" }}>
+                                <div style={{
+                                    display: "flex",
+                                    outline: "none",
+                                    borderRadius: "50px",
+                                    fontSize: "16px",
+                                    backgroundColor: "rgba(255, 255,255, 0.5)"
+                                }}>
+                                    <input value={searchValue} onChange={handleInputChange} className="form-control mr-sm-2"
+                                        style={{
+                                            outline: "none",
+                                            border: "1px solid lightgrey",
+                                        }} placeholder='Tìm kiếm bạn bè'
+                                        aria-label="Search" />
+                                </div>
+                                {user.id === userProfile[0].id &&
+                                    <Link to="/listPendFriend"><button type="button" className="btn btn-link"><span style={{ fontWeight: "500" }}>Lời mời kết bạn</span></button></Link>
+                                }
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div className="friend-container">
+                        {searchValue === '' ? (
+                            countFriend.map((listFriend, index) => (
+                                <div className="friend-container-left" key={listFriend?.id}>
+                                    <div>
+                                        <div className="friend-container-avatar">
+                                            <div className="friend-avatar" onClick={() => goFriendProfile(listFriend?.username)}>
+                                                <img src={listFriend?.avatar} alt="Avatar" />
+                                            </div>
+                                            <div className="friend-detail">
+                                                <h6 onClick={() => goFriendProfile(listFriend?.username)}>
+                                                    {listFriend?.fullname}
+                                                </h6>
+                                                {commonFriendNumber?.[index]?.length && user?.id !== listFriend?.id ? (
+                                                    <div>
+                                                        <h6 onClick={() => handleShow(commonFriendNumber?.[index])}>
+                                                            {commonFriendNumber?.[index]?.length} bạn chung
+                                                        </h6>
+                                                    </div>
+                                                ) : null}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            filteredData.map((listFriend, index) => (
+                                <div className="friend-container-left" key={listFriend?.id}>
+                                    <div>
+                                        <div className="friend-container-avatar">
+                                            <div className="friend-avatar">
+                                                <img src={listFriend?.avatar} alt="Avatar" />
+                                            </div>
+                                            <div className="friend-detail">
+                                                <h6 onClick={() => goFriendProfile(listFriend?.username)}>{listFriend?.fullname}</h6>
+                                                {commonFriendNumber?.[countFriend.indexOf(listFriend)] && user?.id !== listFriend?.id ? (
+                                                    <div>
+                                                        <h6 onClick={() => handleShow(commonFriendNumber?.[countFriend.indexOf(listFriend)])}>
+                                                            {commonFriendNumber?.[countFriend.indexOf(listFriend)].length} bạn chung
+                                                        </h6>
+                                                    </div>
+                                                ) : null}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
-                </nav>
-                <div className="friend-container">
-                    {searchValue === '' ? (
-                        countFriend.map((listFriend, index) => (
-                            <div className="friend-container-left" key={listFriend?.id}>
-                                <div>
-                                    <div className="friend-container-avatar">
-                                        <div className="friend-avatar" onClick={() => goFriendProfile(listFriend?.username)}>
-                                            <img src={listFriend?.avatar} alt="Avatar" />
-                                        </div>
-                                        <div className="friend-detail">
-                                            <h6 onClick={() => goFriendProfile(listFriend?.username)}>{listFriend?.fullname}</h6>
-                                            {commonFriendNumber?.[index] ? (
-                                                <h6 onClick={() => handleShow(commonFriendNumber?.[index][0].username)}>{commonFriendNumber?.[index].length} bạn chung</h6>
-                                            ) : (
-                                                <span>0 bạn chung</span>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        filteredData.map((listFriend, index) => (
-                            <div className="friend-container-left" key={listFriend?.id}>
-                                <div>
-                                    <div className="friend-container-avatar">
-                                        <div className="friend-avatar">
-                                            <img src={listFriend?.avatar} alt="Avatar" />
-                                        </div>
-                                        <div className="friend-detail">
-                                            <h6 onClick={() => goFriendProfile(listFriend?.username)}>{listFriend?.fullname}</h6>
-                                            {commonFriendNumber?.[index] ? (
-                                                <h6 onClick={() => handleShow(commonFriendNumber?.[index].username)}>{commonFriendNumber?.[index].length} bạn chung</h6>
-                                            ) : (
-                                                <span>0 bạn chung</span>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    )}
-                </div>
-            </div>
+                </div >
+            ) : null
+            }
+
 
             {/* Modal Common Friend */}
             <Modal show={show} onHide={handleClose} centered>

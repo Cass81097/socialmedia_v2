@@ -18,3 +18,5 @@ friendShipRouter.get('/commonFriend/username/:username1/:username2', friendShipC
 
 friendShipRouter.get('/', friendShipController.findAll);
 // friendShipRouter.get('/listFriend/id/:user1Id', friendShipController.findFriend);
+
+friendShipRouter.get('/listPendingFriend/:user1Id', friendShipController.findPendingFriend);

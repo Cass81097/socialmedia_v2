@@ -9,8 +9,9 @@ import PageNotFound from "./pages/PageNotFound";
 import Profile from "./pages/Profile";
 import Chat from './pages/Chat';
 import Loading from "./components/common/Loading"
+import SearchPostId from "./components/search/SearchPostId"
+import ListPendFriend from "./components/profile/container/mainContainer/ListPendFriend"
 import { PostContextProvider } from './context/PostContext';
-
 import { SearchContextProvider } from './context/SearchContext';
 import SearchPost from './components/search/SearchPost';
 import { HomeContextProvider } from './context/HomeContext';
@@ -52,6 +53,8 @@ export default function App() {
                   ))}
                 <Route path="/status" element={<SearchPost />} />
                 <Route path="/messages" element={<Chat />} />
+                <Route path="/status/:id" element={<SearchPostId />} />
+                <Route path="/listPendFriend" element={<ListPendFriend />} />
               </Routes>
               <Notification></Notification>
             </PostContextProvider>

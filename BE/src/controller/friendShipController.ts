@@ -60,5 +60,11 @@ export class FriendShipController {
         let list = await friendShipService.findAll()
         res.json(list)
     }
+
+    findPendingFriend = async (req, res) => {
+        const user1Id = req.params.user1Id;
+        let data = await friendShipService.findPendingFriend(user1Id)
+        res.json(data);
+    }
 }
 export default new FriendShipController()
