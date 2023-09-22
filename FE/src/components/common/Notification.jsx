@@ -6,8 +6,9 @@ import { AuthContext } from "../../context/AuthContext";
 import { PostContext } from "../../context/PostContext";
 import { ProfileContext } from "../../context/ProfileContext";
 import { baseUrl, deleteRequest, getRequest, postRequest } from "../../utils/services";
+import axios from "axios";
 
-export default function Notification(props) {
+export default function Notification(prop) {
     const navigate = useNavigate();
     const [showToast, setShowToast] = useState(false);
     const [showToastFriend, setShowToastFriend] = useState(false);
@@ -17,16 +18,15 @@ export default function Notification(props) {
     const [friendRequest, setFriendRequest] = useState([])
     const [userAccepted, setUserAccepted] = useState(false)
     const [userRequest, setUserRequest] = useState([])
-
     useEffect(() => {
         if (socket === null) return;
 
         const handleStatus = async (response) => {
-            console.log(response);
             if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
                 try {
                     const userId = response.senderId;
                     const res = await getRequest(`${baseUrl}/users/find/id/${userId}`);
+
                     setUserPost(res[0]);
                     setShowToast(true);
                 } catch (error) {
@@ -52,7 +52,7 @@ export default function Notification(props) {
 
         socket.on("friendRequest", (res) => {
             setFriendRequest(res);
-        });
+        })
         socket.on("friendRequestAccepted", (res) => {
             setUserAccepted(true)
             setFriendRequest(res);
@@ -77,6 +77,7 @@ export default function Notification(props) {
         const fetchData = async () => {
             try {
                 const response = await getRequest(`${baseUrl}/users/find/id/${friendRequest?.senderId}`);
+                prop.setUserRequest({...response[0], userAccepted: userAccepted})
                 setUserRequest(response);
             } catch (error) {
                 console.error("Error checking friend status:", error);
@@ -90,6 +91,7 @@ export default function Notification(props) {
 
     return (
         <>
+
             {showToast && (
                 <Toast onClose={() => setShowToast(false)}>
                     <div className="toast-header">

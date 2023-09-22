@@ -40,7 +40,6 @@ const Home = (props) => {
     const closeChat = () => {
         setProfileId(null)
     }
-
     return (
         <>
             <Navbar></Navbar>
