@@ -10,6 +10,7 @@ import { PostContext } from "../../context/PostContext";
 import Home from "../../pages/Home";
 import Like from "../common/Like";
 import { SearchContext } from "../../context/SearchContext";
+import Navbar from "../common/Navbar";
 
 
 
@@ -42,7 +43,7 @@ export default function SearchPost() {
 
     return (
         <>
-            <Home style={{ width: "200px" }}></Home>
+            <Navbar></Navbar>
             <div style={{ border: "1px solid" }}>
                 <p>1</p>
                 <p>1</p>

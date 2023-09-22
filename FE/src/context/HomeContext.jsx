@@ -9,8 +9,8 @@ export const HomeContextProvider = ({ children }) => {
     const { user } = useContext(AuthContext);
     const [friendUser, setFriendUser] = useState([]);
     const [socket, setSocket] = useState(null);
-    const [onlineUsers, setOnlineUser] = useState([])
-    const [profileId, setProfileId] = useState(null)
+    const [onlineUsers, setOnlineUser] = useState([]);
+    const [profileId, setProfileId] = useState(null);
     
     useEffect(() => {
         const fetchFriendUser = async () => {

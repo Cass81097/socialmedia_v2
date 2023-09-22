@@ -48,31 +48,31 @@ export default function ContainerPostProfile(props) {
     const [isCountLike, setIsCountLike] = useState([]);
 
     // Socket
-    const [showToast, setShowToast] = useState(false);
-    const [userPost, setUserPost] = useState(false);
+    // const [showToast, setShowToast] = useState(false);
+    // const [userPost, setUserPost] = useState(false);
 
-    useEffect(() => {
-        if (socket === null) return;
+    // useEffect(() => {
+    //     if (socket === null) return;
 
-        const handleStatus = async (response) => {
-            if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
-                try {
-                    const userId = response.senderId;
-                    const res = await getRequest(`${baseUrl}/users/find/id/${userId}`);
-                    setUserPost(res[0]);
-                    setShowToast(true);
-                } catch (error) {
-                    console.error("Error fetching user post:", error);
-                }
-            }
-        };
+    //     const handleStatus = async (response) => {
+    //         if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
+    //             try {
+    //                 const userId = response.senderId;
+    //                 const res = await getRequest(`${baseUrl}/users/find/id/${userId}`);
+    //                 setUserPost(res[0]);
+    //                 setShowToast(true);
+    //             } catch (error) {
+    //                 console.error("Error fetching user post:", error);
+    //             }
+    //         }
+    //     };
 
-        socket.on("status", handleStatus);
+    //     socket.on("status", handleStatus);
 
-        return () => {
-            socket.off("status", handleStatus);
-        };
-    }, [socket]);
+    //     return () => {
+    //         socket.off("status", handleStatus);
+    //     };
+    // }, [socket]);
 
     const handleLikeListShow = async (index) => {
         setLikeListIndex(index)
@@ -1021,7 +1021,7 @@ export default function ContainerPostProfile(props) {
                 </Modal.Footer>
             </Modal>
 
-            {showToast && (
+            {/* {showToast && (
                 <Toast onClose={() => setShowToast(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
@@ -1041,7 +1041,7 @@ export default function ContainerPostProfile(props) {
                         </div>
                     </Toast.Body>
                 </Toast>
-            )}
+            )} */}
 
             {isPostLoading || isImageLoading ? (
                 <LoadingNew></LoadingNew>

@@ -14,6 +14,7 @@ import { PostContextProvider } from './context/PostContext';
 import { SearchContextProvider } from './context/SearchContext';
 import SearchPost from './components/search/SearchPost';
 import { HomeContextProvider } from './context/HomeContext';
+import Notification from './components/common/Notification';
 
 export default function App() {
   const { user, allUser } = useContext(AuthContext);
@@ -52,6 +53,7 @@ export default function App() {
                 <Route path="/status" element={<SearchPost />} />
                 <Route path="/messages" element={<Chat />} />
               </Routes>
+              <Notification></Notification>
             </PostContextProvider>
           </ProfileContextProvider>
         </HomeContextProvider>

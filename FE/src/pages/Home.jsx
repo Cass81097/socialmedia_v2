@@ -22,8 +22,6 @@ const Home = (props) => {
     const { user, loginFinish, setLoginFinish } = useContext(AuthContext)
     const { profileId, setProfileId } = useContext(HomeContext)
 
-    console.log(profileId);
-
     const toastOptions = {
         position: "top-center",
         autoClose: 8000,

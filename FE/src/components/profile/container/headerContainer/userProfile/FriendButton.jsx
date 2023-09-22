@@ -20,8 +20,7 @@ export default function FriendButton(props) {
   const { setProfileId } = useContext(HomeContext)
   const { userProfile, socket } = useContext(ProfileContext);
   const { fetchPostUser } = useContext(PostContext)
-  const [showToast, setShowToast] = useState(false);
-  const [showToastAccepted, setShowToastAccepted] = useState(false);
+  // const [showToast, setShowToast] = useState(false);
   const [friendStatus, setFriendStatus] = useState(null);
   const [friendRequest, setFriendRequest] = useState([])
   const [userRequest, setUserRequest] = useState([])
@@ -36,55 +35,55 @@ export default function FriendButton(props) {
     setShowAlertUnFriend(true);
   }
 
-  const goProfileUser = (username) => {
-    setShowToast(false)
-    navigate(`/${username}`);
-  }
+  // const goProfileUser = (username) => {
+  //   setShowToast(false)
+  //   navigate(`/${username}`);
+  // }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getRequest(`${baseUrl}/users/find/id/${friendRequest?.senderId}`);
-        setUserRequest(response);
-      } catch (error) {
-        console.error("Error checking friend status:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await getRequest(`${baseUrl}/users/find/id/${friendRequest?.senderId}`);
+  //       setUserRequest(response);
+  //     } catch (error) {
+  //       console.error("Error checking friend status:", error);
+  //     }
+  //   };
 
-    if (friendRequest.senderId && friendRequest.receiverId) {
-      fetchData();
-    }
-  }, [friendRequest]);
+  //   if (friendRequest.senderId && friendRequest.receiverId) {
+  //     fetchData();
+  //   }
+  // }, [friendRequest]);
 
-  useEffect(() => {
-    if (socket === null) return;
+  // useEffect(() => {
+  //   if (socket === null) return;
 
-    socket.on("friendRequest", (res) => {
-      setFriendRequest(res);
+  //   socket.on("friendRequest", (res) => {
+  //     setFriendRequest(res);
 
-    });
+  //   });
 
-    socket.on("friendRequestAccepted", (res) => {
-      setUserAccepted(true)
-      setFriendRequest(res);
+  //   socket.on("friendRequestAccepted", (res) => {
+  //     setUserAccepted(true)
+  //     setFriendRequest(res);
 
-    });
+  //   });
 
-    return () => {
-      socket.off("friendRequest");
-    };
-  }, [socket]);
+  //   return () => {
+  //     socket.off("friendRequest");
+  //   };
+  // }, [socket]);
 
-  useEffect(() => {
-    if (friendRequest.senderId) {
-      setShowToast(true);
-      return;
-    }
-    else {
-      setShowToast(false);
-      return;
-    }
-  }, [friendRequest]);
+  // useEffect(() => {
+  //   if (friendRequest.senderId) {
+  //     setShowToast(true);
+  //     return;
+  //   }
+  //   else {
+  //     setShowToast(false);
+  //     return;
+  //   }
+  // }, [friendRequest]);
 
   useEffect(() => {
     const checkFriendStatus = async () => {
@@ -316,7 +315,7 @@ export default function FriendButton(props) {
       )}
 
       {/* Toast  */}
-      {showToast && (
+      {/* {showToast && (
         <Toast onClose={() => setShowToast(false)}>
           <div className="toast-header">
             <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
@@ -336,7 +335,7 @@ export default function FriendButton(props) {
             </div>
           </Toast.Body>
         </Toast>
-      )}
+      )} */}
 
       {/* Modal Block User  */}
       <Modal show={showAlertUnFriend} onHide={handleCloseAlertUnfriend} centered>
