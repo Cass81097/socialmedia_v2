@@ -25,9 +25,9 @@ export default function Notification(prop) {
             if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
                 try {
                     const userId = response.senderId;
-                    const res = await getRequest(`${baseUrl}/users/find/id/${userId}`);
-
-                    setUserPost(res[0]);
+                    const resUser = await getRequest(`${baseUrl}/users/find/id/${userId}`);
+                    prop.setUserPost({...resUser[0],postId:response.postId})
+                    setUserPost({...resUser[0],postId:response.postId});
                     setShowToast(true);
                 } catch (error) {
                     console.error("Error fetching user post:", error);
@@ -45,6 +45,9 @@ export default function Notification(prop) {
     const goProfileUser = (username) => {
         setShowToastFriend(false)
         navigate(`/${username}`);
+    }
+    const showPost =(id)=>{
+        navigate(`/status/${id}`)
     }
 
     useEffect(() => {
@@ -99,7 +102,7 @@ export default function Notification(prop) {
                         <strong className="me-auto">Thông báo mới</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToast(false)}></button>
                     </div>
-                    <Toast.Body>
+                    <Toast.Body onClick={() => showPost(userPost?.postId)}>
                         <div className="toast-container">
                             <div className="toast-avatar">
                                 <img src={userPost?.avatar} alt="" />

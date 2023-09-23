@@ -59,6 +59,7 @@ export default function App() {
                 <Route path="/listPendFriend" element={<ListPendFriend />} />
               </Routes>
               {/*<Notification></Notification>*/}
+
             </PostContextProvider>
           </ProfileContextProvider>
         </HomeContextProvider>

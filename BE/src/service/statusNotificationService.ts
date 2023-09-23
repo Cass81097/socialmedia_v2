@@ -31,6 +31,24 @@ export class StatusNotificationService {
         return await this.StatusNotificationRepository.save(friendNotification);
 
     };
+    updateNotification = async (notificationId ) => {
+        try {
+            const notification = this.StatusNotificationRepository.find({
+                where: {
+                    id: notificationId
+                }
+            });
+            if (!notification) {
+                throw new Error('User not found');
+            }
+
+            notification.isRead = true;
+            await this.StatusNotificationRepository.update(notificationId, {isRead :true});
+            return "da update thanh cong";
+        } catch (error) {
+            throw new Error('Error updating avatar');
+        }
+    }
 
 }
 

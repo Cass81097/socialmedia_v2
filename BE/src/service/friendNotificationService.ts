@@ -33,6 +33,25 @@ export class FriendNotificationService {
         return await this.FriendNotificationRepository.save(friendNotification);
 
     };
+    updateNotification = async (notificationId ) => {
+        try {
+            const notification = this.FriendNotificationRepository.find({
+                where: {
+                    id: notificationId
+                }
+            });
+            if (!notification) {
+                throw new Error('User not found');
+            }
+
+            notification.isRead = true;
+            await this.FriendNotificationRepository.update(notificationId, {isRead :true});
+            return "da update thannh cong";
+        } catch (error) {
+            throw new Error('Error updating avatar');
+        }
+    }
+
 
 }
 

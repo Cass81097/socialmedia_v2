@@ -21,29 +21,30 @@ export default function SearchPostId() {
     const [isCountLike, setIsCountLike] = useState([]);
     const { postUser, postImageUser, fetchPostUser, fetchImagePostUser } = useContext(PostContext);
     const [listStatus, setListStatus] = useState([])
-
-    const [checkFriendStatus, setCheckFriendStatus] = useState(null);
-
-    console.log(listStatus)
-    console.log(checkFriendStatus);
-
-    useEffect(() => {
-        const fetchFriendStatus = async () => {
-            try {
-                const response = await getRequest(`${baseUrl}/friendShips/checkStatusByUserId/${user?.id}/${listStatus[0].sender?.id}`);
-                setCheckFriendStatus(response);
-            } catch (error) {
-                console.error("Error fetching user profiles:", error);
-            }
-        };
-        fetchFriendStatus();
-    }, [user, listStatus]);
+    const [checkFriendStatus, setCheckFriendStatus] = useState(false);//sửa lai phan hiện postById
 
     useEffect(() => {
         axios.get(`http://localhost:5000/status/find/idStatus/${id}`).then((res) => {
             setListStatus(res.data)
         });
     }, [searchTerm])
+    useEffect(() => {
+        const fetchFriendStatus = async () => {
+            try {
+                if(user?.id===listStatus[0]?.sender.id){
+                    setCheckFriendStatus(true)
+                }else {
+                    const response = await getRequest(`${baseUrl}/friendShips/checkStatusByUserId/${user?.id}/${listStatus[0]?.sender.id}`);
+                    if(response.status==="friend"){
+                        setCheckFriendStatus(true)
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching user profiles:", error);
+            }
+        };
+        fetchFriendStatus();
+    }, [user, listStatus]);
 
 
     const handleLikeClick = async () => {
@@ -59,8 +60,7 @@ export default function SearchPostId() {
     };
 
     const publicPost = listStatus[0]?.visibility === "public";
-    const friendPost = listStatus[0]?.visibility === "friend" && checkFriendStatus?.status === "friend";
-    console.log(friendPost);
+    const friendPost = listStatus[0]?.visibility === "friend" && checkFriendStatus === true;
 
     return (
         <>
@@ -111,6 +111,7 @@ export default function SearchPostId() {
                                                                     timeAgo = `${hours} giờ ${minutes} phút trước`;
                                                                 }
                                                             }
+
                                                             return (
                                                                 <div className="post-privacy-change">
                                                                     <span>{timeAgo}</span>

@@ -18,10 +18,12 @@ export default function Navbar() {
     const [results, setResults] = useState([]);
     const [notifications, setNotifications] = useState([]);
     const [userRequest, setUserRequest] = useState({})
-    console.log(userRequest,22222)
+    const [userPost, setUserPost] = useState({});
 
     const navigate = useNavigate();
     const [down, setDown] = useState(false);
+
+    const [count, setCount]=useState(0)
 
     const toggleNotifi = () => {
         if (down) {
@@ -35,60 +37,47 @@ export default function Navbar() {
         maxHeight: '650px',
         opacity: down ? 1 : 0
     };
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await axios.get(`http://localhost:5000/statusNotifications/receiverId/${user.id}`);
-    //             const notifications = response.data;
-    //             setNotifications(notifications);
-    //         } catch (error) {
-    //             // Xử lý lỗi tại đây
-    //         }
-    //     };
-    //
-    //     fetchData();
-    // }, [user.id, setNotifications]);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
+
+
                 if (userRequest && Object.keys(userRequest).length !== 0) {
                     const data = {
                         sender: userRequest.id,
                         receiver: user.id,
-                        des: "đã gưi lời mời kết bạn 1111111"
+                        des: userRequest.userAccepted ? "đã đồng ý lời mời kết bạn của bạn" : "vừa mới gửi lời mời kết bạn tới bạn"
                     }
                     const response = await axios.post(`http://localhost:5000/friendNotifications`, data)
+                    setCount(count => count + 1);
+                }
+                if (userPost && Object.keys(userPost).length !== 0) {
+                    const data = {
+                        sender: userPost.id,
+                        status: userPost.postId,
+                        des: "đã like bài viết của bạn"
+                    }
+                    const response = await axios.post(`http://localhost:5000/statusNotifications`, data)
+                    setCount(count => count + 1);
                 }
                 const response = await axios.get(`http://localhost:5000/statusNotifications/receiverId/${user.id}`);
-                const notifications = response.data;
+
+                const notifications= response.data;
                 setNotifications(notifications);
+
             } catch (error) {
                 // Xử lý lỗi tại đây
             }
         };
         fetchData()
-    }, [user.id, setNotifications,userRequest]);
-    console.log(notifications,22222)
-    // useEffect( async () => {
-    //     if (props.userRequest && Object.keys(props.userRequest).length !== 0) {
-    //         console.log(222222)
-    //         const data={
-    //             sender:props.userRequest.senderId,
-    //             receiver:props.userRequest.receiverId,
-    //             des:"đã gưi lời mời kết bạn"
-    //         }
-    //
-    //         const response = await axios.post(`http://localhost:5000/friendNotifications`,data)
-    //
-    //     }
-    //     const response = await axios.get(`http://localhost:5000/statusNotifications/receiverId/${user.id}`);
-    //     const notifications = response.data;
-    //     setNotifications(notifications);
-    //
-    // }, [ setNotifications]);
+    }, [user.id, setNotifications,userRequest,down]);
 
+
+    console.log(count,22222)
     // hêt
     const showInfo = () => {
+        setDown(false);
         $('.profile-menu').toggle();
     };
 
@@ -104,6 +93,7 @@ export default function Navbar() {
     };
 
     const goUserInfo = (res) => {
+        setDown(false);
         const currentDomain = window.location.pathname.split("/")[1];
         if (`/${user?.username}` !== `/${currentDomain}`) {
             navigate(`/${user?.username}`);
@@ -118,11 +108,34 @@ export default function Navbar() {
     const clearSearchResult = () => {
         setResults([]);
     }
-
-
+    const showPost = async (statusId, notificationId)=>{
+        await axios.put(`http://localhost:5000/statusNotifications/update/${notificationId}`)
+        await setDown(false);
+        navigate(`/status/${statusId}`)
+    }
+    const goProfileUser =  async (username,id) => {
+       await axios.put(`http://localhost:5000/friendNotifications/update/${id}`)
+       await  setDown(false);
+        navigate(`/${username}`);
+    }
+   // xu ly nut chua doc
+    const showIsReadNotification = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/statusNotifications/receiverId/${user.id}`);
+            const notifications = response.data.filter(item => item.isRead === false);
+            console.log(notifications, 1111);
+            setNotifications(notifications);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const showAllNotification =async ()=>{
+        const response = await axios.get(`http://localhost:5000/statusNotifications/receiverId/${user.id}`)
+        setNotifications(response.data);
+    }
     return (
         <>
-            <Notification setUserRequest={setUserRequest}></Notification>
+            {!down && <Notification setUserRequest={setUserRequest} setUserPost={setUserPost} ></Notification>}
             <header>
                 <div className="fb-nav">
                     <div className="title">
@@ -170,11 +183,10 @@ export default function Navbar() {
                                                     borderRadius: "20px",
                                                     marginLeft: "10px",
                                                     fontWeight: "bold"
-                                                }}>Tất
-                                            cả
+                                                }} onClick={showAllNotification}>Tất cả
                                         </button>
                                         <button type="button" className="btn btn-light "
-                                                style={{borderRadius: "20px", marginLeft: "10px", fontWeight: "bold"}}>
+                                                style={{borderRadius: "20px", marginLeft: "10px", fontWeight: "bold"}} onClick={showIsReadNotification}>
                                             Chưa đọc
                                         </button>
                                     </div>
@@ -191,36 +203,53 @@ export default function Navbar() {
                                         </button>
 
                                     </div>
-                                    {notifications.length >= 0 ? (notifications.map((item, index) =>
-
-                                            (
-                                                <div className="notifi-item" key={index}>
+                                    {notifications.length > 0 ? (
+                                        notifications.map((item, index) => (
+                                            typeof item .status !== "undefined" ? (
+                                                <div className="notifi-item" key={index} onClick={() => showPost(item .status.id, item.id)
+                                                    }>
                                                     <div>
                                                         <div className="item-image">
-                                                            <img src={item.sender.avatar} alt="img"/>
-                                                            <div className="icon-avatar">
-                                                                <i className="fas fa-camera"></i>
+                                                            <img src={item.sender.avatar} alt="img" />
+                                                            <div className="icon-avatar" style={{background:"lightgreen"}}>
+                                                                <i className="fas fa-sticky-note"></i>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div className="text">
                                                         <h4>
                                                             {item.sender.fullname}
-                                                            <span>
-                                                             {item.des}
-                                                            </span>
+                                                            <span>{item.des}</span>
                                                         </h4>
                                                         <p>{item.time}</p>
                                                     </div>
                                                     {!item.isRead && <div className="icon-read"></div>}
-
                                                 </div>
-                                            )))
-                                        : (
-                                            // Hiển thị khi mảng notifications rỗng
-                                            <div>No notifications</div>
-                                        )}
 
+                                            ) : (
+                                                <div className="notifi-item" key={index} onClick={() => goProfileUser(item.sender.username,item.id)}>
+                                                    <div>
+                                                        <div className="item-image">
+                                                            <img src={item.sender.avatar} alt="img" />
+                                                            <div className="icon-avatar">
+                                                                <i className="fas fa-user"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text">
+                                                        <h4>
+                                                            {item.sender.fullname}
+                                                            <span>{item.des}</span>
+                                                        </h4>
+                                                        <p>{item.time}</p>
+                                                    </div>
+                                                    {!item.isRead && <div className="icon-read"></div>}
+                                                </div>
+                                            )
+                                        ))
+                                    ) : (
+                                        <div>No notifications</div>
+                                    )}
                                     <div className="notifi-item">
                                         <div>
 

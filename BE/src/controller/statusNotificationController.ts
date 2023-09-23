@@ -18,6 +18,10 @@ export class StatusNotificationController {
         let data = await statusNotificationService.save(req.body)
         res.json(data);
     }
+    updateNotification =async (req, res) => {
+        let data = await statusNotificationService.updateNotification(req.params.id)
+        res.json(data);
+    }
 
 
 }

@@ -276,7 +276,7 @@ export class StatusService {
 
     findByStatusId =  async (statusId) => {
         try {
-            return await  await this.statusRepository.find({
+            let status=  await this.statusRepository.find({
                 relations: {
                     receiver: true,
                     images : true,
@@ -286,6 +286,17 @@ export class StatusService {
                     id: statusId
                 }
             });
+            for (let i = 0; i < status.length; i++) {
+                let likeByStatusId = await likeService.getLikeForStatus(status[i].id);
+
+
+                status[i] = {
+                    ...status[i],
+                    accountLike: likeByStatusId.likeCount,
+                    listUserLike: [...likeByStatusId.likeRecords]
+                };
+            }
+            return status
         } catch (error) {
             throw new Error('Error finding status by ID');
         }
