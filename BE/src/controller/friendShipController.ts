@@ -8,8 +8,10 @@ export class FriendShipController {
         res.json(data);
     }
     cancelFriendship = async (req, res) => {
+
         const userId1 = req.params.userId1;
         const userId2 = req.params.userId2;
+        console.log(userId1,userId2)
         let data = await friendShipService.cancelFriendship(userId1, userId2)
         res.json(data);
     }

@@ -61,7 +61,7 @@ export default function SearchPostId() {
 
     const publicPost = listStatus[0]?.visibility === "public";
     const friendPost = listStatus[0]?.visibility === "friend" && checkFriendStatus === true;
-
+    console.log(listStatus,44444)
     return (
         <>
             <Navbar></Navbar>
@@ -85,8 +85,14 @@ export default function SearchPostId() {
                                                     <img src={status.sender?.avatar} alt="User Avatar" />
                                                 </div>
                                                 <div>
+                                                    <div style={{display : "flex"}}>
                                                     <div className="post-user-name">
                                                         <p>{status.sender.fullname}</p>
+                                                    </div>
+                                                    <i className="fas fa-caret-right icon-post-user"></i>
+                                                    {status.receiver &&  <div className="post-user-name">
+                                                        <p>{status.receiver.fullname}</p>
+                                                    </div> }
                                                     </div>
                                                     <div className="time-status">
                                                         {(() => {

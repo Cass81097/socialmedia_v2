@@ -236,6 +236,7 @@ a:visited {
     border-bottom: 0 solid #eee;
     padding: 15px 5px;
     /*margin-bottom: 5px;*/
+    justify-content: space-around;
 
     cursor: pointer;
     position: relative;
@@ -244,8 +245,8 @@ a:visited {
 .notifi-item:hover {
     background-color: lightgray;
     border-radius: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
 }
 .item-image {
     position: relative;
@@ -279,31 +280,38 @@ a:visited {
     font-size: 16px;
     color: white;
 }
-.notifi-item .text h4 {
+.notifi-item .text   {
+    width: 70%;
+    justify-content: start;
+    /*margin-left: 10px;*/
+    /*margin-right: -5px;*/
+}
+.notifi-item .text h4  {
     color: black;
     font-size: 17px;
-    margin-left: 10px;
-    margin-right: -5px;
+    /*margin-left: 10px;*/
+    /*margin-right: -5px;*/
 }
 .notifi-item .text p{
     font-size: 14px;
-    margin-left: 10px;
+    /*margin-left: 10px;*/
     color: #1877F2;
     font-weight: bold;
 }
 .notifi-item .text span{
     font-size: 14px;
-    margin-left: 10px;
+    margin-left: 5px;
     color: #5f5f5f;
 }
 .icon-read {
-    width: 18px;
+    width: 12px;
     height: 12px;
     border-radius: 50%;
     background-color: #1877F2;
-    margin-left: 20px;
-    align-self: center;
-    margin-right: 10px;
+    margin-left: 8px;
+    /*margin-right: 10px;*/
+    margin-top: 25px
+
 }
 /*tạo thanh ray chạy*/
 .scrollbar-container {

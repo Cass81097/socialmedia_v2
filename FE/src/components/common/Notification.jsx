@@ -26,6 +26,7 @@ export default function Notification(prop) {
                 try {
                     const userId = response.senderId;
                     const resUser = await getRequest(`${baseUrl}/users/find/id/${userId}`);
+                    console.log(resUser,111111)
                     prop.setUserPost({...resUser[0],postId:response.postId})
                     setUserPost({...resUser[0],postId:response.postId});
                     setShowToast(true);
@@ -46,7 +47,7 @@ export default function Notification(prop) {
         setShowToastFriend(false)
         navigate(`/${username}`);
     }
-    const showPost =(id)=>{
+    const showPost =async (id)=>{
         navigate(`/status/${id}`)
     }
 
