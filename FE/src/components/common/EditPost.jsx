@@ -128,7 +128,6 @@ export default function EditPost(props) {
         });
     };
 
-
     const onEmojiClick = (event, emojiObject) => {
         const emoji = emojiObject.emoji;
         setTextMessage((prevText) => prevText + emoji);

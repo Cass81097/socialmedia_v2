@@ -14,10 +14,9 @@ import Picker from "emoji-picker-react";
 
 export default function Comment({ postSenderId, showComment, postVisi, postId }) {
     const { user } = useContext(AuthContext)
-    const lastCommentRef = useRef(null); // Tạo một ref cho tin nhắn cuối cùng
+    const lastCommentRef = useRef(null); 
     const { postUser } = useContext(PostContext)
     const { checkFriendStatus } = useContext(ProfileContext)
-
 
     const {
         textMessage,
