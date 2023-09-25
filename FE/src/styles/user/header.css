@@ -190,21 +190,8 @@ a:visited {
     background: #FFFFFF;
     overflow-y: auto;
     scrollbar-width: thin;
-    /*overflow-y: scroll; !* Hiển thị thanh ray ngay cả khi không có nội dung vượt quá kích thước *!*/
-    /*scrollbar-width: thin; !* Chiều rộng của thanh ray *!*/
-    /*scrollbar-color: #888888 #F0F0F0; !* Màu sắc của thanh ray *!*/
 }
-/*.notifi-box::-webkit-scrollbar {*/
-/*    width: 8px; !* Chiều rộng của thanh ray *!*/
-/*}*/
 
-/*.notifi-box::-webkit-scrollbar-thumb {*/
-/*    background-color: #888888; !* Màu sắc của nút kéo *!*/
-/*}*/
-
-/*.notifi-box::-webkit-scrollbar-track {*/
-/*    background-color: #F0F0F0; !* Màu sắc của phần còn lại của thanh ray *!*/
-/*}*/
 .notifi-box::-webkit-scrollbar {
     width: 8px;
 }

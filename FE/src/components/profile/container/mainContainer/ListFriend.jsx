@@ -22,18 +22,6 @@ export default function ListFriend() {
         setShow(false);
     }
 
-    // const handleShow = async (username) => {
-    //     if (username && userProfile && userProfile.length > 0 && userProfile[0].username) {
-    //       try {
-    //         const response = await getRequest(`${baseUrl}/users/find/${username}`);
-    //         setCommonFriendList(response);
-    //       } catch (error) {
-    //         console.log(error);
-    //         return null;
-    //       }
-    //       setShow(true);
-    //     }
-    // };
 
     const handleShow = (arr) => {
         setCommonFriendList(arr);
@@ -58,7 +46,7 @@ export default function ListFriend() {
         const findCommonFriendNumber = async (index) => {
             try {
                 const response = await getRequest(`${baseUrl}/friendShips/commonFriend/username/${userProfile[0].username}/${countFriend[index].username}`);
-                console.log(response);
+                console.log(response,11111)
                 return response;
             } catch (error) {
                 console.log(error);
@@ -73,7 +61,6 @@ export default function ListFriend() {
                 commonFriendNumbers.push(commonFriendNumber);
             }
             setCommonFriendNumber(commonFriendNumbers);
-            console.log(commonFriendNumber, "commonFriendNumber");
         };
         getCommonFriendNumbers();
     }, [userProfile, countFriend]);
@@ -96,11 +83,11 @@ export default function ListFriend() {
                                     backgroundColor: "rgba(255, 255,255, 0.5)"
                                 }}>
                                     <input value={searchValue} onChange={handleInputChange} className="form-control mr-sm-2"
-                                        style={{
-                                            outline: "none",
-                                            border: "1px solid lightgrey",
-                                        }} placeholder='Tìm kiếm bạn bè'
-                                        aria-label="Search" />
+                                           style={{
+                                               outline: "none",
+                                               border: "1px solid lightgrey",
+                                           }} placeholder='Tìm kiếm bạn bè'
+                                           aria-label="Search" />
                                 </div>
                                 {user.id === userProfile[0].id &&
                                     <Link to="/listPendFriend"><button type="button" className="btn btn-link"><span style={{ fontWeight: "500" }}>Lời mời kết bạn</span></button></Link>

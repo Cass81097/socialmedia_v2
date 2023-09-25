@@ -31,7 +31,7 @@ export class CommentService {
         return await this.commentRepository.save(comment);
 
     };
-    updateContent = async (commentId, content) => {
+    updateContent = async (commentId, content,timeEdit) => {
         try {
             const comment = this.commentRepository.find({
                 relations: {
@@ -45,7 +45,8 @@ export class CommentService {
                 throw new Error('Comment not found');
             }
             comment.content = content;
-            await this.commentRepository.update(commentId, { content: content });
+            comment.timeEdit = timeEdit
+            await this.commentRepository.update(commentId, { content: content , timeEdit : timeEdit});
             return "Thay Noi dung Comment thành công";
         } catch (error) {
             throw new Error('Error updating content');

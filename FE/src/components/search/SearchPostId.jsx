@@ -12,6 +12,7 @@ import Like from "../common/Like";
 import { SearchContext } from "../../context/SearchContext";
 import { ProfileContext } from "../../context/ProfileContext";
 import Navbar from "../common/Navbar";
+import Sidebar from "../home/common/Sidebar";
 
 export default function SearchPostId() {
     const { id } = useParams()
@@ -73,7 +74,9 @@ export default function SearchPostId() {
                     </div>
                     <div className="container-status">
                         <div className="sidebar-left-status">
-                            <h5 className="search-notification">Bài viết :</h5>
+
+                            <Sidebar></Sidebar>
+
                         </div>
                         <div className="mid-status">
                             <div>
@@ -89,8 +92,11 @@ export default function SearchPostId() {
                                                     <div className="post-user-name">
                                                         <p>{status.sender.fullname}</p>
                                                     </div>
-                                                    <i className="fas fa-caret-right icon-post-user"></i>
-                                                    {status.receiver &&  <div className="post-user-name">
+                                                        {status.receiver.id!== status.sender.id &&
+
+                                                            <i className="fas fa-caret-right icon-post-user"></i>}
+                                                    {status.receiver.id!== status.sender.id &&
+                                                        <div className="post-user-name">
                                                         <p>{status.receiver.fullname}</p>
                                                     </div> }
                                                     </div>

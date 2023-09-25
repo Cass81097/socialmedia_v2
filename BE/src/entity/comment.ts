@@ -15,4 +15,8 @@ export class Comment {
     content: string;
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     time: Date;
+    @Column({type : "varchar", nullable : true})
+    timeEdit : string
+    @Column({type : "longtext",nullable : true})
+    imgCmt : string
 }

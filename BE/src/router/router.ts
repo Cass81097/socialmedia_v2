@@ -4,7 +4,7 @@ import {friendShipRouter} from "./friendShipRouter";
 import {statusRouter} from "./statusRouter";
 import {imageStatusRouter} from "./imageStatusRouter";
 import {likeRouter} from "./likeRouter";
-import {friendNotificationRouter} from "./friendNotification";
+import {friendNotificationRouter} from "./friendNotificationRouter";
 import {statusNotificationRouter} from "./statusNotificationRouter";
 import {commentRouter} from "./commentRouter";
 const router = Router();

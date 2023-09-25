@@ -79,8 +79,6 @@ export default function Navbar() {
     };
 
 
-    console.log(count,77777)
-
     const toggleNotifi = () => {
         if (down) {
             setDown(false);
@@ -90,6 +88,7 @@ export default function Navbar() {
             setDown(true);
             setCount(0)
         }
+        $('.profile-menu').hide();
         setUserPost({});
         setUserRequest({});
     };
@@ -182,17 +181,6 @@ export default function Navbar() {
                             >
                                 <i className="fab fa-facebook-messenger"></i>
                             </Link>
-                            {/*<Link*/}
-                            {/*    to=""*/}
-                            {/*    data-toggle="tooltip"*/}
-                            {/*    data-placement="bottom"*/}
-                            {/*    title="Thông báo"*/}
-                            {/*    style={{transform: "translateY(7px)"}}*/}
-                            {/*>*/}
-                            {/*    <i className="fas fa-bell" onClick={toggleNotifi}></i>*/}
-
-                            {/*</Link>*/}
-                            {/*{count>0 && <span style={{color: "red"}}>{count}</span>  }*/}
                             <Link
                                 to=""
                                 data-toggle="tooltip"
@@ -381,74 +369,6 @@ export default function Navbar() {
                                                     ) : (
                                                     <div></div>
                                                     )}
-                                                    <div className="notifi-item">
-                                                        <div>
-
-                                                            <div className="item-image">
-                                                                <img
-                                                                    src="https://kynguyenlamdep.com/wp-content/uploads/2022/06/anh-gai-xinh-cuc-dep.jpg"
-                                                                    alt="img"/>
-
-                                                                <div className="icon-avatar">
-                                                                    <i className="fas fa-camera"></i>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                        <div className="text">
-
-                                                            <h4>Elias Abdurrahman<span>đã like ảnh của ban tu bốn ngày trước </span>
-                                                            </h4>
-                                                            <p>4 ngày trước</p>
-                                                        </div>
-                                                        <div className="icon-read"></div>
-                                                    </div>
-
-
-                                                    <div className="notifi-item">
-                                                        <div>
-
-                                                            <div className="item-image">
-                                                                <img
-                                                                    src="https://kynguyenlamdep.com/wp-content/uploads/2022/06/anh-gai-xinh-cuc-dep.jpg"
-                                                                    alt="img"/>
-
-                                                                <div className="icon-avatar">
-                                                                    <i className="fas fa-camera"></i>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                        <div className="text">
-
-                                                            <h4>Elias Abdurrahman<span>đã like ảnh của ban tu bốn ngày trước </span>
-                                                            </h4>
-                                                            <p>4 ngày trước</p>
-                                                        </div>
-                                                        <div className="icon-read"></div>
-                                                    </div>
-                                                    <div className="notifi-item">
-                                                        <div>
-
-                                                            <div className="item-image">
-                                                                <img
-                                                                    src="https://kynguyenlamdep.com/wp-content/uploads/2022/06/anh-gai-xinh-cuc-dep.jpg"
-                                                                    alt="img"/>
-
-                                                                <div className="icon-avatar">
-                                                                    <i className="fas fa-camera"></i>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                        <div className="text">
-
-                                                            <h4>Elias Abdurrahman<span>đã like ảnh của ban tu bốn ngày trước </span>
-                                                            </h4>
-                                                            <p>4 ngày trước</p>
-                                                        </div>
-                                                        <div className="icon-read"></div>
-                                                    </div>
                                                 </div>
                                         </div>
 
