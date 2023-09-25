@@ -4,10 +4,12 @@ import { AuthContext } from "../../context/AuthContext";
 import { ProfileContext } from "../../context/ProfileContext";
 import "../../styles/search-bar/SearchResult.css";
 import { baseUrl, getRequest } from "../../utils/services";
+import { HomeContext } from "../../context/HomeContext";
 
 export const SearchResult = ({ result, userId, onClickSearchResult }) => {
   const { user, setUser } = useContext(AuthContext);
   const { userProfile, setUserProfile } = useContext(ProfileContext);
+  const { setShowComment } = useContext(HomeContext)
 
   const navigate = useNavigate();
   const [userSearched, setUserSearched] = useState([]);
@@ -30,9 +32,10 @@ export const SearchResult = ({ result, userId, onClickSearchResult }) => {
     if (`/${targetUsername}` !== `/${currentDomain}`) {
       navigate(`/${targetUsername}`);
       onClickSearchResult();
-      // setUserProfile(res);
+      setShowComment(false);
     } else {
       onClickSearchResult();
+      setShowComment(false);
     }
   };
   return (

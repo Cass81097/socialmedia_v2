@@ -22,6 +22,7 @@ import { baseUrl, deleteRequest, postRequest, putRequest } from "../../../utils/
 import Comment from "../../common/Comment";
 import Like from "../../common/Like";
 import LoadingNew from "../../common/LoadingNew";
+import { HomeContext } from '../../../context/HomeContext';
 
 export default function ContainerPostProfile(props) {
     const { user, userProfile, setShowLikeList, setLikeListIndex, setShowPostEdit, setPostEditIndex } = props;
@@ -37,7 +38,8 @@ export default function ContainerPostProfile(props) {
     const containerRef = useRef(null);
 
     //Comment
-    const [showComment, setShowComment] = useState(false);
+    // const [showComment, setShowComment] = useState(false);
+    const {showComment, setShowComment} = useContext(HomeContext)
 
     const [visibleCommentIndex, setVisibleCommentIndex] = useState(-1);
     const handleToggleComment = (index) => {

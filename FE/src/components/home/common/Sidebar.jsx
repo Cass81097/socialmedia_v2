@@ -14,7 +14,7 @@ export default function Sidebar() {
                     <li className="links">
                         <Link to="/">
                             <i className="select fas fa-home icon"></i>
-                            <span className="text nav-text">Trang chủ</span>
+                            <span className="text nav-text">Home</span>
                         </Link>
                     </li>
                     <li className="links link-avatar sidebar-link-avatar" >
@@ -40,7 +40,7 @@ export default function Sidebar() {
                     <li>
                         <Link to="/page">
                             <i className="page icon"></i>
-                            <span className="text nav-text">Trang</span>
+                            <span className="text nav-text">Page</span>
                         </Link>
                     </li>
 
@@ -54,14 +54,14 @@ export default function Sidebar() {
                     <li>
                         <Link to="/game">
                             <i className="game icon"></i>
-                            <span className="text nav-text">Trò chơi</span>
+                            <span className="text nav-text">Game</span>
                         </Link>
                     </li>
 
                     <li>
                         <Link to="/groups">
                             <i className="fas fa-users icon"></i>
-                            <span className="text nav-text">Nhóm</span>
+                            <span className="text nav-text">Group</span>
                         </Link>
                     </li>
 

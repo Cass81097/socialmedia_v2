@@ -12,7 +12,7 @@ import Like from "../common/Like";
 import { SearchContext } from "../../context/SearchContext";
 import {CommentContextProvider} from "../../context/CommentContext";
 import Comment from "../common/Comment";
-
+import Navbar from "../common/Navbar"
 
 
 export default function SearchPost() {
@@ -24,11 +24,7 @@ export default function SearchPost() {
     const { postUser, postImageUser, fetchPostUser, fetchImagePostUser } = useContext(PostContext);
     const [listStatus, setListStatus] = useState([])
 
-    useEffect(() => {
-        axios.get(`http://localhost:5000/status/content/${user.id}/?content=${searchTerm}`).then((res) => {
-            setListStatus(res.data)
-        });
-    }, [searchTerm])
+
 
     const handleLikeClick = async () => {
         axios.get(`http://localhost:5000/status/content/${user.id}/?content=${searchTerm}`).then((res) => {
@@ -47,14 +43,41 @@ export default function SearchPost() {
 
     const [visibleCommentIndex, setVisibleCommentIndex] = useState(-1);
     const handleToggleComment = (index) => {
-        console.log(1)
         setShowComment(true)
         setVisibleCommentIndex(visibleCommentIndex === index ? -1 : index);
     };
 
+
+    const handleAddComment = (postId, newComment) => {
+        // Tìm bài viết trong listStatus dựa vào postId
+        const updatedListStatus = listStatus.map((post) => {
+            if (post.id === postId) {
+                // Cập nhật số lượng bình luận cho bài viết
+                const updatedCommentCount = post.commentCount.commentCount + 1;
+                console.log(updatedCommentCount)
+                return {
+                    ...post,
+                    commentCount: updatedCommentCount,
+                };
+            }
+            return post;
+        });
+        setListStatus(updatedListStatus);
+    };
+    useEffect(() => {
+        axios.get(`http://localhost:5000/status/content/${user.id}/?content=${searchTerm}`).then((res) => {
+            setListStatus(res.data)
+        });
+    }, [searchTerm,handleAddComment])
+
+
+
+
+
+
     return (
         <>
-            <Home style={{ width: "200px" }}></Home>
+            <Navbar style={{ width: "200px" }}></Navbar>
             <div style={{ border: "1px solid" }}>
                 <p>1</p>
                 <p>1</p>
@@ -208,7 +231,7 @@ export default function SearchPost() {
                                     </div>
                                     {visibleCommentIndex === index && (
                                         <CommentContextProvider postId={item.id} >
-                                            <Comment  postSenderId ={item.sender.id} postId={item.id} showComment={showComment} setShowComment={setShowComment} />
+                                            <Comment cmt={handleAddComment} postSenderId ={item.sender.id} postId={item.id} showComment={showComment} setShowComment={setShowComment} />
                                         </CommentContextProvider>
                                     )}
                                 </div>

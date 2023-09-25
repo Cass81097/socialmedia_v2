@@ -163,3 +163,18 @@
 .like-edit span {
     margin-left: 5px;
 }
+
+.icon-avatar-like-list {
+    position: absolute;
+    right: -8px;
+    bottom: -8px;
+    padding: 5px;
+    border-radius: 50%;
+    background: #1877F2;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

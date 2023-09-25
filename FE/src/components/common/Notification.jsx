@@ -103,7 +103,7 @@ export default function Notification(props) {
                 try {
                     const userId = response.senderId;
                     const resUser = await getRequest(`${baseUrl}/users/find/id/${userId}`);
-                    setStatus(resUser[0]);
+                    setStatus({ ...resUser[0], postId: response.postId });
                     setShowToastComment(true);
                 } catch (error) {
                     console.error("Error fetching user post:", error);

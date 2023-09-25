@@ -10,7 +10,7 @@ import { baseUrl, deleteRequest, getRequest, postRequest } from "../../utils/ser
 export default function Like(props) {
     const navigate = useNavigate();
     const handleStatusRef = useRef(null);
-    const { postId, countLike, checkStatusLike, setIsCountLike, userLike } = props
+    const { postId, countLike, checkStatusLike, setIsCountLike, userLike, onLikeClick } = props
     const { user } = useContext(AuthContext)
     const { userProfile, socket } = useContext(ProfileContext)
     const { fetchPostUser } = useContext(PostContext)
@@ -30,6 +30,7 @@ export default function Like(props) {
         const response = await postRequest(`${baseUrl}/likes/add/${postId}`, JSON.stringify(data));
         setIsLiked(true);
         fetchPostUser();
+        onLikeClick();
 
         if (socket) {
             socket.emit("likeStatus", {     
@@ -44,7 +45,8 @@ export default function Like(props) {
         const data = user.id;
         const response = await deleteRequest(`${baseUrl}/likes/${postId}?userId=${data}`);
         setIsLiked(false);
-        fetchPostUser()
+        fetchPostUser();
+        onLikeClick();
     };
 
     // useEffect(() => {

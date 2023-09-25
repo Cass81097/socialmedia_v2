@@ -65,7 +65,8 @@ export const CommentContextProvider = ({ children, postId }) => {
                 socket.emit("commentStatus", {     
                     senderId: user?.id,
                     receiverId: statusReponse[0]?.sender.id,
-                    postId: postId
+                    postId: postId,
+                    commentId: newComment.id
                 });
             }
 

@@ -31,7 +31,8 @@ export class CommentService {
         return await this.commentRepository.save(comment);
 
     };
-    updateContent = async (commentId, content,timeEdit) => {
+
+    updateContent = async (commentId, content, timeEdit) => {
         try {
             const comment = this.commentRepository.find({
                 relations: {

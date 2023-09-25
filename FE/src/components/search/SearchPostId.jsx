@@ -29,12 +29,13 @@ export default function SearchPostId() {
             setListStatus(res.data)
         });
     }, [searchTerm])
+
     useEffect(() => {
         const fetchFriendStatus = async () => {
             try {
                 if(user?.id===listStatus[0]?.sender.id){
                     setCheckFriendStatus(true)
-                }else {
+                }else {     
                     const response = await getRequest(`${baseUrl}/friendShips/checkStatusByUserId/${user?.id}/${listStatus[0]?.sender.id}`);
                     if(response.status==="friend"){
                         setCheckFriendStatus(true)

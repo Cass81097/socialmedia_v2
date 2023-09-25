@@ -40,7 +40,7 @@ export default function LikeList(props) {
     const goProfileUser = (username) => {
         setShowLikeList(false);
         navigate(`/${username}`);
-      }
+    }
 
     return (
         <>
@@ -59,8 +59,11 @@ export default function LikeList(props) {
                                             <div className="modal-like-avatar">
                                                 <img src={userLike?.user.avatar} alt="" onClick={() => goProfileUser(userLike?.user.username)} />
                                             </div>
-                                            <div className="like-avatar">
+                                            {/* <div className="like-avatar">
                                                 <BiLike />
+                                            </div> */}
+                                            <div className="icon-avatar-like-list">
+                                                <i className="fas fa-thumbs-up" style={{color:"white", fontSize:"13px"}}></i>
                                             </div>
                                         </div>
                                         <p onClick={() => goProfileUser(userLike?.user.username)}>{userLike?.user.fullname}</p>

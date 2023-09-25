@@ -12,9 +12,9 @@ import Modal from "react-bootstrap/Modal";
 import { ProfileContext } from "../../context/ProfileContext";
 import Picker from "emoji-picker-react";
 
-export default function Comment({ postSenderId, showComment, postVisi, postId }) {
+export default function Comment({ cmt,postSenderId, showComment, postVisi, postId }) {
     const { user } = useContext(AuthContext)
-    const lastCommentRef = useRef(null); 
+    const lastCommentRef = useRef(null);
     const { postUser } = useContext(PostContext)
     const { checkFriendStatus } = useContext(ProfileContext)
 
@@ -95,21 +95,27 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
         handleDeleteMessage(id);
         setIsShowAlert(false);
     }
+
+
     const handlePost = async () => {
         await handleSendMessage()
         if (showAllComments === false) {
             setShowAllComments(true)
-            await lastCommentRef?.current.scrollIntoView({ behavior: 'smooth' });
+            await lastCommentRef.current.scrollIntoView({ behavior: 'smooth' });
         }
+        cmt()
     }
 
     // edit
     const handleStartEdit = (commentId, commentContent) => {
+        console.log(commentId, "commentID");
+        console.log(commentContent, "commentContent");
         setShowEditStatus(true);
         setEditingCommentId(commentId);
     };
 
     useEffect(() => {
+        console.log(editingCommentId);
     }, [editingCommentId]);
 
     const handleSubmitEdit = () => {
@@ -121,8 +127,8 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
 
     useEffect(() => {
         const handleEscKey = (event) => {
-            if (event.key === 'Escape' && isEditing) {
-                setIsEditing(false);
+            if (event.key === 'Escape' && showEditStatus) {
+                setShowEditStatus(false);
             }
         };
 
@@ -131,9 +137,11 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
         return () => {
             window.removeEventListener('keydown', handleEscKey);
         };
-    }, [isEditing]);
+    }, [showEditStatus]);
+
 
     // img
+
     return (
         <>
             {showComment && (
@@ -147,28 +155,35 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
                                         <div className="comments">
                                             <div className="avatar-comments">
                                                 <img className="avatar-comments"
-                                                    src={item?.user.avatar}
-                                                    alt="" />
+                                                     src={item?.user.avatar}
+                                                     alt="" />
                                             </div>
                                             <div className="detail-comments">
-                                                {editingCommentId === item.id && isEditing ?
+                                                {editingCommentId === item.id && showEditStatus ?
                                                     (
                                                         <div>
                                                             <div
                                                                 className="nameUser-comments">{item.user?.fullname}</div>
                                                             <div className="edit-comment-form">
-                                                                <InputEmoji
-                                                                    value={"Abc"}
-                                                                    onChange={(value) => {
-                                                                        setEditingCommentContent({
-                                                                            ...editingCommentContent,
-                                                                            [editingCommentId]: value
-                                                                        });
-                                                                    }}
+                                                                {/*<InputEmoji*/}
+                                                                {/*    value={"Abc"}*/}
+                                                                {/*    onChange={(value) => {*/}
+                                                                {/*        setEditingCommentContent({*/}
+                                                                {/*            ...editingCommentContent,*/}
+                                                                {/*            [editingCommentId]: value*/}
+                                                                {/*        });*/}
+                                                                {/*    }}*/}
+                                                                {/*/>*/}
+                                                                <textarea
+                                                                    className="textarea-comment"
+
+                                                                    spellCheck="false"
+                                                                    defaultValue={item?.content}
+                                                                    onChange={handleCommentChange}
                                                                 />
-                                                                <i style={{ marginTop: "35px" }}
-                                                                    className="fas fa-paper-plane"
-                                                                    onClick={handleSubmitEdit}></i>
+                                                                <i
+                                                                   className="fas fa-paper-plane"
+                                                                   onClick={handleSubmitEdit}></i>
                                                             </div>
                                                         </div>
 
@@ -184,19 +199,19 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
                                                     <></>
                                                 ) : (<>
                                                     <div style={{ marginTop: "12px", marginLeft: "5px" }}
-                                                        className="user-action-post" onClick={() => showMenu(index)}>
+                                                         className="user-action-post" onClick={() => showMenu(index)}>
 
                                                         <Button variant="light">
                                                             <i className="fas fa-ellipsis-h"></i>
                                                         </Button>
-                                                        <ol className={`comment-menu-${index} show-post-menu`}
+                                                        <ol className={`comment-menu-${index} show-comment-menu`}
                                                             style={{ display: "none" }}>
                                                             <li onClick={() => {
                                                                 handleStartEdit(item.id, item.content)
                                                             }}>
 
                                                                 <i className="far fa-edit"></i>
-                                                                <span>Chỉnh sửa bình luận</span>
+                                                                <span>Sửa bình luận</span>
                                                             </li>
 
                                                             <li onClick={() => {
@@ -248,7 +263,7 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
                                             })()}
                                             {item.timeEdit !== null ? (
                                                 <p style={{ marginLeft: "10px" }}
-                                                    onClick={() => { showModalTimeEdit(item.timeEdit.toString()) }}>
+                                                   onClick={() => { showModalTimeEdit(item.timeEdit.toString()) }}>
                                                     Đã chỉnh sửa</p>
                                             ) : (<></>)}
 
@@ -295,14 +310,15 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
                                                                         }}
                                                                     /> */}
                                                                     <textarea
+                                                                        className="textarea-comment"
                                                                         spellCheck="false"
                                                                         defaultValue={latestComment?.content}
                                                                         onChange={handleCommentChange}
                                                                     />
                                                                     {/* <Picker /> */}
-                                                                    <i style={{ marginTop: "35px" }}
-                                                                        className="fas fa-paper-plane"
-                                                                        onClick={handleSubmitEdit}></i>
+                                                                    <i 
+                                                                       className="fas fa-paper-plane"
+                                                                       onClick={handleSubmitEdit}></i>
                                                                 </div>
                                                             </div>
                                                         ) : (
@@ -319,25 +335,25 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
                                                     ) : (
 
                                                         <div style={{ marginTop: "5px" }} className="user-action-post"
-                                                            onClick={() => showMenu(latestComment?.id)}>
+                                                             onClick={() => showMenu(latestComment?.id)}>
                                                             <Button variant="light">
                                                                 <i className="fas fa-ellipsis-h"></i>
                                                             </Button>
-                                                            <ol className={`comment-menu-${latestComment?.id} show-post-menu`}
+                                                            <ol className={`comment-menu-${latestComment?.id} show-comment-menu`}
                                                                 style={{ display: "none" }}>
 
                                                                 <li onClick={() => {
                                                                     handleStartEdit(latestComment?.id, latestComment?.content)
                                                                 }}>
                                                                     <i className="far fa-edit"></i>
-                                                                    <span>Sửa bài viết</span>
+                                                                    <span>Sửa bình luận</span>
                                                                 </li>
 
                                                                 <li onClick={() => {
                                                                     handleShowAlert(latestComment?.id)
                                                                 }}>
                                                                     <i className="far fa-trash-alt"></i>
-                                                                    <span>Xóa bài viết</span>
+                                                                    <span>Xóa bình luận</span>
                                                                 </li>
                                                             </ol>
                                                         </div>)}

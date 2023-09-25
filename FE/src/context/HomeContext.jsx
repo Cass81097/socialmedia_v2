@@ -11,6 +11,7 @@ export const HomeContextProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
     const [onlineUsers, setOnlineUser] = useState([]);
     const [profileId, setProfileId] = useState(null);
+    const [showComment, setShowComment] = useState(false);
     
     const fetchFriendUser = async () => {
         try {
@@ -58,7 +59,7 @@ export const HomeContextProvider = ({ children }) => {
     }, [socket])
 
     return (
-        <HomeContext.Provider value={{ friendUser, onlineUsers, profileId, setProfileId, fetchFriendUser, socket }}>
+        <HomeContext.Provider value={{ friendUser, onlineUsers, profileId, setProfileId, fetchFriendUser, socket, setShowComment, showComment }}>
             {children}
         </HomeContext.Provider>
     );
