@@ -10,6 +10,7 @@ import { CommentContext } from "../../context/CommentContext";
 import $ from "jquery";
 import Modal from "react-bootstrap/Modal";
 import { ProfileContext } from "../../context/ProfileContext";
+import Picker from "emoji-picker-react";
 
 export default function Comment({ postSenderId, showComment, postVisi, postId }) {
     const { user } = useContext(AuthContext)
@@ -25,8 +26,9 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
         commentList,
         handleSendMessage,
         handleDeleteMessage,
+        handleCommentChange,
+        textComment,
     } = useContext(CommentContext);
-
 
     const [showAllComments, setShowAllComments] = useState(false);
     const [showAlert, setIsShowAlert] = useState(false);
@@ -34,11 +36,12 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
     const [editingCommentId, setEditingCommentId] = useState(null);
     const [editingCommentContent, setEditingCommentContent] = useState({});
     const [isEditing, setIsEditing] = useState(false);
+    const [showEditStatus, setShowEditStatus] = useState(false);
+
     const shouldDisplayCommentInput = postUser.some((user) => user.visibility === "friend" && user.id === postSenderId);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [timeEdit, setTimeEdit] = useState(null)
-
 
     const handleCloseAlert = () => {
         setIsShowAlert(false);
@@ -85,6 +88,7 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
         if (!latestComment || commentTime > new Date(latestComment.time)) {
             latestComment = comment;
         }
+        // console.log(latestComment);
     });
 
     // Xoa comment
@@ -104,24 +108,24 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
     const handleStartEdit = (commentId, commentContent) => {
         console.log(commentId, "commentID");
         console.log(commentContent, "commentContent");
+        setShowEditStatus(true);
         setEditingCommentId(commentId);
-        console.log(editingCommentId);
-        setEditingCommentContent({ ...editingCommentContent, [commentId]: commentContent });
-        console.log(editingCommentContent);
-        setIsEditing(true)
     };
 
+    useEffect(() => {
+        console.log(editingCommentId);
+    }, [editingCommentId]);
+
     const handleSubmitEdit = () => {
-        handleEditMessage(editingCommentId, editingCommentContent[editingCommentId])
-        setIsShowAlert(false)
-        setIsEditing(false)
-        setEditingCommentId(null)
+        handleEditMessage(editingCommentId, textComment)
+        // setIsShowAlert(false)
+        // setIsEditing(false)
+        setShowEditStatus(false)
     }
 
     useEffect(() => {
         const handleEscKey = (event) => {
             if (event.key === 'Escape' && isEditing) {
-                // Nếu người dùng ấn phím "Esc" và đang trong chế độ chỉnh sửa, hủy chế độ chỉnh sửa
                 setIsEditing(false);
             }
         };
@@ -142,12 +146,8 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
                     {showAllComments ?
                         (
                             <div className="display-comment">
-
                                 {commentList.map((item, index) => (
-
                                     <div className="all-comments" key={item.id} ref={index === commentList.length - 1 ? lastCommentRef : null}>
-
-
                                         <div className="comments">
                                             <div className="avatar-comments">
                                                 <img className="avatar-comments"
@@ -180,14 +180,12 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
                                                         <div>
                                                             <div
                                                                 className="nameUser-comments">{item.user?.fullname}</div>
-
                                                             <p>{item.content}</p>
                                                         </div>)}
                                             </div>
                                             <div className="options-comments">
                                                 {item.user.id !== user.id ? (
                                                     <></>
-
                                                 ) : (<>
                                                     <div style={{ marginTop: "12px", marginLeft: "5px" }}
                                                         className="user-action-post" onClick={() => showMenu(index)}>
@@ -272,10 +270,12 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
                                 {commentList.length === 0 ? (
                                     <div>Chưa có bình luận</div>
                                 ) : (
+
+                                    // Handle comment
                                     <div>
                                         {commentList.length === 1 ? (<></>) : (
                                             <div className="show-more-comments">
-                                                <p onClick={toggleShowAll}>Hiện bình luan</p>
+                                                <p onClick={toggleShowAll}>Hiện bình luận</p>
                                             </div>)}
                                         <div className="all-comments">
                                             <div className="comments">
@@ -283,21 +283,27 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
                                                     <img src={latestComment?.user?.avatar} alt="" />
                                                 </div>
                                                 <div className="detail-comments">
-                                                    {editingCommentId === latestComment.id && isEditing ?
+                                                    {showEditStatus ?
                                                         (
                                                             <div>
                                                                 <div
                                                                     className="nameUser-comments">{latestComment.user?.fullname}</div>
                                                                 <div className="edit-comment-form">
-                                                                    <InputEmoji
-                                                                        value={latestComment.content}
+                                                                    {/* <InputEmoji
+                                                                        value={latestComment?.content}
                                                                         onChange={(value) => {
                                                                             setEditingCommentContent({
                                                                                 ...editingCommentContent,
                                                                                 [editingCommentId]: value
                                                                             });
                                                                         }}
+                                                                    /> */}
+                                                                    <textarea
+                                                                        spellCheck="false"
+                                                                        defaultValue={latestComment?.content}
+                                                                        onChange={handleCommentChange}
                                                                     />
+                                                                    {/* <Picker /> */}
                                                                     <i style={{ marginTop: "35px" }}
                                                                         className="fas fa-paper-plane"
                                                                         onClick={handleSubmitEdit}></i>

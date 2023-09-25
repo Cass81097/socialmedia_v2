@@ -1,40 +1,42 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import {baseUrl, deleteRequest, postRequest, putRequest} from '../utils/services';
+import { baseUrl, deleteRequest, postRequest, putRequest } from '../utils/services';
 import { AuthContext } from './AuthContext';
 import { PostContext } from './PostContext';
 import uploadImages from "../hooks/UploadMulti";
 
 export const CommentContext = createContext();
 
-export const CommentContextProvider = ({ children ,postId}) => {
-    const [postStatusId, setPostStatusId] = useState(postId); 
-    const [commentList, setCommentList] = useState([]); 
-    const [checkTime , setCheckTime] = useState(false)
+export const CommentContextProvider = ({ children, postId }) => {
+    const [postStatusId, setPostStatusId] = useState(postId);
+    const [commentList, setCommentList] = useState([]);
+    const [checkTime, setCheckTime] = useState(false);
 
     const { user } = useContext(AuthContext);
     const { fetchPostUser } = useContext(PostContext);
 
     const [textMessage, setTextMessage] = useState('');
+    const [textComment, setTextComment] = useState('');
 
-
-    const handleInputChange = (value) => {
+    const handleInputChange = useCallback((value) => {
         setTextMessage(value);
-    };
+    }, []);
+    
+    const handleCommentChange = (event) => {
+        const value = event.target.value;
+        setTextComment(value);
+    }
 
     useEffect(() => {
-        if (postId && checkTime === false ) {
-          
+        if (postId && checkTime === false) {
             axios.get(`http://localhost:5000/comments/statusId/${postId}`).then((r) => {
-          
                 setCommentList(r.data.commentRecords);
             });
         }
     }, [postId]);
 
-    const handleSendMessage = async () => {
+    const handleSendMessage = useCallback(async () => {
         try {
-           
             const data = {
                 user: {
                     id: user.id,
@@ -45,69 +47,78 @@ export const CommentContextProvider = ({ children ,postId}) => {
                 },
                 time: new Date().toISOString(),
             };
-          
-                data.user.fullname = user.fullname;
-                data.user.avatar = user.avatar
 
+            data.user.fullname = user.fullname;
+            data.user.avatar = user.avatar;
 
-               const  newComment = await postRequest(`${baseUrl}/comments`, JSON.stringify(data));
+            const newComment = await postRequest(`${baseUrl}/comments`, JSON.stringify(data));
 
-          
-            setCommentList([...commentList,newComment]);
+            setCommentList((prevCommentList) => [...prevCommentList, newComment]);
 
             setTextMessage("");
             fetchPostUser();
         } catch (error) {
             console.error("Error adding comment:", error);
         }
-    };
+    }, [textMessage, postStatusId, user, fetchPostUser]);
 
-    const handleDeleteMessage = async (commentId) =>{
-        console.log("delete")
-        await deleteRequest(`${baseUrl}/comments/commentId/${commentId}` );
-
-
-        const updatedCommentList = commentList.filter((comment) => comment.id !== commentId);
-        setCommentList(updatedCommentList);
-        fetchPostUser();
-    }
-
-    const handleEditMessage = async (commentId,context) => {
-        console.log("edit")
-        const time = new Date()
-        try {
-
-     
-            const data = {
-                content: context,
-                timeEdit : time
-            };
-            console.log(data)
-
-            await putRequest(`${baseUrl}/comments/commentId/${commentId}`, JSON.stringify(data));
-
-            const updatedCommentList = commentList.map((comment) => {
-                if (comment.id === commentId) {
-                    return {
-                        ...comment,
-                        content: context,
-                        timeEdit: time, 
-
-                    };
-                }
-                return comment;
+    const handleDeleteMessage = useCallback((commentId) => {
+        console.log("delete");
+        deleteRequest(`${baseUrl}/comments/commentId/${commentId}`)
+            .then(() => {
+                const updatedCommentList = commentList.filter((comment) => comment.id !== commentId);
+                setCommentList(updatedCommentList);
+                fetchPostUser();
+            })
+            .catch((error) => {
+                console.error("Error deleting comment:", error);
             });
+    }, [commentList, fetchPostUser]);
 
-            setCommentList(updatedCommentList);
+    const handleEditMessage = useCallback((commentId, context) => {
+        console.log("edit");
+        const time = new Date();
+        const data = {
+            content: context,
+            timeEdit: time,
+        };
+        console.log(data);
 
+        putRequest(`${baseUrl}/comments/commentId/${commentId}`, JSON.stringify(data))
+            .then(() => {
+                const updatedCommentList = commentList.map((comment) => {
+                    if (comment.id === commentId) {
+                        return {
+                            ...comment,
+                            content: context,
+                            timeEdit: time,
+                        };
+                    }
+                    return comment;
+                });
 
-        } catch (error) {
-            console.error('Error editing comment:', error);
-        }
-    }
+                setCommentList(updatedCommentList);
+            })
+            .catch((error) => {
+                console.error("Error editing comment:", error);
+            });
+    }, [commentList]);
 
     return (
-        <CommentContext.Provider value={{setCheckTime , checkTime, textMessage, handleInputChange, handleDeleteMessage, handleSendMessage, handleEditMessage, commentList }}>
+        <CommentContext.Provider
+            value={{
+                setCheckTime,
+                checkTime,
+                textMessage,
+                handleInputChange,
+                handleDeleteMessage,
+                handleSendMessage,
+                handleEditMessage,
+                commentList,
+                handleCommentChange,
+                textComment,
+            }}
+        >
             {children}
         </CommentContext.Provider>
     );
