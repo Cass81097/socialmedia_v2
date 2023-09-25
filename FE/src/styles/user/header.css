@@ -225,7 +225,6 @@ a:visited {
     padding: 15px 5px;
     /*margin-bottom: 5px;*/
     justify-content: space-around;
-
     cursor: pointer;
     position: relative;
 }
@@ -238,21 +237,27 @@ a:visited {
 }
 
 .item-image {
-    position: relative;
+    /* position: relative; */
     display: inline-block;
-}
-.notifi-item img {
-    display: block;
     width: 60px;
     height: 60px;
+    overflow: hidden;
+}
+
+.notifi-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
     margin-right: 10px;
     border-radius: 50%;
+    object-fit: cover;
 }
+
 .icon-avatar {
     /* Các thuộc tính hiện có */
     position: absolute;
-    right:5px;
-    bottom: -10px;
+    right: 0px;
+    bottom: 0px;
     padding: 5px;
     border-radius: 50%;
     background:#1877F2;

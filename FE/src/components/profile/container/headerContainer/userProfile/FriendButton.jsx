@@ -275,7 +275,7 @@ export default function FriendButton(props) {
               </div>
             </div>
           </div>
-          <div className="edit-button" style={{ minWidth: "160px" }}>
+          <div className="edit-button" style={{ minWidth: "140px" }}>
             <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" onClick={() => messageUser(userProfile[0]?.id)}>
               <i className="fab fa-facebook-messenger" style={{ color: "black" }}>
                 <span>Nhắn tin</span>

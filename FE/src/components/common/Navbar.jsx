@@ -283,13 +283,13 @@ export default function Navbar() {
                                                 <div className="notifi-item" key={index}
                                                     onClick={() => showPost(item.status.id, item.id)
                                                     }>
-                                                    <div>
+                                                    <div style={{ position: "relative" }}>
                                                         <div className="item-image">
                                                             <img src={item.sender.avatar} alt="img" />
-                                                            <div className="icon-avatar"
-                                                                style={{ background: "lightgreen" }}>
-                                                                <i className="fas fa-sticky-note"></i>
-                                                            </div>
+                                                        </div>
+                                                        <div className="icon-avatar"
+                                                            style={{ background: "lightgreen" }}>
+                                                            <i className="fas fa-sticky-note"></i>
                                                         </div>
                                                     </div>
                                                     <div className="text">
@@ -336,12 +336,12 @@ export default function Navbar() {
                                             ) : (
                                                 <div className="notifi-item" key={index}
                                                     onClick={() => goProfileUser(item.sender.username, item.id)}>
-                                                    <div>
+                                                    <div style={{ position: "relative" }}>
                                                         <div className="item-image">
                                                             <img src={item.sender.avatar} alt="img" />
-                                                            <div className="icon-avatar">
-                                                                <i className="fas fa-user"></i>
-                                                            </div>
+                                                        </div>
+                                                        <div className="icon-avatar">
+                                                            <i className="fas fa-user"></i>
                                                         </div>
                                                     </div>
                                                     <div className="text">
