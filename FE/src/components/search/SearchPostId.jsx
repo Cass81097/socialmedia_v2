@@ -33,11 +33,12 @@ export default function SearchPostId() {
     useEffect(() => {
         const fetchFriendStatus = async () => {
             try {
-                if(user?.id===listStatus[0]?.sender.id){
+                if (user?.id === listStatus[0]?.sender.id) {
                     setCheckFriendStatus(true)
-                }else {     
+                }
+                else {
                     const response = await getRequest(`${baseUrl}/friendShips/checkStatusByUserId/${user?.id}/${listStatus[0]?.sender.id}`);
-                    if(response.status==="friend"){
+                    if (response?.status === "friend") {
                         setCheckFriendStatus(true)
                     }
                 }
@@ -63,7 +64,7 @@ export default function SearchPostId() {
 
     const publicPost = listStatus[0]?.visibility === "public";
     const friendPost = listStatus[0]?.visibility === "friend" && checkFriendStatus === true;
-    
+
     return (
         <>
             <Navbar></Navbar>
@@ -74,7 +75,7 @@ export default function SearchPostId() {
                         <p>1</p>
                     </div>
                     <div className="container-status">
-                        <div className="sidebar-left-status" style={{marginLeft:"10px"}}>
+                        <div className="sidebar-left-status" style={{ marginLeft: "10px" }}>
 
                             <Sidebar></Sidebar>
 
@@ -89,17 +90,17 @@ export default function SearchPostId() {
                                                     <img src={status.sender?.avatar} alt="User Avatar" />
                                                 </div>
                                                 <div>
-                                                    <div style={{display : "flex"}}>
-                                                    <div className="post-user-name">
-                                                        <p>{status.sender.fullname}</p>
-                                                    </div>
-                                                        {status.receiver.id!== status.sender.id &&
+                                                    <div style={{ display: "flex" }}>
+                                                        <div className="post-user-name">
+                                                            <p>{status.sender.fullname}</p>
+                                                        </div>
+                                                        {status.receiver.id !== status.sender.id &&
 
                                                             <i className="fas fa-caret-right icon-post-user"></i>}
-                                                    {status.receiver.id!== status.sender.id &&
-                                                        <div className="post-user-name">
-                                                        <p>{status.receiver.fullname}</p>
-                                                    </div> }
+                                                        {status.receiver.id !== status.sender.id &&
+                                                            <div className="post-user-name">
+                                                                <p>{status.receiver.fullname}</p>
+                                                            </div>}
                                                     </div>
                                                     <div className="time-status">
                                                         {(() => {
@@ -149,7 +150,7 @@ export default function SearchPostId() {
                                                     <div className={`post-image ${status.images.length === 4 ? 'four' :
                                                         status.images.length === 5 ? 'five' :
                                                             status.images.length > 2 && status.images.length !== 4 ? 'three' : ''
-                                                    }`}>
+                                                        }`}>
                                                         {status.images.map((image, imageIndex) => (
                                                             <img src={image.imageUrl} alt="Post Image" className="post-img" key={imageIndex} />
                                                         ))}

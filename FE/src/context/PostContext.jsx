@@ -11,8 +11,8 @@ export const PostContextProvider = ({ children }) => {
     const { socket } = useContext(ProfileContext);
     const [postUser, setPostUser] = useState([]);
     const [postImageUser, setPostImageUser] = useState([]); 
+  
    
- 
     const fetchPostUser = useCallback(async () => {
         try {
             const storedUser = localStorage.getItem('User');

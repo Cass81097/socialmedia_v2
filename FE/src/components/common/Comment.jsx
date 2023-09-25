@@ -1,16 +1,13 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import "../../styles/user/post/comment-status.css";
-import InputEmoji, { async } from "react-input-emoji";
-import { Button } from "react-bootstrap"; // Nhập Button từ react-bootstrap
-import axios from "axios";
-import { baseUrl, postRequest } from "../../utils/services";
-import { AuthContext } from "../../context/AuthContext";
-import { PostContext } from "../../context/PostContext";
-import { CommentContext } from "../../context/CommentContext";
 import $ from "jquery";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Button } from "react-bootstrap"; // Nhập Button từ react-bootstrap
 import Modal from "react-bootstrap/Modal";
+import InputEmoji from "react-input-emoji";
+import { AuthContext } from "../../context/AuthContext";
+import { CommentContext } from "../../context/CommentContext";
+import { PostContext } from "../../context/PostContext";
 import { ProfileContext } from "../../context/ProfileContext";
-import Picker from "emoji-picker-react";
+import "../../styles/user/post/comment-status.css";
 
 export default function Comment({ cmt,postSenderId, showComment, postVisi, postId }) {
     const { user } = useContext(AuthContext)
@@ -71,6 +68,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
         }
         $(`.comment-menu-${index}`).show();
         currentMenuIndex = index;
+        console.log(currentMenuIndex);
     };
 
     const toggleShowAll = () => {
@@ -161,7 +159,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                             <div className="detail-comments">
                                                 {editingCommentId === item.id && showEditStatus ?
                                                     (
-                                                        <div>
+                                                        <div style={{padding:"10px"}}>
                                                             <div
                                                                 className="nameUser-comments">{item.user?.fullname}</div>
                                                             <div className="edit-comment-form">
@@ -188,7 +186,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                         </div>
 
                                                     ) : (
-                                                        <div>
+                                                        <div style={{padding:"10px"}}>
                                                             <div
                                                                 className="nameUser-comments">{item.user?.fullname}</div>
                                                             <p>{item.content}</p>
@@ -296,7 +294,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                 <div className="detail-comments">
                                                     {showEditStatus ?
                                                         (
-                                                            <div>
+                                                            <div style={{padding:"10px"}}>
                                                                 <div
                                                                     className="nameUser-comments">{latestComment.user?.fullname}</div>
                                                                 <div className="edit-comment-form">
@@ -322,11 +320,11 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                                 </div>
                                                             </div>
                                                         ) : (
-                                                            <>
+                                                            <div style={{padding:"10px"}}>
                                                                 <div
                                                                     className="nameUser-comments">{latestComment?.user?.fullname}</div>
                                                                 <p>{latestComment?.content}</p>
-                                                            </>
+                                                            </div>
                                                         )}
                                                 </div>
                                                 <div className="options-comments">

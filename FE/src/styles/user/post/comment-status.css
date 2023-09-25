@@ -20,7 +20,7 @@
     background: #F0F2F5;
     border-radius: 16px;
     color: black;
-    padding: 10px 30px 10px 16px;
+    /* padding: 10px 30px 10px 16px; */
 }
 
 .detail-comments-img img {
@@ -122,6 +122,12 @@
     transform: rotate(45deg);
     color: #2578D7;
     cursor: pointer;
+    padding: 10px;
+}
+
+.edit-comment-form i:hover {
+    background-color: rgb(207 201 201 / 27%);
+    border-radius: 50%;
 }
 
 .user-action-post {

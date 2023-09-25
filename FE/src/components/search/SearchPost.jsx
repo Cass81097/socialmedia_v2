@@ -1,19 +1,16 @@
-import "../../styles/search-bar/SearchPost.css"
-import { baseUrl, getRequest } from "../../utils/services";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSearch } from "../../context/AuthContext";
 import axios from "axios";
-import { BiSolidLike } from "react-icons/bi";
-import Button from "react-bootstrap/Button";
 import React, { useContext, useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import { BiSolidLike } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import { CommentContextProvider } from "../../context/CommentContext";
 import { PostContext } from "../../context/PostContext";
-import Home from "../../pages/Home";
-import Like from "../common/Like";
 import { SearchContext } from "../../context/SearchContext";
-import {CommentContextProvider} from "../../context/CommentContext";
+import "../../styles/search-bar/SearchPost.css";
 import Comment from "../common/Comment";
-import Navbar from "../common/Navbar"
-
+import Like from "../common/Like";
+import Navbar from "../common/Navbar";
+import $ from "jquery";
 
 export default function SearchPost() {
     const { searchTerm } = useContext(SearchContext);
@@ -23,7 +20,6 @@ export default function SearchPost() {
 
     const { postUser, postImageUser, fetchPostUser, fetchImagePostUser } = useContext(PostContext);
     const [listStatus, setListStatus] = useState([])
-
 
 
     const handleLikeClick = async () => {
@@ -47,7 +43,6 @@ export default function SearchPost() {
         setVisibleCommentIndex(visibleCommentIndex === index ? -1 : index);
     };
 
-
     const handleAddComment = (postId, newComment) => {
         // Tìm bài viết trong listStatus dựa vào postId
         const updatedListStatus = listStatus.map((post) => {
@@ -69,11 +64,6 @@ export default function SearchPost() {
             setListStatus(res.data)
         });
     }, [searchTerm,handleAddComment])
-
-
-
-
-
 
     return (
         <>
