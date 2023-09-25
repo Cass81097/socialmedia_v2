@@ -97,7 +97,6 @@ export default function Avatar() {
                             </div>
                         ))}
                     </div>
-
                 </div>
             </div>
 

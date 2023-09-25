@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Toast from 'react-bootstrap/Toast';
@@ -26,13 +26,14 @@ export default function ContainerPostProfile(props) {
     const { user, userProfile, setShowLikeList, setLikeListIndex, setShowPostEdit, setPostEditIndex } = props;
 
     const navigate = useNavigate();
-    const { checkFriendStatus, socket } = useContext(ProfileContext)
+    const { checkFriendStatus, socket, isAddStatus, setIsAddStatus } = useContext(ProfileContext)
     const { postUser, postImageUser, fetchPostUser, fetchImagePostUser } = useContext(PostContext);
     const [imageSrcProfile, setImageSrcProfile] = useState(null);
     const [show, setShow] = useState(false);
     const [textMessage, setTextMessage] = useState("")
     const [isPostLoading, setIsPostLoading] = useState(false);
     const [isImageLoading, setIsImageLoading] = useState(false);
+    const containerRef = useRef(null);
 
     //Privacy
     const [privacyPost, setPrivacyPost] = useState('friend');
@@ -44,35 +45,15 @@ export default function ContainerPostProfile(props) {
     const [privacyIndex, setPrivacyIndex] = useState(null);
     const [postUserPrivacy, setPostUserPrivacy] = useState(null);
 
+    useEffect(() => {
+        if (isAddStatus && containerRef.current) {
+            containerRef.current.scrollIntoView({ behavior: 'smooth' });
+            setIsAddStatus(false);
+        }
+    }, [isAddStatus]);
+
     //Like
     const [isCountLike, setIsCountLike] = useState([]);
-
-    // Socket
-    // const [showToast, setShowToast] = useState(false);
-    // const [userPost, setUserPost] = useState(false);
-
-    // useEffect(() => {
-    //     if (socket === null) return;
-
-    //     const handleStatus = async (response) => {
-    //         if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
-    //             try {
-    //                 const userId = response.senderId;
-    //                 const res = await getRequest(`${baseUrl}/users/find/id/${userId}`);
-    //                 setUserPost(res[0]);
-    //                 setShowToast(true);
-    //             } catch (error) {
-    //                 console.error("Error fetching user post:", error);
-    //             }
-    //         }
-    //     };
-
-    //     socket.on("status", handleStatus);
-
-    //     return () => {
-    //         socket.off("status", handleStatus);
-    //     };
-    // }, [socket]);
 
     const handleLikeListShow = async (index) => {
         setLikeListIndex(index)
@@ -282,7 +263,7 @@ export default function ContainerPostProfile(props) {
 
                 {user?.username === userProfile[0]?.username && (
                     <div className="home-content">
-                        <div className="write-post-container">
+                        <div className="write-post-container" ref={containerRef}>
                             <div className="user-profile">
                                 <div className="user-avatar" onClick={() => goProfile(user?.username)}>
                                     <img src={user.avatar} />
@@ -347,7 +328,7 @@ export default function ContainerPostProfile(props) {
                                 </Button>
                             </div>
                         </div>
-                        <div className="post-input-container">
+                        <div className="post-input-container" >
                             <InputEmoji
                                 value={textMessage}
                                 onChange={handleInputChange}
@@ -437,7 +418,7 @@ export default function ContainerPostProfile(props) {
 
                 {checkFriendStatus?.status === "friend" && (
                     <div className="home-content">
-                        <div className="write-post-container">
+                        <div className="write-post-container" ref={containerRef}>
                             <div className="user-profile">
                                 <div className="user-avatar" onClick={() => goProfile(user?.username)}>
                                     <img src={user.avatar} />

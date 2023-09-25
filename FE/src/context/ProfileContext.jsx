@@ -12,6 +12,7 @@ export const ProfileContextProvider = ({ children, user }) => {
   const [userProfile, setUserProfile] = useState([]);
   const [countFriend, setCountFriend] = useState([]);
   const [checkFriendStatus, setCheckFriendStatus] = useState(null);
+  const [isAddStatus, setIsAddStatus] = useState(false);
 
   const [listFriend, setListFriend] = useState([])
   
@@ -110,7 +111,7 @@ export const ProfileContextProvider = ({ children, user }) => {
   }, [socket])
 
   return (
-    <ProfileContext.Provider value={{ userProfile, socket, setUserProfile, checkFriendStatus, fetchUserProfile, countFriend, listFriend }}>
+    <ProfileContext.Provider value={{ userProfile, socket, setUserProfile, checkFriendStatus, fetchUserProfile, countFriend, listFriend, isAddStatus, setIsAddStatus }}>
       {children}
     </ProfileContext.Provider>
   );

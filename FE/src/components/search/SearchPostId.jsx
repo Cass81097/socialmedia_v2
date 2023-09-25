@@ -12,6 +12,7 @@ import Like from "../common/Like";
 import { SearchContext } from "../../context/SearchContext";
 import { ProfileContext } from "../../context/ProfileContext";
 import Navbar from "../common/Navbar";
+import Sidebar from "../home/common/Sidebar";
 
 export default function SearchPostId() {
     const { id } = useParams()
@@ -21,25 +22,30 @@ export default function SearchPostId() {
     const [isCountLike, setIsCountLike] = useState([]);
     const { postUser, postImageUser, fetchPostUser, fetchImagePostUser } = useContext(PostContext);
     const [listStatus, setListStatus] = useState([])
-    const [checkFriendStatus, setCheckFriendStatus] = useState(null);
-
-    useEffect(() => {
-        const fetchFriendStatus = async () => {
-            try {
-                const response = await getRequest(`${baseUrl}/friendShips/checkStatusByUserId/${user?.id}/${listStatus[0].sender?.id}`);
-                setCheckFriendStatus(response);
-            } catch (error) {
-                console.error("Error fetching user profiles:", error);
-            }
-        };
-        fetchFriendStatus();
-    }, [user, listStatus]);
+    const [checkFriendStatus, setCheckFriendStatus] = useState(false);//sửa lai phan hiện postById
 
     useEffect(() => {
         axios.get(`http://localhost:5000/status/find/idStatus/${id}`).then((res) => {
             setListStatus(res.data)
         });
     }, [searchTerm])
+    useEffect(() => {
+        const fetchFriendStatus = async () => {
+            try {
+                if(user?.id===listStatus[0]?.sender.id){
+                    setCheckFriendStatus(true)
+                }else {
+                    const response = await getRequest(`${baseUrl}/friendShips/checkStatusByUserId/${user?.id}/${listStatus[0]?.sender.id}`);
+                    if(response.status==="friend"){
+                        setCheckFriendStatus(true)
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching user profiles:", error);
+            }
+        };
+        fetchFriendStatus();
+    }, [user, listStatus]);
 
 
     const handleLikeClick = async () => {
@@ -55,9 +61,8 @@ export default function SearchPostId() {
     };
 
     const publicPost = listStatus[0]?.visibility === "public";
-    const friendPost = listStatus[0]?.visibility === "friend" && checkFriendStatus?.status === "friend";
-    console.log(friendPost);
-
+    const friendPost = listStatus[0]?.visibility === "friend" && checkFriendStatus === true;
+    console.log(listStatus,44444)
     return (
         <>
             <Navbar></Navbar>
@@ -69,7 +74,9 @@ export default function SearchPostId() {
                     </div>
                     <div className="container-status">
                         <div className="sidebar-left-status">
-                            <h5 className="search-notification">Bài viết :</h5>
+
+                            <Sidebar></Sidebar>
+
                         </div>
                         <div className="mid-status">
                             <div>
@@ -81,8 +88,17 @@ export default function SearchPostId() {
                                                     <img src={status.sender?.avatar} alt="User Avatar" />
                                                 </div>
                                                 <div>
+                                                    <div style={{display : "flex"}}>
                                                     <div className="post-user-name">
                                                         <p>{status.sender.fullname}</p>
+                                                    </div>
+                                                        {status.receiver.id!== status.sender.id &&
+
+                                                            <i className="fas fa-caret-right icon-post-user"></i>}
+                                                    {status.receiver.id!== status.sender.id &&
+                                                        <div className="post-user-name">
+                                                        <p>{status.receiver.fullname}</p>
+                                                    </div> }
                                                     </div>
                                                     <div className="time-status">
                                                         {(() => {
@@ -132,7 +148,7 @@ export default function SearchPostId() {
                                                     <div className={`post-image ${status.images.length === 4 ? 'four' :
                                                         status.images.length === 5 ? 'five' :
                                                             status.images.length > 2 && status.images.length !== 4 ? 'three' : ''
-                                                        }`}>
+                                                    }`}>
                                                         {status.images.map((image, imageIndex) => (
                                                             <img src={image.imageUrl} alt="Post Image" className="post-img" key={imageIndex} />
                                                         ))}

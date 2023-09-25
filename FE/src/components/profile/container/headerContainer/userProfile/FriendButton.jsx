@@ -18,7 +18,7 @@ export default function FriendButton(props) {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { setProfileId, fetchFriendUser } = useContext(HomeContext)
-  const { userProfile, socket } = useContext(ProfileContext);
+  const { userProfile, socket, setIsAddStatus } = useContext(ProfileContext);
   const { fetchPostUser } = useContext(PostContext)
   // const [showToast, setShowToast] = useState(false);
   const [friendStatus, setFriendStatus] = useState(null);
@@ -219,6 +219,10 @@ export default function FriendButton(props) {
     setIsFriend(false);
   }
 
+  const setButtonStatus = () => {
+    setIsAddStatus(true);
+  }
+
   return (
     <>
       {friendStatus?.status === "pending" && friendStatus?.userSendReq === user.id ? (
@@ -282,7 +286,7 @@ export default function FriendButton(props) {
       ) : userProfile[0]?.username === user.username ? (
         <div className="pd-right">
           <div className="add-button" style={{ minWidth: "140px" }}>
-            <button type="button" className="btn btn-primary btn-add btn-add-friend ">
+            <button type="button" className="btn btn-primary btn-add btn-add-friend" onClick={setButtonStatus}>
               <i className="fas fa-plus fa-xa">
                 <span>Thêm vào tin</span>
               </i>

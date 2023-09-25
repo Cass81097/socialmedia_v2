@@ -16,6 +16,7 @@ import { SearchContextProvider } from './context/SearchContext';
 import SearchPost from './components/search/SearchPost';
 import { HomeContextProvider } from './context/HomeContext';
 import Notification from './components/common/Notification';
+import {Navbar} from "react-bootstrap";
 
 export default function App() {
   const { user, allUser } = useContext(AuthContext);
@@ -31,6 +32,7 @@ export default function App() {
     return <Loading />;
   }
 
+
   return (
     <Router>
       <SearchContextProvider>
@@ -40,7 +42,7 @@ export default function App() {
               <Routes>
                 <Route path="/loading" element={<Loading />} />
                 <Route path="/404" element={<PageNotFound />} />
-                <Route path="/" element={user ? <Home /> : <Login />} />
+                <Route path="/" element={user ? <Home/> : <Login />} />
                 <Route path="/login" element={user ? <Home /> : <Login />} />
                 <Route path="/home" element={user ? <Home /> : <Login />} />
                 {allUser?.length > 0 &&
@@ -56,7 +58,8 @@ export default function App() {
                 <Route path="/status/:id" element={<SearchPostId />} />
                 <Route path="/listPendFriend" element={<ListPendFriend />} />
               </Routes>
-              <Notification></Notification>
+              {/*<Notification></Notification>*/}
+
             </PostContextProvider>
           </ProfileContextProvider>
         </HomeContextProvider>

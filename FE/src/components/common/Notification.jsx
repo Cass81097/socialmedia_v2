@@ -18,16 +18,17 @@ export default function Notification(props) {
     const [userAccepted, setUserAccepted] = useState(false)
     const [userRequest, setUserRequest] = useState([])
 
-    useEffect(() => {
+   useEffect(() => {
         if (socket === null) return;
 
         const handleStatus = async (response) => {
-            console.log(response);
             if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
                 try {
                     const userId = response.senderId;
-                    const res = await getRequest(`${baseUrl}/users/find/id/${userId}`);
-                    setUserPost(res[0]);
+                    const resUser = await getRequest(`${baseUrl}/users/find/id/${userId}`);
+                    console.log(resUser, 111111)
+                    props.setUserPost({ ...resUser[0], postId: response.postId })
+                    setUserPost({ ...resUser[0], postId: response.postId });
                     setShowToast(true);
                 } catch (error) {
                     console.error("Error fetching user post:", error);
@@ -77,6 +78,7 @@ export default function Notification(props) {
         const fetchData = async () => {
             try {
                 const response = await getRequest(`${baseUrl}/users/find/id/${friendRequest?.senderId}`);
+                props.setUserRequest({...response[0], userAccepted: userAccepted})
                 setUserRequest(response);
             } catch (error) {
                 console.error("Error checking friend status:", error);
@@ -88,6 +90,10 @@ export default function Notification(props) {
         }
     }, [friendRequest]);
 
+    const showPost =async (id)=>{
+        navigate(`/status/${id}`)
+    }
+
     return (
         <>
             {showToast && (
@@ -97,7 +103,7 @@ export default function Notification(props) {
                         <strong className="me-auto">Thông báo mới</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToast(false)}></button>
                     </div>
-                    <Toast.Body>
+                    <Toast.Body onClick={() => showPost(userPost?.postId)}>
                         <div className="toast-container">
                             <div className="toast-avatar">
                                 <img src={userPost?.avatar} alt="" />
