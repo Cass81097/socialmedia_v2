@@ -57,6 +57,16 @@ io.on("connection", (socket) => {
         }
     });
 
+    socket.on("commentStatus", (data) => {
+        const { senderId, receiverId, postId } = data;
+        console.log(data);
+        const receiver = onlineUsers.find(user => user?.userId === receiverId);
+        console.log(receiver);
+        if (receiver) {
+            io.to(receiver.socketId).emit("comment", { senderId, receiverId, postId });
+        }
+    });
+
 });
 
 io.listen(port, () => {

@@ -11,22 +11,23 @@ export default function Notification(props) {
     const navigate = useNavigate();
     const [showToast, setShowToast] = useState(false);
     const [showToastFriend, setShowToastFriend] = useState(false);
+    const [showToastComment, setShowToastComment] = useState(false);
     const [userPost, setUserPost] = useState(false);
     const { user } = useContext(AuthContext)
     const { socket } = useContext(ProfileContext)
     const [friendRequest, setFriendRequest] = useState([])
     const [userAccepted, setUserAccepted] = useState(false)
     const [userRequest, setUserRequest] = useState([])
+    const [status, setStatus] = useState([])
 
-   useEffect(() => {
+    useEffect(() => {
         if (socket === null) return;
 
-        const handleStatus = async (response) => {
+        const handleLikeStatus = async (response) => {
             if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
                 try {
                     const userId = response.senderId;
                     const resUser = await getRequest(`${baseUrl}/users/find/id/${userId}`);
-                    console.log(resUser, 111111)
                     props.setUserPost({ ...resUser[0], postId: response.postId })
                     setUserPost({ ...resUser[0], postId: response.postId });
                     setShowToast(true);
@@ -36,10 +37,10 @@ export default function Notification(props) {
             }
         };
 
-        socket.on("status", handleStatus);
+        socket.on("status", handleLikeStatus);
 
         return () => {
-            socket.off("status", handleStatus);
+            socket.off("status", handleLikeStatus);
         };
     }, [socket]);
 
@@ -78,7 +79,7 @@ export default function Notification(props) {
         const fetchData = async () => {
             try {
                 const response = await getRequest(`${baseUrl}/users/find/id/${friendRequest?.senderId}`);
-                props.setUserRequest({...response[0], userAccepted: userAccepted})
+                props.setUserRequest({ ...response[0], userAccepted: userAccepted })
                 setUserRequest(response);
             } catch (error) {
                 console.error("Error checking friend status:", error);
@@ -90,12 +91,59 @@ export default function Notification(props) {
         }
     }, [friendRequest]);
 
-    const showPost =async (id)=>{
+    const showPost = async (id) => {
         navigate(`/status/${id}`)
     }
 
+    useEffect(() => {
+        if (socket === null) return;
+
+        const handleCommentStatus = async (response) => {
+            if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
+                try {
+                    const userId = response.senderId;
+                    const resUser = await getRequest(`${baseUrl}/users/find/id/${userId}`);
+                    setStatus(resUser[0]);
+                    setShowToastComment(true);
+                } catch (error) {
+                    console.error("Error fetching user post:", error);
+                }
+            }
+        };
+
+        socket.on("comment", handleCommentStatus);
+
+        return () => {
+            socket.off("comment", handleCommentStatus);
+        };
+    }, [socket]);
+
     return (
         <>
+            {/* Toast Comment */}
+            {showToastComment && (
+                <Toast onClose={() => setShowToastComment(false)}>
+                    <div className="toast-header">
+                        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+                        <strong className="me-auto">Thông báo mới</strong>
+                        <button type="button" className="btn-close" onClick={() => setShowToastComment(false)}></button>
+                    </div>
+                    <Toast.Body onClick={() => showPost(status?.postId)}>
+                        <div className="toast-container">
+                            <div className="toast-avatar">
+                                <img src={status?.avatar} alt="" />
+                            </div>
+                            <div className="toast-content" style={{ color: "black", marginLeft: "5px" }}>
+                                <p><span style={{ fontWeight: "600" }}>{status?.fullname}</span> vừa mới bình luận bài viết của bạn</p>
+                                <span style={{ color: "#0D6EFD" }}>vài giây trước</span>
+                            </div>
+                            <i className="fas fa-circle"></i>
+                        </div>
+                    </Toast.Body>
+                </Toast>
+            )}
+
+            {/* Toast Like */}
             {showToast && (
                 <Toast onClose={() => setShowToast(false)}>
                     <div className="toast-header">

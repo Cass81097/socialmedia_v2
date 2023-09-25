@@ -1,20 +1,20 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import { baseUrl, deleteRequest, postRequest, putRequest } from '../utils/services';
+import { baseUrl, deleteRequest, getRequest, postRequest, putRequest } from '../utils/services';
 import { AuthContext } from './AuthContext';
 import { PostContext } from './PostContext';
+import { HomeContext } from './HomeContext';
 import uploadImages from "../hooks/UploadMulti";
 
 export const CommentContext = createContext();
 
 export const CommentContextProvider = ({ children, postId }) => {
+    const { socket } = useContext(HomeContext)
+    const { user } = useContext(AuthContext);
+    const { fetchPostUser } = useContext(PostContext);
     const [postStatusId, setPostStatusId] = useState(postId);
     const [commentList, setCommentList] = useState([]);
     const [checkTime, setCheckTime] = useState(false);
-
-    const { user } = useContext(AuthContext);
-    const { fetchPostUser } = useContext(PostContext);
-
     const [textMessage, setTextMessage] = useState('');
     const [textComment, setTextComment] = useState('');
 
@@ -36,6 +36,7 @@ export const CommentContextProvider = ({ children, postId }) => {
     }, [postId]);
 
     const handleSendMessage = useCallback(async () => {
+
         try {
             const data = {
                 user: {
@@ -57,6 +58,17 @@ export const CommentContextProvider = ({ children, postId }) => {
 
             setTextMessage("");
             fetchPostUser();
+
+            const statusReponse =  await getRequest(`${baseUrl}/status/statusId/${data.status.id}`);
+
+            if (socket) {
+                socket.emit("commentStatus", {     
+                    senderId: user?.id,
+                    receiverId: statusReponse[0]?.sender.id,
+                    postId: postId
+                });
+            }
+
         } catch (error) {
             console.error("Error adding comment:", error);
         }

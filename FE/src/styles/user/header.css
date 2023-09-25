@@ -321,3 +321,12 @@ a:visited {
     background-color: #888888; /* Màu sắc của nút kéo */
 }
 /*het*/
+
+.card-text:hover {
+    text-decoration: underline !important;
+}
+
+.card-title:hover {
+    text-decoration: underline !important;
+    cursor: pointer;
+}

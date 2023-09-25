@@ -288,8 +288,9 @@ export default function Navbar() {
                                                             <img src={item.sender.avatar} alt="img" />
                                                         </div>
                                                         <div className="icon-avatar"
-                                                            style={{ background: "lightgreen" }}>
-                                                            <i className="fas fa-sticky-note"></i>
+                                                            style={{ background: "#4e59ff" }}>
+                                                            {/* <i className="fas fa-sticky-note"></i> */}
+                                                            <i className="fas fa-thumbs-up"></i>
                                                         </div>
                                                     </div>
                                                     <div className="text">

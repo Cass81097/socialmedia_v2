@@ -25,7 +25,7 @@ export default function SearchPostId() {
     const [checkFriendStatus, setCheckFriendStatus] = useState(false);//sửa lai phan hiện postById
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/status/find/idStatus/${id}`).then((res) => {
+        axios.get(`http://localhost:5000/status/statusId/${id}`).then((res) => {
             setListStatus(res.data)
         });
     }, [searchTerm])
@@ -49,7 +49,7 @@ export default function SearchPostId() {
 
 
     const handleLikeClick = async () => {
-        axios.get(`http://localhost:5000/status/find/idStatus/${id}`).then((res) => {
+        axios.get(`http://localhost:5000/status/statusId/${id}`).then((res) => {
             setListStatus(res.data);
         });
         fetchPostUser();
@@ -63,7 +63,6 @@ export default function SearchPostId() {
     const publicPost = listStatus[0]?.visibility === "public";
     const friendPost = listStatus[0]?.visibility === "friend" && checkFriendStatus === true;
     
-    console.log(listStatus,44444)
     return (
         <>
             <Navbar></Navbar>
@@ -74,7 +73,7 @@ export default function SearchPostId() {
                         <p>1</p>
                     </div>
                     <div className="container-status">
-                        <div className="sidebar-left-status">
+                        <div className="sidebar-left-status" style={{marginLeft:"10px"}}>
 
                             <Sidebar></Sidebar>
 

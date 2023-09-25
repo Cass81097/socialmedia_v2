@@ -58,6 +58,11 @@ export class StatusController {
         let data = await statusService.findByContent(req.params.userId,req.query.content)
         res.json(data);
     }
+
+    findStatusById = async (req, res) => {
+        let data = await statusService.findStatusById(req.params.id)
+        res.json(data);
+    }
 }
 
 export default new StatusController()

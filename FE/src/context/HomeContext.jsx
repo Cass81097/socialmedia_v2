@@ -58,7 +58,7 @@ export const HomeContextProvider = ({ children }) => {
     }, [socket])
 
     return (
-        <HomeContext.Provider value={{ friendUser, onlineUsers, profileId, setProfileId, fetchFriendUser }}>
+        <HomeContext.Provider value={{ friendUser, onlineUsers, profileId, setProfileId, fetchFriendUser, socket }}>
             {children}
         </HomeContext.Provider>
     );

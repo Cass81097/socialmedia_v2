@@ -295,6 +295,23 @@ export class StatusService {
         }
     }
 
+    findStatusById = async (id) => {
+        try {
+            return await this.statusRepository.find({
+                relations: {
+                    receiver: true,
+                    sender: true
+                },
+                
+                where: {
+                    id: id
+                }
+            });
+        } catch (error) {
+            throw new Error('Error finding user by ID');
+        }
+    }
+
 
 }
 export default new StatusService()

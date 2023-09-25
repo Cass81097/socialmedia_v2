@@ -99,20 +99,17 @@ export default function Comment({ postSenderId, showComment, postVisi, postId })
         await handleSendMessage()
         if (showAllComments === false) {
             setShowAllComments(true)
-            await lastCommentRef.current.scrollIntoView({ behavior: 'smooth' });
+            await lastCommentRef?.current.scrollIntoView({ behavior: 'smooth' });
         }
     }
 
     // edit
     const handleStartEdit = (commentId, commentContent) => {
-        console.log(commentId, "commentID");
-        console.log(commentContent, "commentContent");
         setShowEditStatus(true);
         setEditingCommentId(commentId);
     };
 
     useEffect(() => {
-        console.log(editingCommentId);
     }, [editingCommentId]);
 
     const handleSubmitEdit = () => {
