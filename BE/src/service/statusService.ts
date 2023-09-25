@@ -4,7 +4,7 @@ import { Status } from "../entity/status";
 import imageStatusService from "./imageStatusService";
 import likeService from "./likeService";
 import { Like } from "typeorm";
-
+import commentService from "./commentService";
 export class StatusService {
     private statusRepository;
 
@@ -27,8 +27,11 @@ export class StatusService {
         for (let i = 0; i < status.length; i++) {
             let imageByStatusId = await imageStatusService.findAllByStatusId(status[i].id);
             let likeByStatusId = await likeService.getLikeForStatus(status[i].id)
+            let cmtCount = await commentService.getCommentForStatus(status[i].id)
 
-            status[i] = await { ...status[i], image: [...imageByStatusId], accountLike: likeByStatusId.likeCount };
+            status[i] = await {
+                ...status[i], image: [...imageByStatusId], accountLike: likeByStatusId.likeCount, commentCount: cmtCount
+            };
         }
 
         return status;
@@ -53,11 +56,14 @@ export class StatusService {
         for (let i = 0; i < status.length; i++) {
             let imageByStatusId = await imageStatusService.findAllByStatusId(status[i].id);
             let likeByStatusId = await likeService.getLikeForStatus(status[i].id);
+            let cmtCount = await commentService.getCommentForStatus(status[i].id)
+
             status[i] = {
                 ...status[i],
                 image: [...imageByStatusId],
                 accountLike: likeByStatusId.likeCount,
-                listUserLike: [...likeByStatusId.likeRecords]
+                listUserLike: [...likeByStatusId.likeRecords],
+                commentCount: cmtCount
             };
         }
 
@@ -76,20 +82,21 @@ export class StatusService {
                 }
             },
             order: {
-                time: 'DESC' 
+                time: 'DESC'
             }
         });
 
-    
+
         for (let i = 0; i < status.length; i++) {
             let imageByStatusId = await imageStatusService.findAllByStatusId(status[i].id);
             let likeByStatusId = await likeService.getLikeForStatus(status[i].id);
-
+            let cmtCount = await commentService.getCommentForStatus(status[i].id)
             status[i] = {
                 ...status[i],
                 image: [...imageByStatusId],
                 accountLike: likeByStatusId.likeCount,
-                listUserLike: [...likeByStatusId.likeRecords]
+                listUserLike: [...likeByStatusId.likeRecords],
+                commentCount: cmtCount
             };
         }
 
@@ -97,6 +104,7 @@ export class StatusService {
     };
 
     findByIdAndStatus = async (id) => {
+
         let status = await this.statusRepository.find({
             relations: {
                 receiver: true,
@@ -114,22 +122,26 @@ export class StatusService {
                         id: id
                     },
                     visibility: "friend"
-                }, 
+                },
             ],
             order: {
-                time: 'DESC' 
+                time: 'DESC'
             }
         });
+
 
         for (let i = 0; i < status.length; i++) {
             let imageByStatusId = await imageStatusService.findAllByStatusId(status[i].id);
             let likeByStatusId = await likeService.getLikeForStatus(status[i].id);
+            let cmtCount = await commentService.getCommentForStatus(status[i].id)
 
             status[i] = {
                 ...status[i],
                 image: [...imageByStatusId],
                 accountLike: likeByStatusId.likeCount,
-                listUserLike: [...likeByStatusId.likeRecords]
+                listUserLike: [...likeByStatusId.likeRecords],
+                commentCount: cmtCount
+
             };
         }
 
@@ -151,19 +163,22 @@ export class StatusService {
                 },
             ],
             order: {
-                time: 'DESC' 
+                time: 'DESC'
             }
         });
 
         for (let i = 0; i < status.length; i++) {
             let imageByStatusId = await imageStatusService.findAllByStatusId(status[i].id);
             let likeByStatusId = await likeService.getLikeForStatus(status[i].id);
+            let cmtCount = await commentService.getCommentForStatus(status[i].id)
 
             status[i] = {
                 ...status[i],
                 image: [...imageByStatusId],
                 accountLike: likeByStatusId.likeCount,
-                listUserLike: [...likeByStatusId.likeRecords]
+                listUserLike: [...likeByStatusId.likeRecords],
+                commentCount: cmtCount
+
             };
         }
 
@@ -175,13 +190,17 @@ export class StatusService {
         try {
             await this.statusRepository.createQueryBuilder()
                 .delete()
-                .from("like") 
+                .from("like")
                 .where("statusId = :statusId", { statusId })
-                .execute();
+                .execute(); await this.statusRepository.createQueryBuilder()
+                    .delete()
+                    .from("comment")
+                    .where("statusId = :statusId", { statusId })
+                    .execute();
 
             await this.statusRepository.createQueryBuilder()
                 .delete()
-                .from("image_status") 
+                .from("image_status")
                 .where("statusId = :statusId", { statusId })
                 .execute();
 
@@ -249,8 +268,8 @@ export class StatusService {
             let status = await this.statusRepository.find({
                 relations: {
                     receiver: true,
-                    images : true,
-                    sender : true
+                    images: true,
+                    sender: true
                 },
                 where: {
                     content: Like(`%${content}%`),
@@ -259,35 +278,20 @@ export class StatusService {
             });
             for (let i = 0; i < status.length; i++) {
                 let likeByStatusId = await likeService.getLikeForStatus(status[i].id);
+                let cmtCount = await commentService.getCommentForStatus(status[i].id)
 
 
                 status[i] = {
                     ...status[i],
-                    accountLike: likeByStatusId.likeCount,
-                    listUserLike: [...likeByStatusId.likeRecords]
+                    accountLike: likeByStatusId.likeCount, listUserLike: [...likeByStatusId.likeRecords],
+                    commentCount: cmtCount
+
                 };
             }
             return status
 
         } catch (error) {
             throw new Error(error);
-        }
-    } 
-
-    findByStatusId =  async (statusId) => {
-        try {
-            return await  await this.statusRepository.find({
-                relations: {
-                    receiver: true,
-                    images : true,
-                    sender : true
-                },
-                where: {
-                    id: statusId
-                }
-            });
-        } catch (error) {
-            throw new Error('Error finding status by ID');
         }
     }
 

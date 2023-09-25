@@ -1,8 +1,7 @@
 import $ from 'jquery';
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Toast from 'react-bootstrap/Toast';
 import { BiSolidLike, BiSolidLockAlt } from 'react-icons/bi';
 import { FaUserFriends } from 'react-icons/fa';
 import { FaEarthAmericas } from 'react-icons/fa6';
@@ -10,6 +9,7 @@ import InputEmoji from "react-input-emoji";
 import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
+import { CommentContextProvider } from "../../../context/CommentContext";
 import { PostContext } from "../../../context/PostContext";
 import { ProfileContext } from "../../../context/ProfileContext";
 import uploadImages from "../../../hooks/UploadMulti";
@@ -18,7 +18,8 @@ import "../../../styles/user/post/inputEmoji.css";
 import "../../../styles/user/post/postImage.css";
 import "../../../styles/user/post/postUser.css";
 import "../../../styles/user/post/privacy.css";
-import { baseUrl, deleteRequest, getRequest, postRequest, putRequest } from "../../../utils/services";
+import { baseUrl, deleteRequest, postRequest, putRequest } from "../../../utils/services";
+import Comment from "../../common/Comment";
 import Like from "../../common/Like";
 import LoadingNew from "../../common/LoadingNew";
 
@@ -34,6 +35,15 @@ export default function ContainerPostProfile(props) {
     const [isPostLoading, setIsPostLoading] = useState(false);
     const [isImageLoading, setIsImageLoading] = useState(false);
     const containerRef = useRef(null);
+
+    //Comment
+    const [showComment, setShowComment] = useState(false);
+
+    const [visibleCommentIndex, setVisibleCommentIndex] = useState(-1);
+    const handleToggleComment = (index) => {
+        setShowComment(true)
+        setVisibleCommentIndex(visibleCommentIndex === index ? -1 : index);
+    };
 
     //Privacy
     const [privacyPost, setPrivacyPost] = useState('friend');
@@ -260,7 +270,6 @@ export default function ContainerPostProfile(props) {
     return (
         <>
             <div className="post-col">
-
                 {user?.username === userProfile[0]?.username && (
                     <div className="home-content">
                         <div className="write-post-container" ref={containerRef}>
@@ -732,30 +741,46 @@ export default function ContainerPostProfile(props) {
                                         </div>
                                     )}
 
-                                    {post.accountLike > 0 && post.accountLike < 3 ? (
-                                        <div className="activity-icons">
-                                            <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
-                                            <span style={{ marginLeft: "5px" }} onClick={() => handleLikeListShow(index)}>
-                                                {post.listUserLike.map((userLike) => {
-                                                    if (user.username === userLike?.user?.username) {
-                                                        return "Bạn";
-                                                    } else {
-                                                        return userLike?.user?.fullname;
-                                                    }
-                                                }).join(" và ")} đã thích
-                                            </span>
-                                        </div>
-                                    ) : (
-                                        post.accountLike > 2 && (
-                                            <div className="activity-icons">
-                                                <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
-                                                <span onClick={() => handleLikeListShow(index)} style={{ marginLeft: "5px" }}>{post?.accountLike} người đã thích</span>
+                                    <div className="interact-status" style={{ display: "flex", justifyContent: "space-between" }}>
+                                        {post.accountLike === 0 ? (
+                                            <div>
+                                            </div>
+                                        ) :
+                                            (post.accountLike > 0 && post.accountLike < 3 ? (
+                                                <div className="activity-icons">
+                                                    <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
+                                                    <span style={{ marginLeft: "5px" }} onClick={() => handleLikeListShow(index)}>
+                                                        {post.listUserLike.map((userLike) => {
+                                                            if (user.username === userLike?.user?.username) {
+                                                                return "Bạn";
+                                                            } else {
+                                                                return userLike?.user?.fullname;
+                                                            }
+                                                        }).join(" và ")} đã thích
+                                                    </span>
+                                                </div>
+                                            ) : (
+                                                post.accountLike > 2 && (
+                                                    <div className="activity-icons">
+                                                        <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
+                                                        <span onClick={() => handleLikeListShow(index)} style={{ marginLeft: "5px" }}>{post?.accountLike} người đã thích</span>
+                                                    </div>
+                                                )
+                                            ))}
+                                        {post.commentCount.commentCount < 1 ? (
+                                            <div></div>
+                                        ) : (
+                                            <div>
+                                                <span>{post?.commentCount?.commentCount} bình luận</span>
                                             </div>
                                         )
-                                    )}
+                                        }
+
+                                    </div>
                                 </div>
 
                                 <div className="post-action">
+
                                     <div className="post-like">
                                         <Like key={post.id} postId={post.id} countLike={post.acountLike} checkStatusLike={post.isLiked}
                                             isCountLike={isCountLike} setIsCountLike={setIsCountLike}
@@ -763,12 +788,18 @@ export default function ContainerPostProfile(props) {
                                     </div>
 
                                     <div className="post-comment">
-                                        <Button variant="light">
-                                            <i className="far fa-comment-alt"></i>
+                                        <Button variant="light" onClick={() => handleToggleComment(index)}>
+                                            <i className="far fa-comment"></i>
                                             <span>Bình luận</span>
                                         </Button>
                                     </div>
+
                                 </div>
+                                {visibleCommentIndex === index && (
+                                    <CommentContextProvider postId={post.id} >
+                                        <Comment post={post} postVisi={post.visibility} postSenderId={post.sender.id} postId={post.id} showComment={showComment} setShowComment={setShowComment} />
+                                    </CommentContextProvider>
+                                )}
                             </div>
                         </div>
                     ))}

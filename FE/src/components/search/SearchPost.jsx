@@ -10,7 +10,8 @@ import { PostContext } from "../../context/PostContext";
 import Home from "../../pages/Home";
 import Like from "../common/Like";
 import { SearchContext } from "../../context/SearchContext";
-import Navbar from "../common/Navbar";
+import {CommentContextProvider} from "../../context/CommentContext";
+import Comment from "../common/Comment";
 
 
 
@@ -41,9 +42,19 @@ export default function SearchPost() {
         navigate(`/${username}`);
     };
 
+    //cmt
+    const [showComment, setShowComment] = useState(false);
+
+    const [visibleCommentIndex, setVisibleCommentIndex] = useState(-1);
+    const handleToggleComment = (index) => {
+        console.log(1)
+        setShowComment(true)
+        setVisibleCommentIndex(visibleCommentIndex === index ? -1 : index);
+    };
+
     return (
         <>
-            <Navbar></Navbar>
+            <Home style={{ width: "200px" }}></Home>
             <div style={{ border: "1px solid" }}>
                 <p>1</p>
                 <p>1</p>
@@ -125,24 +136,30 @@ export default function SearchPost() {
 
                                         <p className="post-text">{item.content}</p>
 
-                                        {item.images?.length > 0 && (
-                                            <div className={`post-image ${item.images.length === 4 ? 'four' :
-                                                item.images.length === 5 ? 'five' :
-                                                    item.images.length > 2 && item.images.length !== 4 ? 'three' : ''
+                                            {item.images?.length > 0 && (
+                                                <div className={`post-image ${item.images.length === 4 ? 'four' :
+                                                    item.images.length === 5 ? 'five' :
+                                                        item.images.length > 2 && item.images.length !== 4 ? 'three' : ''
                                                 }`}>
-                                                {item.images.map((image, imageIndex) => (
-                                                    <img src={image.imageUrl} alt="Post Image" className="post-img" key={imageIndex} />
-                                                ))}
-                                            </div>
-                                        )}
+                                                    {item.images.map((image, imageIndex) => (
+                                                        <img src={image.imageUrl} alt="Post Image" className="post-img"
+                                                             key={imageIndex}/>
+                                                    ))}
+                                                </div>
+                                            )}
 
+                                        <div className="interact-status"
+                                             style={{display: "flex", justifyContent: "space-between"}}>
+                                            {item.accountLike === 0 ? (
+                                                    <div>
+                                                    </div>
+                                                ) :(item.accountLike > 0 && item.accountLike < 3 ? (
+                                                <div className="activity-icons">
+                                                    <BiSolidLike style={{color: "rgb(27 97 255)"}}
+                                                                 className="like-icon"/>
+                                                    <span style={{marginLeft: "5px"}}
 
-                                        {item.accountLike > 0 && item.accountLike < 3 ? (
-                                            <div className="activity-icons">
-                                                <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
-                                                <span style={{ marginLeft: "5px" }}
-
-                                                >
+                                                    >
                                                     {item.listUserLike.map((userLike) => {
                                                         if (item.receiver.username === userLike?.user?.username) {
                                                             return "Bạn";
@@ -151,17 +168,25 @@ export default function SearchPost() {
                                                         }
                                                     }).join(" và ")} đã thích
                                                 </span>
-                                            </div>
-                                        ) : (
-                                            item.accountLike > 2 && (
-                                                <div className="activity-icons">
-                                                    <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
-                                                    <span
-                                                        onClick={() => handleLikeClick()}
-                                                        style={{ marginLeft: "5px" }}>{item?.accountLike} người đã thích</span>
                                                 </div>
-                                            )
-                                        )}
+                                            ) : (
+                                                item.accountLike > 2 && (
+                                                    <div className="activity-icons">
+                                                        <BiSolidLike style={{color: "rgb(27 97 255)"}}
+                                                                     className="like-icon"/>
+                                                        <span
+                                                            onClick={() => handleLikeClick()}
+                                                            style={{marginLeft: "5px"}}>{item?.accountLike} người đã thích</span>
+                                                    </div>
+                                                )
+                                            ))}{ item.commentCount.commentCount < 1 ? (
+                                            <div></div>
+                                        ) : (
+                                            <div>
+                                                <span>{item?.commentCount?.commentCount} bình luân</span>
+                                            </div>)}
+                                        </div>
+
                                     </div>
 
                                     <div className="post-action">
@@ -169,17 +194,23 @@ export default function SearchPost() {
                                         <div className="post-like">
                                             <Like key={item.id} postId={item.id} countLike={item.acountLike} checkStatusLike={item.isLiked}
                                                 isCountLike={isCountLike} setIsCountLike={setIsCountLike}
-                                                onLikeClick={handleLikeClick} 
-                                            ></Like>
+                                                onLikeClick={handleLikeClick}>
+                                            </Like>
                                         </div>
 
                                         <div className="post-comment">
-                                            <Button variant="light">
-                                                <i className="far fa-comment-alt"></i>
+                                            <Button  variant="light" onClick={() => handleToggleComment(index)}>
+                                                <i className="far fa-comment"></i>
                                                 <span>Bình luận</span>
                                             </Button>
                                         </div>
+
                                     </div>
+                                    {visibleCommentIndex === index && (
+                                        <CommentContextProvider postId={item.id} >
+                                            <Comment  postSenderId ={item.sender.id} postId={item.id} showComment={showComment} setShowComment={setShowComment} />
+                                        </CommentContextProvider>
+                                    )}
                                 </div>
                             </div>
                         ))}
@@ -188,9 +219,6 @@ export default function SearchPost() {
 
                 <div className="sidebar-right-status"></div>
             </div>
-
-
-
 
         </>
     )

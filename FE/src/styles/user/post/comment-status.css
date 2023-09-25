@@ -1,0 +1,94 @@
+.display-comment {
+    max-height: 400px;
+    overflow: auto;
+}
+
+
+.comment-section {
+    /*display:;*/
+    margin-top: 10px;
+}
+.comments {
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+
+}
+
+.detail-comments {
+    /*display: flex;*/
+    background: #eae9e9;
+    border-radius: 16px;
+    /*padding-left: 16px;*/
+    padding:10px 30px 10px 16px;
+}
+.detail-comments-img img {
+    height: 200px;
+    width: auto;
+    margin-left: 70px;
+    border-radius: 10px;
+}
+
+.edit-comment-form {
+    display: flex;
+    width: 500px;
+    height: 100px;
+}
+.nameUser-comments {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.enter-comment {
+    display: flex;
+    margin-top: 20px;
+}
+
+.avatar-comments  {
+    width: 45px;
+    height: 45px;
+    /*border: 2px solid gray;*/
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.avatar-comments  img {
+    width: 45px;
+    height: 45px;
+    /*border: 2px solid gray;*/
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.text-comment  {
+    width: 700px;
+    margin-top: 15px;
+    ;
+}
+.actions-status {
+    margin-left: 80px;
+    display: flex;
+}
+.actions-status p {
+   margin-right: 15px;
+}
+
+.actions-status p:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
+}
+.text-comment {
+    display: flex;
+    align-items: center; /* Canh giữa theo chiều dọc */
+}
+.send-comments {
+    margin-bottom: 10px;
+}
+
+.show-more-comments:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
+}
+
+
+
+
+

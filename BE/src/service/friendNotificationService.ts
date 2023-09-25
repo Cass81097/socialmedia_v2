@@ -1,5 +1,5 @@
 import {AppDataSource} from "../data-source";
-// import {Comment} from "../entity/comment"
+import {Comment} from "../entity/comment"
 import {FriendNotification} from "../entity/friendNotification";
 
 export class FriendNotificationService {

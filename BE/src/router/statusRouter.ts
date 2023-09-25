@@ -16,5 +16,3 @@ statusRouter.get("/content/:userId",statusController.findByContent)
 
 statusRouter.get("/visibility/:userId", statusController.findByIdAndStatus);
 statusRouter.get("/visibility/public/:userId", statusController.findByIdAndStatusPublic);
-
-statusRouter.get('/find/idStatus/:id', statusController. findByStatusId );
