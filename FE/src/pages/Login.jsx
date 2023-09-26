@@ -112,7 +112,7 @@ const Login = (props) => {
 
     useEffect(() => {
         if (registerFinish) {
-            toast.success("Đăng ký thành công !", toastOptions);
+            toast.success("Signin successful !", toastOptions);
         }
     }, [registerFinish]);
 
@@ -128,16 +128,16 @@ const Login = (props) => {
         const { password, email } = loginInfo;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (password === "" || email === "") {
-            toast.error("Vui lòng nhập hết các trường.", toastOptions);
+            toast.error("Please input all field.", toastOptions);
             return false;
         } else if (email.length < 3) {
-            toast.error("Địa chỉ Email không được dưới 3 kí tự.", toastOptions);
+            toast.error("Your Email is not under 3 character.", toastOptions);
             return false;
         } else if (!emailRegex.test(email)) { 
-            toast.error("Vui lòng nhập đúng định dạng địa chỉ Email.", toastOptions);
+            toast.error("Please input @Email.", toastOptions);
             return false;
         } else if (password.length < 6) {
-            toast.error("Mật khẩu không được dưới 6 kí tự.", toastOptions);
+            toast.error("Your password is not under 6 character.", toastOptions);
             return false;
         }
         return true;
@@ -165,7 +165,7 @@ const Login = (props) => {
                             <div className="login__logo">
                                 <img style={{ width: 600, height: 50 }} src='https://i.ibb.co/TvdSv6z/Untitled-1-removebg-preview.png' alt='logo' />
                             </div>
-                            <p>Kết nối <span style={{ color: "#9400D3", fontWeight: 'bold' }}>tình bạn</span><span style={{ color: "FF7F00", fontWeight: 'bold' }}> và </span><span style={{ color: "#404EED", fontWeight: 'bold' }}>gia đình </span>!</p>
+                            <p>Connect <span style={{ color: "#9400D3", fontWeight: 'bold' }}>friends</span><span style={{ color: "FF7F00", fontWeight: 'bold' }}> and </span><span style={{ color: "#404EED", fontWeight: 'bold' }}>Families </span>!</p>
                         </div>
                         <div className="login__form-container">
                             <div className="login__form">
@@ -176,7 +176,7 @@ const Login = (props) => {
                                 />
                                 <input type="password" placeholder="Mật khẩu" onChange={(e) => updateLoginInfo({ password: e.target.value })} />
                                 <button type="submit" className="login__submit-btn">
-                                    {isLoginLoading ? "Đăng nhập..." : "Đăng nhập"}
+                                    {isLoginLoading ? "Login..." : "Login"}
                                 </button>
                                 <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
                                 <span className="login__signup" onClick={() => toggleModal(true)}><span style={{ cursor: "pointer" }}>Tạo tài khoản mới</span></span>

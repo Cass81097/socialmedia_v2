@@ -11,9 +11,8 @@ export const CommentContext = createContext();
 export const CommentContextProvider = ({ children, postId }) => {
     const { socket } = useContext(HomeContext)
     const { user } = useContext(AuthContext);
-    const { fetchPostUser } = useContext(PostContext);
+    const { fetchPostUser, commentList, setCommentList } = useContext(PostContext);
     const [postStatusId, setPostStatusId] = useState(postId);
-    const [commentList, setCommentList] = useState([]);
     const [checkTime, setCheckTime] = useState(false);
     const [textMessage, setTextMessage] = useState('');
     const [textComment, setTextComment] = useState('');
@@ -30,6 +29,7 @@ export const CommentContextProvider = ({ children, postId }) => {
     useEffect(() => {
         if (postId && checkTime === false) {
             axios.get(`http://localhost:5000/comments/statusId/${postId}`).then((r) => {
+                console.log(r.data.commentRecords);
                 setCommentList(r.data.commentRecords);
             });
         }
@@ -53,7 +53,6 @@ export const CommentContextProvider = ({ children, postId }) => {
             data.user.avatar = user.avatar;
 
             const newComment = await postRequest(`${baseUrl}/comments`, JSON.stringify(data));
-
             setCommentList((prevCommentList) => [...prevCommentList, newComment]);
 
             setTextMessage("");

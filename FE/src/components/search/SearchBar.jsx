@@ -74,7 +74,7 @@ export const SearchBar = ({ setResults, results }) => {
       <div className={`input-wrapper ${hasResults ? "with-results" : ""}`}>
         <FaSearch className="icon-search" onClick={handleSearch} />
         <input
-            placeholder="Tìm kiếm trên Facebook"
+            placeholder="Search..."
             value={input}
             onChange={(e) => handleChange(e.target.value)}
             onKeyPress={handleKeyPress}

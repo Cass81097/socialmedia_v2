@@ -11,8 +11,9 @@ export const PostContextProvider = ({ children }) => {
     const { socket } = useContext(ProfileContext);
     const [postUser, setPostUser] = useState([]);
     const [postImageUser, setPostImageUser] = useState([]); 
+    const [commentList, setCommentList] = useState([]);
+    const [commentNew, setCommentNew] = useState([]);
   
-   
     const fetchPostUser = useCallback(async () => {
         try {
             const storedUser = localStorage.getItem('User');
@@ -100,7 +101,7 @@ export const PostContextProvider = ({ children }) => {
     }, [postUser, baseUrl]);
 
     return (
-        <PostContext.Provider value={{ postUser, fetchPostUser, postImageUser, fetchImagePostUser }}>
+        <PostContext.Provider value={{ postUser, fetchPostUser, postImageUser, fetchImagePostUser, commentList, setCommentList}}>
             {children}
         </PostContext.Provider>
     );

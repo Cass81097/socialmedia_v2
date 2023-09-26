@@ -21,7 +21,7 @@ export default function LeftContainerProfile() {
                     <div className="brand-wrapper">
                         <div className="brand-name-wrapper">
                             <h1 style={{ margin: "20px", color: "black", fontSize: "25px" }}>
-                                Giới thiệu
+                                Abouts
                             </h1>
                         </div>
                     </div>
@@ -32,20 +32,20 @@ export default function LeftContainerProfile() {
                         className={`border-text-intro ${isTabSelected("tongquan") ? 'focused' : ''}`}
                         onClick={() => handleTabClick("tongquan")}
                     >
-                        <div className="text-intro">Tổng quan</div>
+                        <div className="text-intro">Overview</div>
                     </div>
 
                     <div
                         className={`border-text-intro ${isTabSelected("congviec") ? 'focused' : ''}`}
                         onClick={() => handleTabClick("congviec")}
                     >
-                        <div className="text-intro">Công việc và học vấn</div>
+                        <div className="text-intro">Work and education</div>
                     </div>
 
                     <div
                         className={`border-text-intro ${isTabSelected("noitungho") ? 'focused' : ''}`}
                         onClick={() => handleTabClick("noitungho")}>
-                        <div className="text-intro">Nơi từng sống</div>
+                        <div className="text-intro">Places lived</div>
                     </div>
 
 
@@ -53,25 +53,25 @@ export default function LeftContainerProfile() {
                     <div
                         className={`border-text-intro ${isTabSelected("thongtin") ? 'focused' : ''}`}
                         onClick={() => handleTabClick("thongtin")}>
-                        <div className="text-intro">Thông tin liên hệ và cơ bản</div>
+                        <div className="text-intro">Contact and basic info</div>
                     </div>
 
                     <div
                         className={`border-text-intro ${isTabSelected("giadinh") ? 'focused' : ''}`}
                         onClick={() => handleTabClick("giadinh")}>
-                        <div className="text-intro">Gia đình và các mối quan hệ</div>
+                        <div className="text-intro">Family and relationships</div>
                     </div>
 
                     <div
                         className={`border-text-intro ${isTabSelected("chitiet") ? 'focused' : ''}`}
                         onClick={() => handleTabClick("chitiet")}>
-                        <div className="text-intro">Chi tiết về bạn</div>
+                        <div className="text-intro">Details about you</div>
                     </div>
 
                     <div
                         className={`border-text-intro ${isTabSelected("sukien") ? 'focused' : ''}`}
                         onClick={() => handleTabClick("sukien")}>
-                        <div className="text-intro">Sự kiện trong đời</div>
+                        <div className="text-intro">Life events</div>
                     </div>
 
 

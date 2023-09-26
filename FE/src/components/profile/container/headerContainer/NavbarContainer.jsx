@@ -96,7 +96,7 @@ export default function NavbarContainer(props) {
             setFriendStatus({ status: "block" });
             navigate(`/${user.username}`);
             setIsShowAlertUser(false);
-            toast.success("Chặn thành công", toastOptions);
+            toast.success("Block successful", toastOptions);
             fetchBlockList();
 
             // Comet UnFriend
@@ -130,7 +130,7 @@ export default function NavbarContainer(props) {
         try {
             const response = await postRequest(`${baseUrl}/friendships/unfriend/${user.id}/${blocklist[userIndex]?.id}`)
             setFriendStatus();
-            toast.success("Bỏ chặn thành công", toastOptions);
+            toast.success("Unblock successful", toastOptions);
             handleClose();
             fetchBlockList();
             setBlockList()
@@ -159,17 +159,17 @@ export default function NavbarContainer(props) {
                     <div className="left-all-task">
                         <div className={`post-task ${isPost ? 'select1' : ''}`}>
                             <Link onClick={handlePostClick}>
-                                <span style={isPost ? { color: 'rgb(24, 118, 242)' } : {}}>Bài viết</span>
+                                <span style={isPost ? { color: 'rgb(24, 118, 242)' } : {}}>Posts</span>
                             </Link>
                         </div>
                         <div className={`profile-task ${isProfile ? 'select1' : ''}`}>
                             <Link onClick={handleProfileClick}>
-                                <span style={isProfile ? { color: 'rgb(24, 118, 242)' } : {}}>Giới thiệu</span>
+                                <span style={isProfile ? { color: 'rgb(24, 118, 242)' } : {}}>About</span>
                             </Link>
                         </div>
                         <div className={`profile-task ${isFriend ? 'select1' : ''}`}>
                             <Link onClick={handleFriendClick}>
-                                <span style={isFriend ? { color: 'rgb(24, 118, 242)' } : {}}>Bạn bè</span>
+                                <span style={isFriend ? { color: 'rgb(24, 118, 242)' } : {}}>Friends</span>
                             </Link>
                         </div>
                     </div>
@@ -186,11 +186,11 @@ export default function NavbarContainer(props) {
                     <ol className="profile-block" style={{ display: "none" }}>
                         {user?.id !== userProfile[0]?.id ? (
                             <li onClick={handleShowAlertUser}>
-                                <i className="fas fa-user-lock" />Chặn người dùng
+                                <i className="fas fa-user-lock" />Block user
                             </li>
                         ) : (
                             <li onClick={handleShow}>
-                                <i className="fas fa-list" />Danh sách chặn
+                                <i className="fas fa-list" />Block list
                             </li>
                         )}
                     </ol>
@@ -199,11 +199,11 @@ export default function NavbarContainer(props) {
                 {/* Modal Block */}
                 <Modal show={show} onHide={handleClose} centered>
                     <Modal.Header closeButton>
-                        <Modal.Title>Danh sách chặn</Modal.Title>
+                        <Modal.Title>Block list</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div className="modal-block-top">
-                            <p>Sau khi bạn chặn ai đó, người đó sẽ không thể xem nội dung bạn đăng trên dòng thời gian, gắn thẻ bạn, mời bạn tham gia sự kiện hoặc nhóm, bắt đầu cuộc trò chuyện với bạn hoặc thêm bạn làm bạn bè nữa. Lưu ý: Không bao gồm các ứng dụng, trò chơi hoặc nhóm mà cả hai bạn cùng tham gia..</p>
+                            <p>Once you block someone, that person will no longer be able to see what you post on your timeline, tag you, invite you to events or groups, start conversations with you, or add you as a friend. Note: Does not include apps, games, or groups that you both belong to..</p>
                         </div>
                         <div className="modal-block-container">
                             {blocklist && blocklist.length > 0 ? (
@@ -224,20 +224,20 @@ export default function NavbarContainer(props) {
                                         >
                                             <i className="fas fa-unlock-alt" style={{ color: "black" }}>
                                                 <span style={{ fontWeight: "600", marginLeft: "5px" }}>
-                                                    Bỏ chặn
+                                                    Unblock
                                                 </span>
                                             </i>
                                         </button>
                                     </div>
                                 ))
                             ) : (
-                                <p className='none-block'>Không có tài khoản nào bị chặn</p>
+                                <p className='none-block'>No user blocked</p>
                             )}
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="primary" onClick={handleClose}>
-                            Đóng
+                            Close
                         </Button>
                     </Modal.Footer>
                 </Modal>
@@ -245,15 +245,15 @@ export default function NavbarContainer(props) {
                 {/* Modal Confirm Block */}
                 <Modal show={showAlert} onHide={handleCloseAlert} centered>
                     <Modal.Header closeButton>
-                        <Modal.Title style={{ transform: "translateX(170px)" }}>Xác nhận</Modal.Title>
+                        <Modal.Title style={{ transform: "translateX(170px)" }}>Confirm</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Bạn có chắc chắn muốn bỏ chặn ?</Modal.Body>
+                    <Modal.Body>Are you sure to unblock ?</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAlert}>
-                            Đóng
+                            Close
                         </Button>
                         <Button variant="primary" onClick={() => handleUnblockUser(userIndex)}>
-                            Có
+                            Save
                         </Button>
                     </Modal.Footer>
                 </Modal>
@@ -262,15 +262,15 @@ export default function NavbarContainer(props) {
 
                 <Modal show={showAlertUser} onHide={handleCloseAlertUser} centered>
                     <Modal.Header closeButton>
-                        <Modal.Title style={{ transform: "translateX(170px)" }}>Xác nhận</Modal.Title>
+                        <Modal.Title style={{ transform: "translateX(170px)" }}>Confirm</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Bạn có chắc chắn muốn chặn ?</Modal.Body>
+                    <Modal.Body>Are you sure to block ?</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAlertUser}>
-                            Đóng
+                            Close
                         </Button>
                         <Button variant="primary" onClick={() => handleBlockUser()}>
-                            Có
+                            Save
                         </Button>
                     </Modal.Footer>
                 </Modal>

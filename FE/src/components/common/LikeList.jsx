@@ -46,7 +46,7 @@ export default function LikeList(props) {
         <>
             <Modal show={showLikeList} onHide={handleLikeListClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Danh sách thích</Modal.Title>
+                    <Modal.Title>Like list :</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="modal-like-container">
@@ -71,19 +71,19 @@ export default function LikeList(props) {
                                     {friendStatus === "friend" ? (
                                         <button type="button" className="btn btn-secondary btn-edit like-edit">
                                             <i className="fas fa-user">
-                                                <span>Bạn bè</span>
+                                                <span>Friend</span>
                                             </i>
                                         </button>
                                     ) : friendStatus === "pending" ? (
                                         <button type="button" className="btn btn-secondary btn-edit like-edit">
                                             <i className="fas fa-user">
-                                                <span>Đang chờ</span>
+                                                <span>Pending</span>
                                             </i>
                                         </button>
                                     ) : (
                                         <button type="button" className="btn btn-secondary btn-edit like-edit">
                                             <i className="fas fa-user-plus">
-                                                <span>Kết bạn</span>
+                                                <span>Add Friend</span>
                                             </i>
                                         </button>
                                     )}

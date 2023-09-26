@@ -1,22 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Loading from "./components/common/Loading";
+import ListPendFriend from "./components/profile/container/mainContainer/ListPendFriend";
+import SearchPost from './components/search/SearchPost';
+import SearchPostId from "./components/search/SearchPostId";
 import { AuthContext } from "./context/AuthContext";
+import { HomeContextProvider } from './context/HomeContext';
+import { PostContextProvider } from './context/PostContext';
 import { ProfileContextProvider } from "./context/ProfileContext";
-import { AuthContextProvider } from "./context/AuthContext";
+import { SearchContextProvider } from './context/SearchContext';
+import Chat from './pages/Chat';
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import Profile from "./pages/Profile";
-import Chat from './pages/Chat';
-import Loading from "./components/common/Loading"
-import SearchPostId from "./components/search/SearchPostId"
-import ListPendFriend from "./components/profile/container/mainContainer/ListPendFriend"
-import { PostContextProvider } from './context/PostContext';
-import { SearchContextProvider } from './context/SearchContext';
-import SearchPost from './components/search/SearchPost';
-import { HomeContextProvider } from './context/HomeContext';
-import Notification from './components/common/Notification';
-import {Navbar} from "react-bootstrap";
 
 export default function App() {
   const { user, allUser } = useContext(AuthContext);
@@ -39,6 +36,7 @@ export default function App() {
         <HomeContextProvider>
           <ProfileContextProvider user={user}>
             <PostContextProvider>
+              
               <Routes>
                 <Route path="/loading" element={<Loading />} />
                 <Route path="/404" element={<PageNotFound />} />

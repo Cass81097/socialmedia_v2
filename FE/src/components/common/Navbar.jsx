@@ -113,7 +113,7 @@ export default function Navbar() {
 
     const boxStyle = {
         height: down ? 'auto' : '0px',
-        maxHeight: '650px',
+        maxHeight: '450px',
         opacity: down ? 1 : 0
     };
 
@@ -249,7 +249,7 @@ export default function Navbar() {
                                 <div className="content11" style={{ padding: "10px" }}>
                                     <div style={{ display: "flex", justifyContent: "space-between", marginRight: "5px" }}>
                                         <h2>
-                                            Thông Báo
+                                            Notifications
                                         </h2>
 
                                         <button type="button" className="btn btn-light "
@@ -269,7 +269,7 @@ export default function Navbar() {
                                             }}
                                             onClick={showAllNotification}
                                         >
-                                            Tất cả
+                                            All
                                         </button>
                                         <button
                                             type="button"
@@ -281,7 +281,7 @@ export default function Navbar() {
                                             }}
                                             onClick={showIsReadNotification}
                                         >
-                                            Chưa đọc
+                                            Unread
                                         </button>
                                     </div>
                                     <div style={{
@@ -291,9 +291,9 @@ export default function Navbar() {
                                         marginTop: "10px",
                                         alignItems: "end"
                                     }}>
-                                        <h5> Trước đó </h5>
+                                        <h5> New </h5>
                                         <button type="button" className="btn btn-light "
-                                                style={{ color: "#1877F2", fontWeight: "bold" }} onClick={showAllNotification} >Xem tất cả
+                                                style={{ color: "#1877F2", fontWeight: "bold" }} onClick={showAllNotification} >See all
                                         </button>
 
                                     </div>
@@ -307,13 +307,13 @@ export default function Navbar() {
                                                         <div className="item-image">
                                                             <img src={item.sender.avatar} alt="img" />
                                                         </div>
-                                                        {item.des ==="đã like bài viết của bạn" &&  <div className="icon-avatar"
+                                                        {item.des ==="just like your post" &&  <div className="icon-avatar"
                                                                                                          style={{ background: "#4e59ff" }}>
                                                             <i className="fas fa-thumbs-up"></i>
 
                                                         </div> }
 
-                                                        {item.des ==="đã bình luận bài viết của bạn" &&
+                                                        {item.des ==="just comment your post" &&
                                                             < div className="icon-avatar"
                                                                   style={{ background: "lightgreen" }}>
 
@@ -336,18 +336,18 @@ export default function Navbar() {
                                                             let timeAgo;
 
                                                             if (timeDiffInMinutes === 0) {
-                                                                timeAgo = "Vừa xong";
+                                                                timeAgo = "Just now";
                                                             } else if (timeDiffInMinutes < 60) {
-                                                                timeAgo = `${timeDiffInMinutes} phút trước`;
+                                                                timeAgo = `${timeDiffInMinutes} minute ago`;
                                                             } else {
                                                                 const hours = Math.floor(timeDiffInMinutes / 60);
                                                                 const minutes = timeDiffInMinutes % 60;
                                                                 if (hours >= 24) {
-                                                                    timeAgo = "1 ngày trước";
+                                                                    timeAgo = "1 day ago";
                                                                 } else if (minutes === 0) {
-                                                                    timeAgo = `${hours} giờ`;
+                                                                    timeAgo = `${hours} hour`;
                                                                 } else {
-                                                                    timeAgo = `${hours} giờ ${minutes} phút trước`;
+                                                                    timeAgo = `${hours} hour ${minutes} minute ago`;
                                                                 }
                                                             }
                                                             return (
@@ -388,18 +388,18 @@ export default function Navbar() {
                                                             let timeAgo;
 
                                                             if (timeDiffInMinutes === 0) {
-                                                                timeAgo = "Vừa xong";
+                                                                timeAgo = "Just now";
                                                             } else if (timeDiffInMinutes < 60) {
-                                                                timeAgo = `${timeDiffInMinutes} phút trước`;
+                                                                timeAgo = `${timeDiffInMinutes} minute ago`;
                                                             } else {
                                                                 const hours = Math.floor(timeDiffInMinutes / 60);
                                                                 const minutes = timeDiffInMinutes % 60;
                                                                 if (hours >= 24) {
-                                                                    timeAgo = "1 ngày trước";
+                                                                    timeAgo = "1 day ago";
                                                                 } else if (minutes === 0) {
-                                                                    timeAgo = `${hours} giờ`;
+                                                                    timeAgo = `${hours} hour`;
                                                                 } else {
-                                                                    timeAgo = `${hours} giờ ${minutes} phút trước`;
+                                                                    timeAgo = `${hours} hour ${minutes} minute ago`;
                                                                 }
                                                             }
                                                             return (
@@ -434,9 +434,8 @@ export default function Navbar() {
                                     <img src={user?.avatar} alt="Avatar" onClick={() => showInfo()} />
                                 </div>
                                 <ol className="profile-menu" style={{ display: "none" }}>
-                                    <li onClick={goUserInfo}>Thông tin</li>
-                                    <li data-toggle="modal" data-target="#myModal" onClick={() => logout()}>Đăng
-                                        xuất
+                                    <li onClick={goUserInfo}>My Profile</li>
+                                    <li data-toggle="modal" data-target="#myModal" onClick={() => logout()}>Log Out
                                     </li>
                                 </ol>
                             </div>

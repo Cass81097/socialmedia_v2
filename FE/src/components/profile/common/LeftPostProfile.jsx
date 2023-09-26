@@ -11,13 +11,13 @@ export default function LeftPostProfile() {
         <>
             <div className="info-col">
                 <div className="about-info">
-                    <h5>Giới thiệu</h5>
+                    <h5>Intro</h5>
                 </div>
                 <div className="profile-about">
-                    <div className="class-profile">
+                    {/* <div className="class-profile">
                         <i className="fas fa-graduation-cap icon-profile" />
                         <span>Từng học tại Học Viện Ngân Hàng</span> 
-                    </div>
+                    </div> */}
                     <div className="address-profile">
                         <i className="fas fa-map-marker-alt icon-profile" style={{marginRight:"4px"}}/>
                         <span>{userProfile[0]?.address}</span>

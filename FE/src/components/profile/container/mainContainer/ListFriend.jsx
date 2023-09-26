@@ -22,19 +22,6 @@ export default function ListFriend() {
         setShow(false);
     }
 
-    // const handleShow = async (username) => {
-    //     if (username && userProfile && userProfile.length > 0 && userProfile[0].username) {
-    //       try {
-    //         const response = await getRequest(`${baseUrl}/users/find/${username}`);
-    //         setCommonFriendList(response);
-    //       } catch (error) {
-    //         console.log(error);
-    //         return null;
-    //       }
-    //       setShow(true);
-    //     }
-    // };
-
     const handleShow = (arr) => {
         setCommonFriendList(arr);
         setShow(true);
@@ -99,11 +86,11 @@ export default function ListFriend() {
                                         style={{
                                             outline: "none",
                                             border: "1px solid lightgrey",
-                                        }} placeholder='Tìm kiếm bạn bè'
+                                        }} placeholder='Search friends...'
                                         aria-label="Search" />
                                 </div>
                                 {user.id === userProfile[0].id &&
-                                    <Link to="/listPendFriend"><button type="button" className="btn btn-link"><span style={{ fontWeight: "500" }}>Lời mời kết bạn</span></button></Link>
+                                    <Link to="/listPendFriend"><button type="button" className="btn btn-link"><span style={{ fontWeight: "500" }}>Friend request</span></button></Link>
                                 }
                             </div>
                         </div>
@@ -125,7 +112,7 @@ export default function ListFriend() {
                                                 {commonFriendNumber?.[index]?.length && user?.id !== listFriend?.id ? (
                                                     <div>
                                                         <h6 onClick={() => handleShow(commonFriendNumber?.[index])}>
-                                                            {commonFriendNumber?.[index]?.length} bạn chung
+                                                            {commonFriendNumber?.[index]?.length} mutual friends
                                                         </h6>
                                                     </div>
                                                 ) : null}
@@ -147,7 +134,7 @@ export default function ListFriend() {
                                                 {commonFriendNumber?.[countFriend.indexOf(listFriend)] && user?.id !== listFriend?.id ? (
                                                     <div>
                                                         <h6 onClick={() => handleShow(commonFriendNumber?.[countFriend.indexOf(listFriend)])}>
-                                                            {commonFriendNumber?.[countFriend.indexOf(listFriend)].length} bạn chung
+                                                            {commonFriendNumber?.[countFriend.indexOf(listFriend)].length} mutual friends
                                                         </h6>
                                                     </div>
                                                 ) : null}
@@ -166,7 +153,7 @@ export default function ListFriend() {
             {/* Modal Common Friend */}
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ transform: "translateX(92px)" }}>Danh sách bạn chung</Modal.Title>
+                    <Modal.Title style={{ transform: "translateX(92px)" }}>Mutual Friend list</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="modal-commonFriend-container">
@@ -182,19 +169,19 @@ export default function ListFriend() {
 
                                     <button type="button" className="btn btn-primary btn-add">
                                         <i className="fas fa-user">
-                                            <span>Bạn bè</span>
+                                            <span>Friend</span>
                                         </i>
                                     </button>
                                 </div>
                             ))
                         ) : (
-                            <p className='none-block'>Không có User bị chặn</p>
+                            <p className='none-block'>No user blocked</p>
                         )}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handleClose}>
-                        Đóng
+                        Close
                     </Button>
                 </Modal.Footer>
             </Modal>

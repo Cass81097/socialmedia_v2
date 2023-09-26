@@ -6,6 +6,8 @@ import { AuthContext } from "../../context/AuthContext";
 import { PostContext } from "../../context/PostContext";
 import { ProfileContext } from "../../context/ProfileContext";
 import { baseUrl, deleteRequest, getRequest, postRequest } from "../../utils/services";
+import { CommentContext } from "../../context/CommentContext";
+import axios from 'axios';
 
 export default function Notification(props) {
     const navigate = useNavigate();
@@ -19,13 +21,13 @@ export default function Notification(props) {
     const [userAccepted, setUserAccepted] = useState(false)
     const [userRequest, setUserRequest] = useState([])
     const [status, setStatus] = useState([])
-
+    const { setCommentList } = useContext(PostContext);
 
     useEffect(() => {
         if (socket === null) return;
 
         const handleLikeStatus = async (response) => {
-            console.log(response,5555)
+            console.log(response, 5555)
             if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
                 try {
                     const userId = response.senderId;
@@ -101,6 +103,7 @@ export default function Notification(props) {
         if (socket === null) return;
 
         const handleCommentStatus = async (response) => {
+            const postId = response.postId;
             if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
                 try {
                     const userId = response.senderId;
@@ -108,10 +111,16 @@ export default function Notification(props) {
                     props.setStatus({ ...resUser[0], postId: response.postId, commentId: response.commentId });
                     setStatus({ ...resUser[0], postId: response.postId, commentId: response.commentId });
                     setShowToastComment(true);
+
+                    axios.get(`http://localhost:5000/comments/statusId/${postId}`).then((r) => {
+                        console.log(r.data.commentRecords);
+                        setCommentList(r.data.commentRecords);
+                    });
+
                 } catch (error) {
                     console.error("Error fetching user post:", error);
                 }
-            }
+            } 
         };
 
         socket.on("comment", handleCommentStatus);
@@ -127,7 +136,7 @@ export default function Notification(props) {
                 <Toast onClose={() => setShowToastComment(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Thông báo mới</strong>
+                        <strong className="me-auto">Notification :</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToastComment(false)}></button>
                     </div>
                     <Toast.Body onClick={() => showPost(status?.postId)}>
@@ -136,8 +145,8 @@ export default function Notification(props) {
                                 <img src={status?.avatar} alt="" />
                             </div>
                             <div className="toast-content" style={{ color: "black", marginLeft: "5px" }}>
-                                <p><span style={{ fontWeight: "600" }}>{status?.fullname}</span> vừa mới bình luận bài viết của bạn</p>
-                                <span style={{ color: "#0D6EFD" }}>vài giây trước</span>
+                                <p><span style={{ fontWeight: "600" }}>{status?.fullname}</span> just comment your post</p>
+                                <span style={{ color: "#0D6EFD" }}>a few second ago</span>
                             </div>
                             <i className="fas fa-circle"></i>
                         </div>
@@ -150,7 +159,7 @@ export default function Notification(props) {
                 <Toast onClose={() => setShowToast(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Thông báo mới</strong>
+                        <strong className="me-auto">Notificatnion :</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToast(false)}></button>
                     </div>
                     <Toast.Body onClick={() => showPost(userPost?.postId)}>
@@ -159,8 +168,8 @@ export default function Notification(props) {
                                 <img src={userPost?.avatar} alt="" />
                             </div>
                             <div className="toast-content" style={{ color: "black", marginLeft: "5px" }}>
-                                <p><span style={{ fontWeight: "600" }}>{userPost?.fullname}</span> vừa mới thích bài viết của bạn</p>
-                                <span style={{ color: "#0D6EFD" }}>vài giây trước</span>
+                                <p><span style={{ fontWeight: "600" }}>{userPost?.fullname}</span> just like your post</p>
+                                <span style={{ color: "#0D6EFD" }}>a few second ago</span>
                             </div>
                             <i className="fas fa-circle"></i>
                         </div>
@@ -173,7 +182,7 @@ export default function Notification(props) {
                 <Toast onClose={() => setShowToastFriend(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Thông báo mới</strong>
+                        <strong className="me-auto">Notifcation :</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToastFriend(false)}></button>
                     </div>
                     <Toast.Body onClick={() => goProfileUser(userRequest[0]?.username)}>
@@ -182,8 +191,8 @@ export default function Notification(props) {
                                 <img src={userRequest[0]?.avatar} alt="" />
                             </div>
                             <div className="toast-content" style={{ color: "black", marginLeft: "5px" }}>
-                                <p><span style={{ fontWeight: "600" }}>{userRequest[0]?.fullname}</span> {userAccepted ? "đã đồng ý" : "vừa mới gửi"} lời mời kết bạn</p>
-                                <span style={{ color: "#0D6EFD" }}>vài giây trước</span>
+                                <p><span style={{ fontWeight: "600" }}>{userRequest[0]?.fullname}</span> {userAccepted ? "accepted" : "just sent"} friend request</p>
+                                <span style={{ color: "#0D6EFD" }}>a few second ago</span>
                             </div>
                             <i className="fas fa-circle"></i>
                         </div>

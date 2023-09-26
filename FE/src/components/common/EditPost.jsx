@@ -141,7 +141,7 @@ export default function EditPost(props) {
                     <div className="container">
                         <div className="wrapper">
                             <section className="post">
-                                <header>Sửa bài viết</header>
+                                <header>Edit post</header>
                                 <div className="post-form">
                                     <div className="content" style={{ margin: "82px 0 10px 0" }}>
                                         <div className="content-avatar">
@@ -152,20 +152,20 @@ export default function EditPost(props) {
                                             <div className="privacy">
                                                 {postUser[postEditIndex]?.visibility === "friend" && (
                                                     <>
-                                                        <i className="fas fa-user-friends" />
-                                                        <span>Bạn bè</span>
+                                                        <i className="fas fa-user-friends" style={{marginTop:"2px"}} />
+                                                        <span>Friend</span>
                                                     </>
                                                 )}
                                                 {postUser[postEditIndex]?.visibility === "public" && (
                                                     <>
-                                                        <i className="fas fa-globe-americas" />
-                                                        <span>Công khai</span>
+                                                        <i className="fas fa-globe-americas" style={{marginTop:"2px"}} />
+                                                        <span>Public</span>
                                                     </>
                                                 )}
                                                 {postUser[postEditIndex]?.visibility === "private" && (
                                                     <>
-                                                        <i className="fas fa-lock" />
-                                                        <span>Chỉ mình tôi</span>
+                                                        <i className="fas fa-lock" style={{marginTop:"2px"}} />
+                                                        <span>Private</span>
                                                     </>
                                                 )}
                                                 <i className="fas fa-caret-down" />
@@ -175,7 +175,7 @@ export default function EditPost(props) {
 
                                     <div className={`post-edit-container ${imageEdit.length > 0 ? 'edit-with-image' : ''}`}>
                                         <textarea
-                                            placeholder={`Bạn đang nghĩ gì vậy, ${postUser[postEditIndex]?.sender.fullname}`}
+                                            placeholder={`What are you thinking?, ${postUser[postEditIndex]?.sender.fullname}`}
                                             spellCheck="false"
                                             value={textMessage}
                                             onChange={handleInputChange}
@@ -218,7 +218,7 @@ export default function EditPost(props) {
                                                         <Button variant="light" onClick={handleImageDelete} style={{ borderRadius: "50%" }} >X</Button>
                                                     </div>
                                                     <label htmlFor="image-upload-add" className="postEdit-image-add" style={{ cursor: "pointer" }}>
-                                                        <div className="btn btn-light">Thêm ảnh</div>
+                                                        <div className="btn btn-light">Add Image</div>
 
                                                         <input
                                                             id="image-upload-add"
@@ -243,7 +243,7 @@ export default function EditPost(props) {
                                             alt="smile" />
                                     </div> */}
                                     <div className="options">
-                                        <p>Thêm vào bài viết</p>
+                                        <p>Add into Post</p>
                                         <ul style={{ marginTop: "16px" }} className="list">
 
 
@@ -300,7 +300,7 @@ export default function EditPost(props) {
                                         className="post-button"
                                         onClick={handleEditPost}
                                     >
-                                        Sửa
+                                        Edit
                                     </Button>
                                 </div>
                             </section>
