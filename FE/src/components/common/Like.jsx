@@ -30,7 +30,7 @@ export default function Like(props) {
         const response = await postRequest(`${baseUrl}/likes/add/${postId}`, JSON.stringify(data));
         setIsLiked(true);
         fetchPostUser();
-        onLikeClick();
+        // onLikeClick();
 
         if (socket) {
             socket.emit("likeStatus", {     

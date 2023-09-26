@@ -20,10 +20,12 @@ export default function Notification(props) {
     const [userRequest, setUserRequest] = useState([])
     const [status, setStatus] = useState([])
 
+
     useEffect(() => {
         if (socket === null) return;
 
         const handleLikeStatus = async (response) => {
+            console.log(response,5555)
             if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
                 try {
                     const userId = response.senderId;
@@ -103,7 +105,8 @@ export default function Notification(props) {
                 try {
                     const userId = response.senderId;
                     const resUser = await getRequest(`${baseUrl}/users/find/id/${userId}`);
-                    setStatus({ ...resUser[0], postId: response.postId });
+                    props.setStatus({ ...resUser[0], postId: response.postId, commentId: response.commentId });
+                    setStatus({ ...resUser[0], postId: response.postId, commentId: response.commentId });
                     setShowToastComment(true);
                 } catch (error) {
                     console.error("Error fetching user post:", error);
@@ -117,7 +120,6 @@ export default function Notification(props) {
             socket.off("comment", handleCommentStatus);
         };
     }, [socket]);
-
     return (
         <>
             {/* Toast Comment */}
