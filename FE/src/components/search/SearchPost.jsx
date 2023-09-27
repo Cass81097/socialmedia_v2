@@ -74,7 +74,7 @@ export default function SearchPost() {
             </div>
             <div className="container-status">
                 <div className="sidebar-left-status">
-                    <h5 className="search-notification">Các bài viết của bạn theo từ khóa : "{searchTerm}"</h5></div>
+                    <h5 className="search-notification">Your posts by keywords : "{searchTerm}"</h5></div>
                 <div className="mid-status">
                     <div>
                         {listStatus.map((item, index) => (
@@ -99,18 +99,18 @@ export default function SearchPost() {
                                                     let timeAgo;
 
                                                     if (timeDiffInMinutes === 0) {
-                                                        timeAgo = "Vừa xong";
+                                                        timeAgo = "Just now";
                                                     } else if (timeDiffInMinutes < 60) {
-                                                        timeAgo = `${timeDiffInMinutes} phút trước`;
+                                                        timeAgo = `${timeDiffInMinutes} minute ago`;
                                                     } else {
                                                         const hours = Math.floor(timeDiffInMinutes / 60);
                                                         const minutes = timeDiffInMinutes % 60;
                                                         if (hours >= 24) {
-                                                            timeAgo = "1 ngày trước";
+                                                            timeAgo = "1 day ago";
                                                         } else if (minutes === 0) {
-                                                            timeAgo = `${hours} giờ`;
+                                                            timeAgo = `${hours} hour`;
                                                         } else {
-                                                            timeAgo = `${hours} giờ ${minutes} phút trước`;
+                                                            timeAgo = `${hours} hour ${minutes} minute ago`;
                                                         }
                                                     }
 
@@ -175,11 +175,11 @@ export default function SearchPost() {
                                                     >
                                                     {item.listUserLike.map((userLike) => {
                                                         if (item.receiver.username === userLike?.user?.username) {
-                                                            return "Bạn";
+                                                            return "You";
                                                         } else {
                                                             return userLike?.user?.fullname;
                                                         }
-                                                    }).join(" và ")} đã thích
+                                                    }).join(" and ")} liked
                                                 </span>
                                                 </div>
                                             ) : (
@@ -189,14 +189,14 @@ export default function SearchPost() {
                                                                      className="like-icon"/>
                                                         <span
                                                             onClick={() => handleLikeClick()}
-                                                            style={{marginLeft: "5px"}}>{item?.accountLike} người đã thích</span>
+                                                            style={{marginLeft: "5px"}}>{item?.accountLike} people liked</span>
                                                     </div>
                                                 )
                                             ))}{ item.commentCount.commentCount < 1 ? (
                                             <div></div>
                                         ) : (
                                             <div>
-                                                <span>{item?.commentCount?.commentCount} bình luân</span>
+                                                <span>{item?.commentCount?.commentCount} comment</span>
                                             </div>)}
                                         </div>
 
@@ -214,7 +214,7 @@ export default function SearchPost() {
                                         <div className="post-comment">
                                             <Button  variant="light" onClick={() => handleToggleComment(index)}>
                                                 <i className="far fa-comment"></i>
-                                                <span>Bình luận</span>
+                                                <span>Comment</span>
                                             </Button>
                                         </div>
 

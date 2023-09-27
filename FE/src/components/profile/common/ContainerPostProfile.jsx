@@ -39,7 +39,7 @@ export default function ContainerPostProfile(props) {
 
     //Comment
     // const [showComment, setShowComment] = useState(false);
-    const {showComment, setShowComment} = useContext(HomeContext)
+    const { showComment, setShowComment } = useContext(HomeContext)
 
     const [visibleCommentIndex, setVisibleCommentIndex] = useState(-1);
     const handleToggleComment = (index) => {
@@ -203,8 +203,6 @@ export default function ContainerPostProfile(props) {
         setImageSrcProfile(null);
         await fetchPostUser();
         await fetchImagePostUser();
-
-        console.log("Đăng post thành công");
     };
 
     const handleChangePrivacy = async (postId, privacyValue) => {
@@ -352,7 +350,7 @@ export default function ContainerPostProfile(props) {
                                 onClick={handleSendMessage}
                                 disabled={!imageSrcProfile && !textMessage}
                             >
-                                Đăng
+                                Post
                             </Button>
 
                             <div style={{ position: "relative" }}>
@@ -391,7 +389,7 @@ export default function ContainerPostProfile(props) {
                                             <Button variant="light" onClick={handleImageClose} style={{ borderRadius: "50%" }} >X</Button>
                                         </div>
                                         <label htmlFor="image-upload-add" className="post-image-add" style={{ cursor: "pointer" }}>
-                                            <div className="btn btn-light">Thêm ảnh</div>
+                                            <div className="btn btn-light">Add image</div>
                                             <input
                                                 id="image-upload-add"
                                                 type="file"
@@ -400,17 +398,17 @@ export default function ContainerPostProfile(props) {
                                                 style={{ display: "none" }}
                                             />
                                         </label>
-                                        <Button variant="light" className="post-image-change" onClick={handleShow}>Chỉnh sửa tất cả</Button>
+                                        <Button variant="light" className="post-image-change" onClick={handleShow}>Edit all</Button>
                                     </>
                                 )}
                             </div>
 
                             <div className="add-post-links">
                                 <Link to="">
-                                    <img src="./images/watch.png" /> Video trực tiếp
+                                    <img src="./images/watch.png" /> Video
                                 </Link>
                                 <label htmlFor="image-upload-post" className="upload-label" style={{ cursor: "pointer", alignItems: "center", display: "flex", justifyContent: "center" }}>
-                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> Ảnh/video
+                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> Picture
                                     <input
                                         id="image-upload-post"
                                         type="file"
@@ -420,7 +418,7 @@ export default function ContainerPostProfile(props) {
                                     />
                                 </label>
                                 <Link to="">
-                                    <img src="./images/feeling.png" /> Cảm xúc/hoạt động
+                                    <img src="./images/feeling.png" /> Emotion
                                 </Link>
                             </div>
                         </div>
@@ -507,7 +505,7 @@ export default function ContainerPostProfile(props) {
                                 onClick={handleSendMessage}
                                 disabled={!imageSrcProfile && !textMessage}
                             >
-                                Đăng
+                                Post
                             </Button>
 
                             <div style={{ position: "relative" }}>
@@ -546,7 +544,7 @@ export default function ContainerPostProfile(props) {
                                             <Button variant="light" onClick={handleImageClose} style={{ borderRadius: "50%" }} >X</Button>
                                         </div>
                                         <label htmlFor="image-upload-add" className="post-image-add" style={{ cursor: "pointer" }}>
-                                            <div className="btn btn-light">Thêm ảnh</div>
+                                            <div className="btn btn-light">Add picture</div>
                                             <input
                                                 id="image-upload-add"
                                                 type="file"
@@ -555,17 +553,17 @@ export default function ContainerPostProfile(props) {
                                                 style={{ display: "none" }}
                                             />
                                         </label>
-                                        <Button variant="light" className="post-image-change" onClick={handleShow}>Chỉnh sửa tất cả</Button>
+                                        <Button variant="light" className="post-image-change" onClick={handleShow}>Edit all</Button>
                                     </>
                                 )}
                             </div>
 
                             <div className="add-post-links">
                                 <Link to="">
-                                    <img src="./images/watch.png" /> Video trực tiếp
+                                    <img src="./images/watch.png" /> Video
                                 </Link>
                                 <label htmlFor="image-upload-post" className="upload-label" style={{ cursor: "pointer", alignItems: "center", display: "flex", justifyContent: "center" }}>
-                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> Ảnh/video
+                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> Picture
                                     <input
                                         id="image-upload-post"
                                         type="file"
@@ -575,7 +573,7 @@ export default function ContainerPostProfile(props) {
                                     />
                                 </label>
                                 <Link to="">
-                                    <img src="./images/feeling.png" /> Cảm xúc/hoạt động
+                                    <img src="./images/feeling.png" /> Emotion
                                 </Link>
                             </div>
                         </div>
@@ -611,18 +609,18 @@ export default function ContainerPostProfile(props) {
                                                     let timeAgo;
 
                                                     if (timeDiffInMinutes === 0) {
-                                                        timeAgo = "Vừa xong";
+                                                        timeAgo = "Just now";
                                                     } else if (timeDiffInMinutes < 60) {
-                                                        timeAgo = `${timeDiffInMinutes} phút trước`;
+                                                        timeAgo = `${timeDiffInMinutes} minute ago`;
                                                     } else {
                                                         const hours = Math.floor(timeDiffInMinutes / 60);
                                                         const minutes = timeDiffInMinutes % 60;
                                                         if (hours >= 24) {
-                                                            timeAgo = "1 ngày trước";
+                                                            timeAgo = "1 day ago";
                                                         } else if (minutes === 0) {
-                                                            timeAgo = `${hours} giờ`;
+                                                            timeAgo = `${hours} hour`;
                                                         } else {
-                                                            timeAgo = `${hours} giờ ${minutes} phút trước`;
+                                                            timeAgo = `${hours} hour ${minutes} minute ago`;
                                                         }
                                                     }
 
@@ -689,20 +687,20 @@ export default function ContainerPostProfile(props) {
                                                 {user?.username !== userProfile[0]?.username && user?.username !== post?.sender?.username && (
                                                     <li onClick={() => handlePostEditShow(index)} >
                                                         <i className="far fa-edit"></i>
-                                                        <span>Sửa bài viết</span>
+                                                        <span>Edit post</span>
                                                     </li>
                                                 )}
 
                                                 {user?.username === userProfile[0]?.username && user?.username === post?.sender?.username && (
                                                     <li onClick={() => handlePostEditShow(index)} >
                                                         <i className="far fa-edit"></i>
-                                                        <span>Sửa bài viết</span>
+                                                        <span>Edit post</span>
                                                     </li>
                                                 )}
 
                                                 <li onClick={() => { handleShowAlert(post.id) }}>
                                                     <i className="far fa-trash-alt"></i>
-                                                    <span>Xóa bài viết</span>
+                                                    <span>Delete post</span>
                                                 </li>
                                             </ol>
                                         </div>
@@ -717,12 +715,12 @@ export default function ContainerPostProfile(props) {
 
                                                 <li onClick={() => handlePostEditShow(index)} >
                                                     <i className="far fa-edit"></i>
-                                                    <span>Sửa bài viết</span>
+                                                    <span>Edit post</span>
                                                 </li>
 
                                                 <li onClick={() => { handleShowAlert(post.id) }}>
                                                     <i className="far fa-trash-alt"></i>
-                                                    <span>Xóa bài viết</span>
+                                                    <span>Delete post</span>
                                                 </li>
                                             </ol>
                                         </div>
@@ -754,11 +752,11 @@ export default function ContainerPostProfile(props) {
                                                     <span style={{ marginLeft: "5px" }} onClick={() => handleLikeListShow(index)}>
                                                         {post.listUserLike.map((userLike) => {
                                                             if (user.username === userLike?.user?.username) {
-                                                                return "Bạn";
+                                                                return "You";
                                                             } else {
                                                                 return userLike?.user?.fullname;
                                                             }
-                                                        }).join(" và ")} đã thích
+                                                        }).join(" and ")} liked
                                                     </span>
                                                 </div>
                                             ) : (
@@ -773,7 +771,7 @@ export default function ContainerPostProfile(props) {
                                             <div></div>
                                         ) : (
                                             <div>
-                                                <span>{post?.commentCount?.commentCount} bình luận</span>
+                                                <span>{post?.commentCount?.commentCount} comment</span>
                                             </div>
                                         )
                                         }
@@ -792,7 +790,7 @@ export default function ContainerPostProfile(props) {
                                     <div className="post-comment">
                                         <Button variant="light" onClick={() => handleToggleComment(index)}>
                                             <i className="far fa-comment"></i>
-                                            <span>Bình luận</span>
+                                            <span>Comment</span>
                                         </Button>
                                     </div>
 
@@ -811,7 +809,7 @@ export default function ContainerPostProfile(props) {
             {/* Modal Privacy Post*/}
             <Modal show={showPrivacyPost} onHide={handlePrivacyPostClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Chọn đối tượng</Modal.Title>
+                    <Modal.Title>Select audience</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="modal-privacy-container">
@@ -823,8 +821,8 @@ export default function ContainerPostProfile(props) {
                                     </div>
                                 </div>
                                 <div className="privacy-name">
-                                    <h5>Công khai</h5>
-                                    <span>Bất kì ai ở trên hoặc ngoài Facebook</span>
+                                    <h5>Public</h5>
+                                    <span>Anyone on or off Facebook</span>
                                 </div>
                             </div>
 
@@ -841,8 +839,8 @@ export default function ContainerPostProfile(props) {
                                     </div>
                                 </div>
                                 <div className="privacy-name">
-                                    <h5>Bạn bè</h5>
-                                    <span>Bạn bè của bạn trên Facebook</span>
+                                    <h5>Friend</h5>
+                                    <span>Your friends on facebook</span>
                                 </div>
                             </div>
                             <div className="input-radio">
@@ -859,8 +857,8 @@ export default function ContainerPostProfile(props) {
                                     </div>
                                 </div>
                                 <div className="privacy-name">
-                                    <h5>Chỉ mình tôi</h5>
-                                    <span>Chế độ riêng tư</span>
+                                    <h5>Private</h5>
+                                    <span>Only me</span>
                                 </div>
                             </div>
 
@@ -873,10 +871,10 @@ export default function ContainerPostProfile(props) {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handlePrivacyPostClose}>
-                        Đóng
+                        Close
                     </Button>
                     <Button variant="primary" onClick={handleChangePostPrivacy}>
-                        Lưu
+                        Save
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -884,7 +882,7 @@ export default function ContainerPostProfile(props) {
             {/* Modal Privacy */}
             <Modal show={showPrivacy && privacyIndex !== null} onHide={handlePrivacyClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Chọn đối tượng</Modal.Title>
+                    <Modal.Title>Select audience</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="modal-privacy-container">
@@ -896,8 +894,8 @@ export default function ContainerPostProfile(props) {
                                     </div>
                                 </div>
                                 <div className="privacy-name">
-                                    <h5>Công khai</h5>
-                                    <span>Bất kì ai ở trên hoặc ngoài Facebook</span>
+                                    <h5>Public</h5>
+                                    <span>Anyone on or off Facebook</span>
                                 </div>
                             </div>
 
@@ -914,8 +912,8 @@ export default function ContainerPostProfile(props) {
                                     </div>
                                 </div>
                                 <div className="privacy-name">
-                                    <h5>Bạn bè</h5>
-                                    <span>Bạn bè của bạn trên Facebook</span>
+                                    <h5>Friend</h5>
+                                    <span>Your friends on facebook</span>
                                 </div>
                             </div>
 
@@ -933,8 +931,8 @@ export default function ContainerPostProfile(props) {
                                     </div>
                                 </div>
                                 <div className="privacy-name">
-                                    <h5>Chỉ mình tôi</h5>
-                                    <span>Chế độ riêng tư</span>
+                                    <h5>Private</h5>
+                                    <span>Only me</span>
                                 </div>
                             </div>
 
@@ -947,10 +945,10 @@ export default function ContainerPostProfile(props) {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handlePrivacyClose}>
-                        Đóng
+                        Close
                     </Button>
                     <Button variant="primary" onClick={() => handleChangePrivacy(postUser[privacyIndex]?.id, postUserPrivacy)}>
-                        Lưu
+                        Save
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -976,86 +974,27 @@ export default function ContainerPostProfile(props) {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handleClose}>
-                        Đóng
+                        Close
                     </Button>
                 </Modal.Footer>
             </CustomModal>
-
-            {/* <CustomModal show={show} onHide={handleClose} centered className="custom-modal">
-                <div className="modal-body-change-image">
-                    {imageSrcProfile && imageSrcProfile.length === 1 && (
-                        <div className="modal-body-image-change-container">
-                            {imageSrcProfile.map((src, index) => (
-                                <div className="image-change-container" key={index} style={{ position: "relative" }}>
-                                    <img src={src} alt={`Image ${index}`} />
-                                    <Button variant="light" className="modal-image-delete" onClick={() => handleDeleteImage(index)}>
-                                        X
-                                    </Button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {imageSrcProfile && imageSrcProfile.length === 2 && (
-                        <div className="modal-body-image-change-container image-two">
-                            <div className="image-change-container image-two" style={{ position: "relative" }}>
-                                {imageSrcProfile.map((src, index) => (
-                                    <>
-                                        <img src={src} alt={`Image ${index}`} />
-                                        <Button variant="light" className="modal-image-delete" onClick={() => handleDeleteImage(index)}>
-                                        X
-                                    </Button>
-                                    </>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                </div>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={handleClose}>
-                        Đóng
-                    </Button>
-                </Modal.Footer>
-            </CustomModal > */}
 
             {/* Modal Delete */}
 
             <Modal show={showAlert} onHide={handleCloseAlert} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ transform: "translateX(170px)" }}>Xác nhận</Modal.Title>
+                    <Modal.Title style={{ transform: "translateX(170px)" }}>Confirm</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Bạn có chắc chắn muốn xóa bài viết ?</Modal.Body>
+                <Modal.Body>Are you sure to delete this Post ?</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseAlert}>
-                        Đóng
+                        Close
                     </Button>
                     <Button variant="primary" onClick={() => handleDeleteStatus(postIdToDelete)}>
-                        Có
+                        Yes
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-            {/* {showToast && (
-                <Toast onClose={() => setShowToast(false)}>
-                    <div className="toast-header">
-                        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Thông báo mới</strong>
-                        <button type="button" className="btn-close" onClick={() => setShowToast(false)}></button>
-                    </div>
-                    <Toast.Body>
-                        <div className="toast-container">
-                            <div className="toast-avatar">
-                                <img src={userPost?.avatar} alt="" />
-                            </div>
-                            <div className="toast-content" style={{ color: "black", marginLeft: "5px" }}>
-                                <p><span style={{ fontWeight: "600" }}>{userPost?.fullname}</span> vừa mới thích bài viết của bạn</p>
-                                <span style={{ color: "#0D6EFD" }}>vài giây trước</span>
-                            </div>
-                            <i className="fas fa-circle"></i>
-                        </div>
-                    </Toast.Body>
-                </Toast>
-            )} */}
 
             {isPostLoading || isImageLoading ? (
                 <LoadingNew></LoadingNew>

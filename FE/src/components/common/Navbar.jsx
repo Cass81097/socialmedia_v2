@@ -23,6 +23,8 @@ export default function Navbar() {
     const [down, setDown] = useState(false);
     const [count, setCount] = useState(0);
     const [isUnread, setIsUnread] = useState(false);
+    const [status, setStatus] = useState([])
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,6 +51,16 @@ export default function Navbar() {
                     await axios.post("http://localhost:5000/statusNotifications", data);
                     setUserPost({});
                 }
+                if (Object.keys(status).length !== 0) {
+                    const data = {
+                        sender: status.id,
+                        status: status.postId,
+                        des: "đã bình luận bài viết của bạn",
+                    };
+                    console.log(data,88888)
+                    await axios.post("http://localhost:5000/statusNotifications", data);
+                    setStatus({});
+                }
 
                 const response = await axios.get(
                     `http://localhost:5000/statusNotifications/receiverId/${user.id}`
@@ -66,7 +78,7 @@ export default function Navbar() {
         };
 
         fetchData();
-    }, [user.id, setUserRequest, setUserPost, userRequest, userPost]);
+    }, [user.id, setUserRequest, setUserPost, userRequest, userPost, setStatus, status]);
 
     const handleUserRequest = (data) => {
         setUserRequest(data);
@@ -75,6 +87,12 @@ export default function Navbar() {
 
     const handleUserPost = (data) => {
         setUserPost(data);
+        setCount(count => count + 1)
+
+    };
+    const handleStatus = (data) => {
+        console.log(data,11111)
+        setStatus(data);
         setCount(count => count + 1)
 
     };
@@ -95,7 +113,7 @@ export default function Navbar() {
 
     const boxStyle = {
         height: down ? 'auto' : '0px',
-        maxHeight: '650px',
+        maxHeight: '450px',
         opacity: down ? 1 : 0
     };
 
@@ -160,10 +178,12 @@ export default function Navbar() {
         setNotifications(response.data);
         setIsUnread(false);
     }
+
+
     return (
         <>
             {/*{!down && <Notification setUserRequest={setUserRequest} setUserPost={setUserPost}></Notification>}*/}
-            <Notification setUserRequest={handleUserRequest} setUserPost={handleUserPost} />
+            <Notification setUserRequest={handleUserRequest} setUserPost={handleUserPost} setStatus={handleStatus} />
             <header>
                 <div className="fb-nav">
                     <div className="title">
@@ -229,11 +249,11 @@ export default function Navbar() {
                                 <div className="content11" style={{ padding: "10px" }}>
                                     <div style={{ display: "flex", justifyContent: "space-between", marginRight: "5px" }}>
                                         <h2>
-                                            Thông Báo
+                                            Notifications
                                         </h2>
 
                                         <button type="button" className="btn btn-light "
-                                            style={{ borderRadius: "50%", height: "40px", width: "40px" }}>
+                                                style={{ borderRadius: "50%", height: "40px", width: "40px" }}>
                                             <i className="fas fa-ellipsis-h"></i>
                                         </button>
 
@@ -249,7 +269,7 @@ export default function Navbar() {
                                             }}
                                             onClick={showAllNotification}
                                         >
-                                            Tất cả
+                                            All
                                         </button>
                                         <button
                                             type="button"
@@ -261,7 +281,7 @@ export default function Navbar() {
                                             }}
                                             onClick={showIsReadNotification}
                                         >
-                                            Chưa đọc
+                                            Unread
                                         </button>
                                     </div>
                                     <div style={{
@@ -271,9 +291,9 @@ export default function Navbar() {
                                         marginTop: "10px",
                                         alignItems: "end"
                                     }}>
-                                        <h5> Trước đó </h5>
+                                        <h5> New </h5>
                                         <button type="button" className="btn btn-light "
-                                            style={{ color: "#1877F2", fontWeight: "bold" }} onClick={showAllNotification} >Xem tất cả
+                                                style={{ color: "#1877F2", fontWeight: "bold" }} onClick={showAllNotification} >See all
                                         </button>
 
                                     </div>
@@ -281,17 +301,27 @@ export default function Navbar() {
                                         notifications.map((item, index) => (
                                             typeof item.status !== "undefined" ? (
                                                 <div className="notifi-item" key={index}
-                                                    onClick={() => showPost(item.status.id, item.id)
-                                                    }>
+                                                     onClick={() => showPost(item.status.id, item.id)
+                                                     }>
                                                     <div style={{ position: "relative" }}>
                                                         <div className="item-image">
                                                             <img src={item.sender.avatar} alt="img" />
                                                         </div>
-                                                        <div className="icon-avatar"
-                                                            style={{ background: "#4e59ff" }}>
-                                                            {/* <i className="fas fa-sticky-note"></i> */}
+                                                        {item.des ==="just like your post" &&  <div className="icon-avatar"
+                                                                                                         style={{ background: "#4e59ff" }}>
                                                             <i className="fas fa-thumbs-up"></i>
-                                                        </div>
+
+                                                        </div> }
+
+                                                        {item.des ==="just comment your post" &&
+                                                            < div className="icon-avatar"
+                                                                  style={{ background: "lightgreen" }}>
+
+                                                                <i className="fas fa-sticky-note"></i>
+
+                                                            </div>
+                                                        }
+
                                                     </div>
                                                     <div className="text">
                                                         <h4>
@@ -306,18 +336,18 @@ export default function Navbar() {
                                                             let timeAgo;
 
                                                             if (timeDiffInMinutes === 0) {
-                                                                timeAgo = "Vừa xong";
+                                                                timeAgo = "Just now";
                                                             } else if (timeDiffInMinutes < 60) {
-                                                                timeAgo = `${timeDiffInMinutes} phút trước`;
+                                                                timeAgo = `${timeDiffInMinutes} minute ago`;
                                                             } else {
                                                                 const hours = Math.floor(timeDiffInMinutes / 60);
                                                                 const minutes = timeDiffInMinutes % 60;
                                                                 if (hours >= 24) {
-                                                                    timeAgo = "1 ngày trước";
+                                                                    timeAgo = "1 day ago";
                                                                 } else if (minutes === 0) {
-                                                                    timeAgo = `${hours} giờ`;
+                                                                    timeAgo = `${hours} hour`;
                                                                 } else {
-                                                                    timeAgo = `${hours} giờ ${minutes} phút trước`;
+                                                                    timeAgo = `${hours} hour ${minutes} minute ago`;
                                                                 }
                                                             }
                                                             return (
@@ -336,7 +366,7 @@ export default function Navbar() {
 
                                             ) : (
                                                 <div className="notifi-item" key={index}
-                                                    onClick={() => goProfileUser(item.sender.username, item.id)}>
+                                                     onClick={() => goProfileUser(item.sender.username, item.id)}>
                                                     <div style={{ position: "relative" }}>
                                                         <div className="item-image">
                                                             <img src={item.sender.avatar} alt="img" />
@@ -358,18 +388,18 @@ export default function Navbar() {
                                                             let timeAgo;
 
                                                             if (timeDiffInMinutes === 0) {
-                                                                timeAgo = "Vừa xong";
+                                                                timeAgo = "Just now";
                                                             } else if (timeDiffInMinutes < 60) {
-                                                                timeAgo = `${timeDiffInMinutes} phút trước`;
+                                                                timeAgo = `${timeDiffInMinutes} minute ago`;
                                                             } else {
                                                                 const hours = Math.floor(timeDiffInMinutes / 60);
                                                                 const minutes = timeDiffInMinutes % 60;
                                                                 if (hours >= 24) {
-                                                                    timeAgo = "1 ngày trước";
+                                                                    timeAgo = "1 day ago";
                                                                 } else if (minutes === 0) {
-                                                                    timeAgo = `${hours} giờ`;
+                                                                    timeAgo = `${hours} hour`;
                                                                 } else {
-                                                                    timeAgo = `${hours} giờ ${minutes} phút trước`;
+                                                                    timeAgo = `${hours} hour ${minutes} minute ago`;
                                                                 }
                                                             }
                                                             return (
@@ -404,9 +434,8 @@ export default function Navbar() {
                                     <img src={user?.avatar} alt="Avatar" onClick={() => showInfo()} />
                                 </div>
                                 <ol className="profile-menu" style={{ display: "none" }}>
-                                    <li onClick={goUserInfo}>Infor</li>
-                                    <li data-toggle="modal" data-target="#myModal" onClick={() => logout()}>Logout
-
+                                    <li onClick={goUserInfo}>My Profile</li>
+                                    <li data-toggle="modal" data-target="#myModal" onClick={() => logout()}>Log Out
                                     </li>
                                 </ol>
                             </div>

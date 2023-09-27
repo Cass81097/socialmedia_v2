@@ -302,7 +302,7 @@ export class StatusService {
                     receiver: true,
                     sender: true
                 },
-                
+
                 where: {
                     id: id
                 }
@@ -324,7 +324,6 @@ export class StatusService {
             throw new Error('Error finding user by ID');
         }
     }
-
 
 }
 export default new StatusService()

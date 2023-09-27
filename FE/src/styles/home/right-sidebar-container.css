@@ -11,23 +11,23 @@
     margin-left: 10px;
 }
 
-.sidebar-ads img {
+.sidebar-ads-home img {
     width: 150px;
     height: 100px;
     border-radius: 10px;
 }
 
-.ads-one {
+.ads-one-home {
     position: relative;
     height: 100%;
 }
 
-.ads-two {
+.ads-two-home {
     position: relative;
     height: 100%;
 }
 
-.ads-one a {
+.ads-one-home a {
     height: 120px;
     padding-left: 7px;
     display: flex;
@@ -36,7 +36,7 @@
     border-radius: 10px;
 }
 
-.ads-two a {
+.ads-two-home a {
     height: 120px;
     padding-left: 7px;
     display: flex;
@@ -45,12 +45,12 @@
     border-radius: 10px;
 }
 
-.ads-one h5 {
+.ads-one-home h5 {
     color: black;
     font-weight: 500;
 }
 
-.ads-two h5 {
+.ads-two-home h5 {
     color: black;
     font-weight: 500;
 }
@@ -64,8 +64,8 @@
     color: rgb(162, 162, 154);
 }
 
-.ads-one a:hover,
-.ads-two a:hover {
+.ads-one-home a:hover,
+.ads-two-home a:hover {
     background: #d3d4d8;
     /* box-shadow: 0px 0px 20px -2px rgba(0, 0, 0, 0.75); */
 }
@@ -90,11 +90,11 @@
     box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.75);
 }
 
-.ads-one:hover .button-remove {
+.ads-one-home:hover .button-remove {
     opacity: 1;
 }
 
-.ads-two:hover .button-remove {
+.ads-two-home:hover .button-remove {
     opacity: 1;
 }
 

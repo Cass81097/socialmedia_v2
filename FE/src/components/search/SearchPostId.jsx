@@ -168,7 +168,7 @@ export default function SearchPostId() {
                                                     <div className={`post-image ${status.images.length === 4 ? 'four' :
                                                         status.images.length === 5 ? 'five' :
                                                             status.images.length > 2 && status.images.length !== 4 ? 'three' : ''
-                                                        }`}>
+                                                    }`}>
                                                         {status.images.map((image, imageIndex) => (
                                                             <img src={image.imageUrl} alt="Post Image" className="post-img" key={imageIndex} />
                                                         ))}

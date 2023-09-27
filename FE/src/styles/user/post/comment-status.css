@@ -104,11 +104,20 @@
 
 .send-comments {
     margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.send-comments i {
+    color: #2578D7;
 }
 
 .show-more-comments:hover {
     cursor: pointer;
     text-decoration: underline !important;
+}
+
+.show-more-comment {
+    margin-top: 20px;
 }
 
 .textarea-comment {

@@ -30,7 +30,7 @@ export default function Like(props) {
         const response = await postRequest(`${baseUrl}/likes/add/${postId}`, JSON.stringify(data));
         setIsLiked(true);
         fetchPostUser();
-        onLikeClick();
+        // onLikeClick();
 
         if (socket) {
             socket.emit("likeStatus", {     
@@ -97,12 +97,12 @@ export default function Like(props) {
             {isLiked ? (
                 <Button className="buttonLike" variant="light" onClick={handleRemoveLike} style={{ color: "rgb(27 97 255)" }}>
                     <i className="fas fa-thumbs-up"></i>
-                    <span className="buttonLike-span">Thích</span>
+                    <span className="buttonLike-span">Like</span>
                 </Button>
             ) : (
                 <Button className="buttonLike" variant="light" onClick={handleAddLike}>
                     <i className="far fa-thumbs-up" ></i>
-                    <span className="buttonLike-span">Thích</span>
+                    <span className="buttonLike-span">Like</span>
                 </Button>
             )}
 

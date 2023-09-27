@@ -83,7 +83,7 @@ export default function ListPendFriend() {
                     right:0,backgroundColor: "#e0dede59"}}>
                     <div  className="col-12" style={{ paddingTop:"40px", marginLeft:"20px"}}>
                         <div  className="row" style={{height: "40px"}}>
-                            <div className="col-6"><h4>Lời mời kết bạn</h4></div>
+                            <div className="col-6"><h4>Friend request</h4></div>
                             <div className="col-6">
                                 <button style={{position: "absolute", right: "20px"}} className="btn btn-link"><h5>Xem tất cả</h5>
                                 </button>
@@ -104,12 +104,12 @@ export default function ListPendFriend() {
                                                 cursor: 'pointer',
                                                 marginLeft:"6px",
                                                 fontSize:"18px"
-                                            }} className="card-text" onClick={() => handleShow(item?.friendCommonCount)}>  {item?.friendCommonCount.length} bạn chung</p>
+                                            }} className="card-text" onClick={() => handleShow(item?.friendCommonCount)}>  {item?.friendCommonCount.length} mutual friends</p>
 
                                             </div>
                                             }
-                                            <a onClick={() => handleAccept(item?.id)} className="btn btn-primary" style={{ width: "100%", marginTop: "5px" }}>Chấp nhận</a>
-                                            <a onClick={() => handleDelete(item?.id)} className="btn btn-light" style={{ width: "100%", marginTop: "5px", background: "lightgrey" }}>Xoá</a>
+                                            <a onClick={() => handleAccept(item?.id)} className="btn btn-primary" style={{ width: "100%", marginTop: "5px" }}>Accept</a>
+                                            <a onClick={() => handleDelete(item?.id)} className="btn btn-light" style={{ width: "100%", marginTop: "5px", background: "lightgrey" }}>Delete</a>
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +119,7 @@ export default function ListPendFriend() {
             </div>
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ transform: "translateX(92px)" }}>Danh sách bạn chung</Modal.Title>
+                    <Modal.Title style={{ transform: "translateX(92px)" }}>Mutual Friend list</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="modal-commonFriend-container">
@@ -135,19 +135,19 @@ export default function ListPendFriend() {
 
                                     <button type="button" className="btn btn-primary btn-add">
                                         <i className="fas fa-user">
-                                            <span>Bạn bè</span>
+                                            <span>Friend</span>
                                         </i>
                                     </button>
                                 </div>
                             ))
                         ) : (
-                            <p className='none-block'>Không có User bị chặn</p>
+                            <p className='none-block'>No user blocked</p>
                         )}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handleClose}>
-                        Đóng
+                        Close
                     </Button>
                 </Modal.Footer>
             </Modal>

@@ -86,7 +86,7 @@ export default function EditUser() {
             .put(`http://localhost:5000/users/users/${id}`, updatedUser)
             .then((res) => {
                 if (isEditing[field]) {
-                    toast.success("Cập nhật thành công.", toastOptions);
+                    toast.success("Update successful.", toastOptions);
                     setTimeout(() => {
                         toast.dismiss();
                     }, 1000);
@@ -119,7 +119,7 @@ export default function EditUser() {
             confirmPassword: passwordFields.confirmPassword,
         };
         if (updatedPassword.oldPassword === "") {
-            toast.error("Vui lòng nhập mật khẩu cũ", toastOptions)
+            toast.error("Please input old password", toastOptions)
             setTimeout(() => {
                 toast.dismiss()
             }, 2000)
@@ -135,14 +135,14 @@ export default function EditUser() {
                             console.log(res.data)
 
                             if (res.data === "Mật khẩu cũ của bạn không đúng.") {
-                                toast.error("Mật khẩu cũ của bạn không đúng.", toastOptions);
+                                toast.error("Old password is not correct.", toastOptions);
                                 setTimeout(() => {
                                     toast.dismiss()
                                 }, 2000)
                             } else {
                                 setIsEditing({ ...isEditing, password: false });
                                 if (res.data === "mat khau da duoc cap nhat") {
-                                    toast.success("Chỉnh sửa mật khẩu thành công.", toastOptions);
+                                    toast.success("Password change successful.", toastOptions);
                                     setTimeout(() => {
                                         toast.dismiss();
                                     }, 1000);
@@ -158,16 +158,16 @@ export default function EditUser() {
                 })
                 .catch((errors) => {
                     if (errors instanceof ValidationError) {
-                        toast.error("Mật khẩu không trùng lặp", toastOptions);
+                        toast.error("Password is not match", toastOptions);
                         setTimeout(() => {
                             toast.dismiss()
                         }, 2000)
                     } else {
-                        toast.error("Có lỗi trong quá trình cập nhật mật khẩu.", toastOptions);
+                        toast.error("There was an error during the password update process.", toastOptions);
                         setTimeout(() => {
                             toast.dismiss()
                         }, 2000)
-                        console.log('Có lỗi trong quá trình cập nhật mật khẩu.', errors);
+                        console.log('There was an error during the password update process.', errors);
                     }
                 });
         }
@@ -426,7 +426,7 @@ export default function EditUser() {
                                 <i className="fas fa-phone-alt"></i>
                             </div>
                             <div className="item-text">
-                                <p>{user.phone || <p >Chưa có</p>}</p></div>
+                                <p>{user.phone || <p >Please edit</p>}</p></div>
                         </div>
                         <div className="item-Right">
                             <div className="right-icons">
@@ -495,7 +495,7 @@ export default function EditUser() {
                                     name="oldPassword"
                                     value={passwordFields.oldPassword}
                                     onChange={handlePasswordChange}
-                                    placeholder={"Vui lòng nhập mật khẩu cũ của bạn"}
+                                    placeholder={"Please input your old password"}
                                 />
                             </div>
                         </div>
@@ -513,7 +513,7 @@ export default function EditUser() {
                                     name="newPassword"
                                     value={passwordFields.newPassword}
                                     onChange={handlePasswordChange}
-                                    placeholder={"Vui lòng nhập mật khẩu mới của bạn"}
+                                    placeholder={"Please input you new password"}
                                 />
                             </div>
                         </div>
@@ -532,7 +532,7 @@ export default function EditUser() {
                                     name="confirmPassword"
                                     value={passwordFields.confirmPassword}
                                     onChange={handlePasswordChange}
-                                    placeholder={"Vui lòng nhập lại mật khẩu mới"}
+                                    placeholder={"Please input new password"}
                                 />
                                 {/*{arePasswordsEntered && !isPasswordMatching && <span className="error-message">Mật khẩu không trùng khớp.</span>}*/}
                             </div>

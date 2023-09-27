@@ -87,7 +87,7 @@ export default function Avatar() {
 
                 <div className="user-profile-status">
                     <h3>{userProfile[0]?.fullname}</h3>
-                    <p>{countFriend.length} bạn bè</p>
+                    <p>{countFriend.length} friends</p>
                     <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
                         {randomFriends.map((friend) => (
                             <div className="profile-friend-avatar" key={friend.id}>
@@ -102,13 +102,13 @@ export default function Avatar() {
 
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title className="modal-avatar-title">Cập nhật ảnh đại diện</Modal.Title>
+                    <Modal.Title className="modal-avatar-title">Update Avatar :</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group mb-avatar">
                         <label htmlFor="formFile" className="form-label inputCode"><span></span></label>
                         <input type="file" id="image-upload" onChange={handleImageUpload} hidden />
-                        <label htmlFor="image-upload" className="file-upload-button"><span>+ Tải ảnh lên</span></label>
+                        <label htmlFor="image-upload" className="file-upload-button"><span>+ Upload Avatar</span></label>
                         <span id="file-name" style={{ fontSize: '0px' }}></span>
                         <div className="info-progress">
                             <div className="progress">
@@ -126,10 +126,10 @@ export default function Avatar() {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Đóng
+                        Close
                     </Button>
                     <Button variant="primary" onClick={handleSubmit}>
-                        Lưu
+                        Save
                     </Button>
                 </Modal.Footer>
             </Modal>

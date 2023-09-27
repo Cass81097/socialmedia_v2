@@ -9,12 +9,12 @@ const PageNotFound = () => {
                 <img src="https://i.postimg.cc/2yrFyxKv/giphy.gif" alt="gif_ing" />
             </div>
             <div className="content">
-                <h1 className="main-heading">Trang bạn tìm kiếm không tồn tại.</h1>
+                <h1 className="main-heading">This content isn't available right now.</h1>
                 <p className="text-page">
-                    ...có thể trang bạn đang tìm không được tìm thấy hoặc chưa từng tồn tại.
+                When this happens, it's usually because the owner only shared it with a small group of people, changed who can see it or it's been deleted.
                 </p>
                 <Link to="/">
-                    <button>Trở về trang chủ <i className="far fa-hand-point-right"></i></button>
+                    <button>Go to News Feed <i className="far fa-hand-point-right"></i></button>
                 </Link>
 
             </div>

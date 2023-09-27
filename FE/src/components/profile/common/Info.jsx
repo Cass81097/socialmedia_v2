@@ -67,7 +67,7 @@ export default function Info() {
                                 <input
                                     style={{marginRight: "10px"}}
                                     type="text"
-                                    value={user.fullname  || " Chưa có" }
+                                    value={user.fullname  || " Please update    " }
                                     readOnly
 
                                 />
@@ -103,7 +103,7 @@ export default function Info() {
                                     style={{ marginRight: "10px" }}
                                     className="itemtext"
                                     type="text"
-                                    value={user.address  || " Chưa có"}
+                                    value={user.address  || " Please update"}
                                     readOnly
 
                                 />
@@ -132,7 +132,7 @@ export default function Info() {
                                     style={{ marginRight: "10px" }}
                                     className="itemtext"
                                     type="text"
-                                    value={user.phone || " Chưa có"}
+                                    value={user.phone || " Please update"}
                                     readOnly
                                 />
                             </div>
