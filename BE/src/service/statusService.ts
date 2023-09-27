@@ -297,7 +297,7 @@ export class StatusService {
 
     findStatusById = async (id) => {
         try {
-            return await this.statusRepository.find({
+            const list = await this.statusRepository.find({
                 relations: {
                     receiver: true,
                     sender: true
@@ -307,6 +307,19 @@ export class StatusService {
                     id: id
                 }
             });
+            for (let i = 0; i < list.length; i++) {
+                let likeByStatusId = await likeService.getLikeForStatus(list[i].id);
+                let cmtCount = await commentService.getCommentForStatus(list[i].id)
+
+
+                list[i] = {
+                    ...list[i],
+                    accountLike: likeByStatusId.likeCount, listUserLike: [...likeByStatusId.likeRecords],
+                    commentCount: cmtCount
+
+                };
+            }
+            return list
         } catch (error) {
             throw new Error('Error finding user by ID');
         }

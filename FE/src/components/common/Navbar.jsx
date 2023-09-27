@@ -404,9 +404,9 @@ export default function Navbar() {
                                     <img src={user?.avatar} alt="Avatar" onClick={() => showInfo()} />
                                 </div>
                                 <ol className="profile-menu" style={{ display: "none" }}>
-                                    <li onClick={goUserInfo}>Thông tin</li>
-                                    <li data-toggle="modal" data-target="#myModal" onClick={() => logout()}>Đăng
-                                        xuất
+                                    <li onClick={goUserInfo}>Infor</li>
+                                    <li data-toggle="modal" data-target="#myModal" onClick={() => logout()}>Logout
+
                                     </li>
                                 </ol>
                             </div>

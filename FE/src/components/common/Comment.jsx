@@ -16,6 +16,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
     const { checkFriendStatus } = useContext(ProfileContext)
 
     const {
+
         textMessage,
         handleInputChange,
         handleEditMessage,
@@ -239,7 +240,10 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                 let timeAgo;
                                                 if (timeDiffInMinutes === 0) {
                                                     timeAgo = "Vừa xong";
-                                                } else if (timeDiffInMinutes < 60) {
+                                                }else if(timeDiffInMinutes === -1 ){
+                                                    timeAgo = "Vừa xong"
+                                                }
+                                                else if (timeDiffInMinutes < 60) {
                                                     timeAgo = `${timeDiffInMinutes} phút trước`;
                                                 } else {
                                                     const hours = Math.floor(timeDiffInMinutes / 60);
