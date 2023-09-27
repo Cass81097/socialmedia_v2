@@ -1,11 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../../styles/home/left-sidebar-container.css";
 import "../../../styles/home/style.css";
 import { AuthContext } from "../../../context/AuthContext";
+import { GroupContext } from "../../../context/GroupContext";
+import CreateGroup from "../../group/common/CreateGroup";
 
 export default function Sidebar() {
-    const { user } = useContext(AuthContext)
+    const navigate = useNavigate()
+    const { user } = useContext(AuthContext);
+    const { showGroupCreate, setShowGroupCreate, showGroupList } = useContext(GroupContext)
+
+    const showCreateGroup = () => {
+        setShowGroupCreate(true);
+    }
+
+    // const goGroupPage = (groupName) => {
+    //     console.log(groupName);
+    //     navigate(`/groups/${groupName}`)
+    // }
 
     return (
         <>
@@ -30,7 +43,7 @@ export default function Sidebar() {
                 </div>
 
                 <div className="mid-content-container">
-                    <li>
+                    {/* <li>
                         <Link to="/watch">
                             <i className="watch icon"></i>
                             <span className="text nav-text">Watch</span>
@@ -56,18 +69,32 @@ export default function Sidebar() {
                             <i className="game icon"></i>
                             <span className="text nav-text">Game</span>
                         </Link>
-                    </li>
+                    </li> */}
 
                     <li>
-                        <Link to="/groups">
+                        <Link to=""
+                            onClick={showCreateGroup}
+                        >
                             <i className="fas fa-users icon"></i>
                             <span className="text nav-text">Group</span>
                         </Link>
                     </li>
-
                     <hr />
+
+                    {showGroupList.map((group, index) => (
+                        <li key={index} className="group-image">
+                            <Link to={`/groups/${group?.group.id}`}>
+                                <div className="image-group">
+                                    <img src={group?.group.image} alt="" />
+                                </div>
+                                <span className="text nav-text">{group?.group.groupName}</span>
+                            </Link>
+                        </li>
+                    ))}
                 </div>
             </div>
+
+            <CreateGroup></CreateGroup>
         </>
     );
 }

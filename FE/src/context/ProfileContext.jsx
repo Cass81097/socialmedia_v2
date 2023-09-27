@@ -15,7 +15,7 @@ export const ProfileContextProvider = ({ children, user }) => {
   const [isAddStatus, setIsAddStatus] = useState(false);
 
   const [listFriend, setListFriend] = useState([])
-  
+
   const domain = window.location.pathname.split("/")[1];
   const username = domain || "";
 
@@ -59,7 +59,7 @@ export const ProfileContextProvider = ({ children, user }) => {
   useEffect(() => {
     const fetchFriendStatus = async () => {
       try {
-        const storedUser = localStorage.getItem('User'); 
+        const storedUser = localStorage.getItem('User');
         if (storedUser && username) {
           const response = await getRequest(`${baseUrl}/friendShips/checkStatusByUserId/${user?.id}/${userProfile[0]?.id}`);
           setCheckFriendStatus(response);
