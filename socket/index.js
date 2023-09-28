@@ -67,6 +67,24 @@ io.on("connection", (socket) => {
         }
     });
 
+    socket.on("sendGroupRequest", (data) => {
+        const { senderId, receiverId, groupId } = data;
+        const receiver = onlineUsers.find(user => user.userId === receiverId);
+        console.log(receiver, "sendGroupRequest");
+        if (receiver) {
+            io.to(receiver.socketId).emit("groupRequest", { senderId, receiverId, groupId });
+        }
+    });
+
+    socket.on("acceptGroupRequest", (data) => {
+        const { senderId, receiverId, groupId } = data;
+        const receiver = onlineUsers.find(user => user.userId === receiverId);
+        console.log(receiver, "acceptGroupRequest");
+        if (receiver) {
+            io.to(receiver.socketId).emit("groupRequestAccepeted", { senderId, receiverId, groupId});
+        }
+    });
+
 });
 
 io.listen(port, () => {

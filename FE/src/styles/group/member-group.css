@@ -1,0 +1,110 @@
+.member-group {
+    border-radius: 6px;
+    background: #fff;
+    padding: 15px;
+    /* height: 1000px; */
+}
+
+.member-group-header span {
+    color: #777777;
+}
+
+.member-group-header p {
+    color: #777777;
+    font-size: 18px;
+}
+
+.member-group-header {
+    border-bottom: 1px solid #dedede;
+    padding-bottom: 10px;
+}
+
+.member-group-header h6 {
+    font-size: 18px;
+}
+
+.member-group-admin {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #dedede;
+}
+
+.member-group-admin h6 {
+    padding: 10px 0;
+    font-size: 18px;
+}
+
+.admin-group {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+
+.admin-group-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.admin-group-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.admin-group-user {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+
+.admin-group-user h6 {
+    margin-left: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-group-user h6:hover {
+    text-decoration: underline !important;
+}
+
+.group-button-user {
+    margin-left: 15px;
+}
+
+.group-button-user button {
+    color: black;
+    font-weight: 500;
+}
+
+.group-button-user .fas-user {
+    margin-right: 5px;
+}
+
+.group-button-user button:hover {
+    color : black
+}
+
+.member-group-user h6 {
+    padding: 10px 0;
+    font-size: 18px;
+}
+
+.user-group {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    padding-bottom: 15px;
+}
+
+.button-member-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-member-group span {
+    margin-left: 5px;
+    font-weight: 500;
+}

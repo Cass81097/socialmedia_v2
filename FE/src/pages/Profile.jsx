@@ -55,7 +55,7 @@ export default function Profile() {
               <div className="info-col">
                 <LeftContainerProfile></LeftContainerProfile>
               </div>
-              {userProfile[0]?.id === user?.id && <div className="post-col" style={{ background: "white" }}>
+              {userProfile[0]?.id === user?.id && <div className="post-col" style={{ background: "white", border: "1px solid #dadcdf" }} >
                 <EditUser></EditUser>
               </div>}
             </div>

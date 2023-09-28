@@ -90,22 +90,22 @@ header {
 
 .pd-left {
     width: 60%;
-    margin-right: 100px;
+    /* margin-right: 100px; */
 }
 
 .pd-right {
     display: flex;
-    /* width: 510px; */
+    margin-right: 20px;
 }
 
-.add-button {
+/* .add-button {
     min-width: 160px;
 
 }
 
 .edit-button {
     min-width: 240px;
-}
+} */
 
 .pd-right span {
     font-weight: 500;
@@ -211,7 +211,7 @@ header {
 
 .info-col {
     width: 40%;
-    height: 100vh;
+    height: 440px;
     background: #fff;
     border: 1px solid #dadcdf;
     border-radius: 10px;
@@ -220,7 +220,7 @@ header {
 
 .post-col {
     width: calc(60% - 10px);
-    height: 100vh;
+    /* height: 100vh; */
     /* background: #fff; */
     /* border : 1px solid #dadcdf; */
     border-radius: 10px;
@@ -270,7 +270,11 @@ header {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    margin-bottom: 20px;
+    padding: 10px 0 20px 0
+}
+
+.class-profile .fa-map-marker-alt:before {
+    margin-left: 4px;
 }
 
 .address-profile {
@@ -511,7 +515,7 @@ header {
 .index-content {
     margin-top: 15px;
     background: white !important;
-    border-radius: 15px;
+    border-radius: 6px;
     overflow: hidden;
     border: 1px solid #dfdaec;
 }

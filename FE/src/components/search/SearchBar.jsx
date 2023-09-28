@@ -35,6 +35,9 @@ export const SearchBar = ({ setResults, results }) => {
           setResults(filteredResults);
         });
   };
+  const fetchDataGroup = (value) =>{
+      // fetch("")
+  }
 
   const handleChange = (value) => {
     setInput(value);

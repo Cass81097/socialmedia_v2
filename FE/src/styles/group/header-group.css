@@ -1,0 +1,10 @@
+.header-group {
+    padding: 35px;
+    height: 676px;
+    background: linear-gradient(1deg, rgb(255 255 255) 50%, rgb(82 82 82 / 71%) 100%);
+    /* box-shadow: 0px 0px 8px #ddd; */
+}
+
+.info-navbar-group {
+    padding: 20px 30px 20px 30px;
+}

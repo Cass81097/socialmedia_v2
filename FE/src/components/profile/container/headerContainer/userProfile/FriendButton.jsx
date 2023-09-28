@@ -217,7 +217,7 @@ export default function FriendButton(props) {
                 <span>Friend</span>
               </i>
             </button>
-            <div className="edit-button unfriend-button" style={{display: "none" }} onClick={handleShowAlertUnfriend}>
+            <div className="edit-button unfriend-button" style={{ display: "none" }} onClick={handleShowAlertUnfriend}>
               <div className='unfriend-icon'>
                 <i className="fas fa-user-slash" style={{ color: "black" }}>
                   <span>Unfriend</span>

@@ -9,17 +9,24 @@ export default function LeftPostProfile() {
 
     return (
         <>
-            <div className="info-col">
+            <div className="info-col" style={{ height: "220px" }}>
                 <div className="about-info">
                     <h5>Intro</h5>
                 </div>
                 <div className="profile-about">
-                    {/* <div className="class-profile">
-                        <i className="fas fa-graduation-cap icon-profile" />
-                        <span>Từng học tại Học Viện Ngân Hàng</span> 
-                    </div> */}
-                    <div className="address-profile">
-                        <i className="fas fa-map-marker-alt icon-profile" style={{marginRight:"4px"}}/>
+
+                    <div className="class-profile">
+                        <i className="fas fa-address-card icon-profile" />
+                        <span>{userProfile[0]?.fullname}</span>
+                    </div>
+
+                    <div className="class-profile">
+                        <i className="fas fa-phone-alt icon-profile" style={{marginRight:"4px"}}/>
+                        <span>{userProfile[0]?.phone}</span>
+                    </div>
+
+                    <div className="class-profile">
+                        <i className="fas fa-map-marker-alt icon-profile" style={{ marginRight: "6px" }} />
                         <span>{userProfile[0]?.address}</span>
                     </div>
                     {/* <div className="picture-profile">
