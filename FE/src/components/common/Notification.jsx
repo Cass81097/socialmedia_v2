@@ -8,11 +8,13 @@ import { ProfileContext } from "../../context/ProfileContext";
 import { baseUrl, deleteRequest, getRequest, postRequest } from "../../utils/services";
 import { CommentContext } from "../../context/CommentContext";
 import axios from 'axios';
+import { GroupContext } from "../../context/GroupContext";
 
 export default function Notification(props) {
     const navigate = useNavigate();
     const [showToast, setShowToast] = useState(false);
     const [showToastFriend, setShowToastFriend] = useState(false);
+    const [showToastGroup, setShowToastGroup] = useState(false);
     const [showToastComment, setShowToastComment] = useState(false);
     const [userPost, setUserPost] = useState(false);
     const { user } = useContext(AuthContext)
@@ -22,6 +24,12 @@ export default function Notification(props) {
     const [userRequest, setUserRequest] = useState([])
     const [status, setStatus] = useState([])
     const { setCommentList } = useContext(PostContext);
+    const { fetchGroupInfo, fetchGroupList, fetchInfoUserGroup } = useContext(GroupContext);
+
+    // Group Request
+    const [userGroupRequest, setUserGroupRequest] = useState([])
+    const [userGroupAccepted, setUserGroupAccepted] = useState(false)
+    const [groupRequest, setGroupRequest] = useState([])
 
     useEffect(() => {
         if (socket === null) return;
@@ -99,6 +107,7 @@ export default function Notification(props) {
         navigate(`/status/${id}`)
     }
 
+    // Comment
     useEffect(() => {
         if (socket === null) return;
 
@@ -120,7 +129,7 @@ export default function Notification(props) {
                 } catch (error) {
                     console.error("Error fetching user post:", error);
                 }
-            } 
+            }
         };
 
         socket.on("comment", handleCommentStatus);
@@ -129,6 +138,62 @@ export default function Notification(props) {
             socket.off("comment", handleCommentStatus);
         };
     }, [socket]);
+
+    // Group Request
+    useEffect(() => {
+        if (socket === null) return;
+
+        socket.on("groupRequest", (res) => {
+            // Lấy thông tin PostId ở đây
+            setUserGroupRequest(res)
+        });
+
+        socket.on("groupRequestAccepeted", (res) => {
+            setUserGroupAccepted(true)
+            setUserGroupRequest(res);
+        });
+
+        return () => {
+            socket.off("friendRequest");
+            socket.off("groupRequestAccepeted");
+        };
+    }, [socket]);
+
+    useEffect(() => {
+        if (userGroupRequest.senderId) {
+            setShowToastGroup(true);
+            return;
+        }
+        else {
+            setShowToastGroup(false);
+            return;
+        }
+    }, [userGroupRequest]);
+
+    useEffect(() => {
+        const fetchDataGroup = async () => {
+            try {
+                const response = await getRequest(`${baseUrl}/users/find/id/${userGroupRequest?.senderId}`);
+                // props.setGroupRequest({ ...response[0], userAccepted: userGroupAccepted })
+                setGroupRequest(response[0]);
+            } catch (error) {
+                console.error("Error checking friend status:", error);
+            }
+        };
+
+        if (userGroupRequest.senderId && userGroupRequest.receiverId) {
+            fetchDataGroup();
+        }
+    }, [userGroupRequest]);
+
+    const showGroup = async (groupId) => {
+        await fetchGroupList();
+        await fetchInfoUserGroup();
+        navigate(`/groups/${groupId}`);   
+        await fetchGroupInfo(groupId);
+        setShowToastGroup(false);
+    }
+
     return (
         <>
             {/* Toast Comment */}
@@ -192,6 +257,29 @@ export default function Notification(props) {
                             </div>
                             <div className="toast-content" style={{ color: "black", marginLeft: "5px" }}>
                                 <p><span style={{ fontWeight: "600" }}>{userRequest[0]?.fullname}</span> {userAccepted ? "accepted" : "just sent"} friend request</p>
+                                <span style={{ color: "#0D6EFD" }}>a few second ago</span>
+                            </div>
+                            <i className="fas fa-circle"></i>
+                        </div>
+                    </Toast.Body>
+                </Toast>
+            )}
+
+            {/* Toast Group*/}
+            {showToastGroup && (
+                <Toast onClose={() => setShowToastGroup(false)}>
+                    <div className="toast-header">
+                        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+                        <strong className="me-auto">Notifcation :</strong>
+                        <button type="button" className="btn-close" onClick={() => setShowToastGroup(false)}></button>
+                    </div>
+                    <Toast.Body onClick={() => showGroup(userGroupRequest?.groupId)}>
+                        <div className="toast-container">
+                            <div className="toast-avatar">
+                                <img src={groupRequest?.avatar} alt="" />
+                            </div>
+                            <div className="toast-content" style={{ color: "black", marginLeft: "5px" }}>
+                                <p><span style={{ fontWeight: "600" }}>{groupRequest?.fullname}</span> {userGroupAccepted ? "accepted" : "just sent"} join a group request</p>
                                 <span style={{ color: "#0D6EFD" }}>a few second ago</span>
                             </div>
                             <i className="fas fa-circle"></i>

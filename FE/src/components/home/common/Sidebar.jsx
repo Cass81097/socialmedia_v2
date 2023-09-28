@@ -9,16 +9,16 @@ import CreateGroup from "../../group/common/CreateGroup";
 export default function Sidebar() {
     const navigate = useNavigate()
     const { user } = useContext(AuthContext);
-    const { showGroupCreate, setShowGroupCreate, showGroupList } = useContext(GroupContext)
+    const { showGroupCreate, setShowGroupCreate, showGroupList, fetchGroupInfo } = useContext(GroupContext)
 
     const showCreateGroup = () => {
         setShowGroupCreate(true);
     }
 
-    // const goGroupPage = (groupName) => {
-    //     console.log(groupName);
-    //     navigate(`/groups/${groupName}`)
-    // }
+    const handleLinkClick = async(groupId) => {
+       await fetchGroupInfo(groupId);
+    }
+
 
     return (
         <>
@@ -83,7 +83,7 @@ export default function Sidebar() {
 
                     {showGroupList.map((group, index) => (
                         <li key={index} className="group-image">
-                            <Link to={`/groups/${group?.group.id}`}>
+                            <Link to={`/groups/${group?.group.id}`} onClick={() => handleLinkClick(group?.group.id)}>
                                 <div className="image-group">
                                     <img src={group?.group.image} alt="" />
                                 </div>

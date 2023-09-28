@@ -14,8 +14,8 @@ export class UserGroupService {
 
     }
 
-
     findByUserId = async (userId) => {
+        console.log(userId,1111)
         try {
             return await  this.userGroupRepository.find({
                 relations: {
@@ -52,7 +52,7 @@ export class UserGroupService {
             throw error;
         }
     }
-    findByUserIdAndGroupId =async (groupId,userId)=>{
+    findByUserIdAndGroupId =async (userId, groupId)=>{
         return await  this.userGroupRepository.find({
             relations: {
                 user: true,
@@ -61,11 +61,31 @@ export class UserGroupService {
             where: {
                 group: { id: groupId },
                user :{id:userId}
-
             }
         }
         )
     }
+    findGroupByAdminId= async (adminId)=>
+    {
+        try {
+            return await  this.userGroupRepository.find({
+                relations: {
+                    user: true,
+                    group: true
+                },
+                where: {
+                    user: { id: adminId },
+                    role : "admin"
+
+                }
+            });
+        } catch (error) {
+
+            console.error("Error in findById:", error);
+            throw error;
+        }
+    }
+
     findByPendingGroupId = async (groupId) => {
         try {
             return await  this.userGroupRepository.find({
@@ -85,32 +105,57 @@ export class UserGroupService {
             throw error;
         }
     }
-    acceptedUserGroup = async ( userGroupId) => {
+    findAdminInGroup = async (groupId)=>{
+        console.log(groupId,1111)
         try {
-            const request = this.userGroupRepository.find({
+            return await  this.userGroupRepository.find({
                 relations: {
-                    group: true,
-                    sender: true
+                    user: true,
+                    group: true
                 },
                 where: {
-                    id: userGroupId
+                    group: { id: groupId },
+                    role : "admin"
 
                 }
             });
-            if (!request ) {
-                throw new Error('request  not found');
-            }
+        } catch (error) {
 
-            request .status = "accepted";
+            console.error("Error in findById:", error);
+            throw error;
+        }
+    }
+
+    acceptedUserGroup = async (userGroupId) => {
+        try {
+            const request = await this.userGroupRepository.findOne({
+                relations: {
+                    group: true,
+                    user: true
+                },
+                where: {
+                    id: userGroupId
+                }
+            });
+    
+            if (!request) {
+                throw new Error('Request not found');
+            }
+    
+            request.status = "accepted";
             await this.userGroupRepository.update(userGroupId, { status: "accepted" });
-            return "thêm thành viên vào nhóm thành công";
+    
+            return request;
+
         } catch (error) {
             throw new Error('Error updating content');
         }
     }
+
     leaveGroup = async (id)=>{
         return await this.userGroupRepository.delete(id)
     }
+    
     deleteUserByGroupId = async (groupId)=>{
        return   await this.userGroupRepository
             .createQueryBuilder()
@@ -121,7 +166,7 @@ export class UserGroupService {
 
     }
     createGroupByAdmin = async (userId,newGroupData)=>{
-        
+
         let newGroup=  await this.groupRepository.save(newGroupData);
         let data= {
             user:userId,

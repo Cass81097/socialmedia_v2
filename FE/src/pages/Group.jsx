@@ -31,7 +31,7 @@ const Group = (props) => {
                         {!showMemberGroup ? (
                             <>
                                 <div className='group-left-container'>
-                                    {infoUserGroup ? (
+                                    {infoUserGroup?.status === "accepted" ? (
                                         <>
                                             <GroupPost></GroupPost>
                                             <GroupPostStatus></GroupPostStatus>

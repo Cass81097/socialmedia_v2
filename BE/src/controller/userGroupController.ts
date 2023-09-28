@@ -3,6 +3,7 @@ import userGroupService from "../service/userGroupService";
 
 export class UserGroupController {
     findByUserId = async (req, res) => {
+        console.log(req.params.userId,1111)
         let data = await userGroupService.findByUserId(req.params.userId)
         res.json(data)
     }
@@ -12,6 +13,11 @@ export class UserGroupController {
     }
     findByUserIdAndGroupId = async (req,res)=>{
         let data = await userGroupService.findByUserIdAndGroupId(req.params.userId, req.params.groupId);
+        res.json(data)
+    }
+    findAdminInGroup =  async (req,res)=>{
+        console.log( 33333)
+        let data = await userGroupService.findAdminInGroup( req.params.groupId);
         res.json(data)
     }
     findByPendingGroupId = async (req,res)=>{
@@ -28,7 +34,7 @@ export class UserGroupController {
         res.json(del)
     }
     acceptedUserGroup = async (req, res) => {
-        const saveGroup = await userGroupService.acceptedUserGroup(req.param.userGroupId);
+        const saveGroup = await userGroupService.acceptedUserGroup(req.params.userGroupId);
         res.json(saveGroup);
     }
     createGroupByAdmin = async (req, res) => {

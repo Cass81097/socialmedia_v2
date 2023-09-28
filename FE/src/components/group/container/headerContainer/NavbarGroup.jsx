@@ -5,10 +5,21 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import $ from 'jquery';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { baseUrl, deleteRequest, postRequest, putRequest } from "../../../../utils/services";
 
 const NavbarGroup = (props) => {
-    const { showMemberRequest, setShowMemberRequest, showMemberGroup, setShowMemberGroup, infoUserGroup } = useContext(GroupContext);
+    const { setShowMemberRequest, showMemberGroup, setShowMemberGroup, infoUserGroup, fetchGroupInfo, fetchInfoUserGroup, fetchGroupList } = useContext(GroupContext);
     const [showLeaveGroup, setShowLeaveGroup] = useState(false);
+
+    const toastOptions = {
+        position: "bottom-left",
+        autoClose: 8000,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+    };
 
     const handleShowModalRequest = () => {
         setShowMemberRequest(true)
@@ -35,8 +46,17 @@ const NavbarGroup = (props) => {
         setShowLeaveGroup(false);
     }
 
-    const handleLeaveGroup = () => {
-        console.log('ok')
+    const handleLeaveGroup = async() => {
+        try {
+            const response = await deleteRequest(`${baseUrl}/userGroups/userId/${infoUserGroup?.id}`);
+            setShowLeaveGroup(false);
+            await fetchGroupInfo();
+            await fetchInfoUserGroup();
+            await fetchGroupList();
+            toast.success("You have leave group.", toastOptions);
+        } catch (error) {
+            console.error("Error fetching all users:", error);
+        }
     }
 
     return (
@@ -50,7 +70,7 @@ const NavbarGroup = (props) => {
                         </p>
                     </div>
 
-                    {infoUserGroup ? (
+                    {infoUserGroup?.status === "accepted" ? (
                         <div className={`group-task ${showMemberGroup ? 'select1' : ''}`}
                             onClick={handleShowMemberGroup}>
                             <p style={showMemberGroup ? { color: 'rgb(24, 118, 242)' } : {}}>
@@ -69,14 +89,14 @@ const NavbarGroup = (props) => {
                 </div>
 
                 <div className="group-button-invite">
-                    <button type="button" class="btn btn-secondary btn-edit btn-group-navbar" onClick={showInfo}>
+                    <button type="button" className="btn btn-secondary btn-edit btn-group-navbar" onClick={showInfo}>
                         <i
                             style={{ color: "black" }}
-                            class="fas fa-ellipsis-h">
+                            className="fas fa-ellipsis-h">
                         </i>
                     </button>
 
-                    {infoUserGroup?.role === "member" ? (
+                    {infoUserGroup?.role === "member" && infoUserGroup?.status === "accepted" ? (
                         <ol className="group-leave" style={{ display: "none" }}>
                             <li onClick={handleShowLeaveGroup}>
                                 <i className="fas fa-user-lock" />Leave group

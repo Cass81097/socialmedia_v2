@@ -1,13 +1,19 @@
 import "../../../styles/group/member-group.css"
 import React, { createContext, useCallback, useEffect, useState, useContext } from "react";
-import { baseUrl, getRequest } from "../../../utils/services"
+import { baseUrl, deleteRequest, postRequest, putRequest, getRequest } from "../../../utils/services"
 import { GroupContext } from "../../../context/GroupContext";
 import { AuthContext } from "../../../context/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 const MemberGroup = (props) => {
-    const { infoUserGroup, showGroupInfo } = useContext(GroupContext)
+    const { infoUserGroup, showGroupInfo, fetchGroupInfo } = useContext(GroupContext)
     const { user } = useContext(AuthContext)
     const [friendStatus, setFriendStatus] = useState([]);
+    const [showModalRemoveUser, setShowModalRemoveUser] = useState(false);
+    const [userId, setUserId] = useState(null);
 
     console.log(friendStatus);
 
@@ -17,7 +23,7 @@ const MemberGroup = (props) => {
                 if (showGroupInfo && showGroupInfo.userGroup) {
                     const promises = showGroupInfo.userGroup.map(async (userGroup) => {
                         const response = await getRequest(`${baseUrl}/friendShips/checkStatusByUserId/${user?.id}/${userGroup?.user.id}`);
-                        return response; // Sử dụng optional chaining ở đây
+                        return response;
                     });
                     const friendStatuses = await Promise.all(promises);
                     setFriendStatus(friendStatuses);
@@ -28,6 +34,36 @@ const MemberGroup = (props) => {
         };
         fetchFriendStatus();
     }, [user, showGroupInfo]);
+
+
+    const handleShowModalRemoveUser = (userGroupId) => {
+        setUserId(userGroupId);
+        setShowModalRemoveUser(true);
+    }
+
+    const handleCloseModalRemoveUser = () => {
+        setUserId(null);
+        setShowModalRemoveUser(false);
+    }
+
+    const handleRemoveUser = async (userGroupId) => {
+        try {
+            const response = await deleteRequest(`${baseUrl}/userGroups/userId/${userGroupId}`);
+            setShowModalRemoveUser(false);
+            await fetchGroupInfo();
+            toast.success("You have removed the user from the group.", toastOptions);
+        } catch (error) {
+            console.error("Error fetching all users:", error);
+        }
+    }
+
+    const toastOptions = {
+        position: "bottom-left",
+        autoClose: 8000,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+    };
 
     return (
         <>
@@ -66,22 +102,29 @@ const MemberGroup = (props) => {
                                 <h6>{groupUser?.user.fullname}</h6>
                             </div>
 
-                            <div>
-                                {user?.id !== groupUser?.user.id && infoUserGroup?.role === "admin" ? (
-                                    <div className="group-button-user">
-                                        <button type="button" className="btn btn-secondary btn-edit btn-group-navbar">
-                                            <i className="fas fa-users-slash fas-user"></i>Remove member
+                            <div className="button-member-group">
+
+                                {user?.id !== groupUser?.user.id ? (
+                                    <div className="add-button" >
+                                        <button type="button" className="btn btn-primary btn-add btn-friend-group">
+                                            <i className="fas fa-user">
+                                                <span>Friend</span>
+                                            </i>
                                         </button>
                                     </div>
                                 ) : null}
 
-                                <div className="add-button" >
-                                    <button type="button" className="btn btn-primary btn-add btn-friend-group">
-                                        <i className="fas fa-user">
-                                            <span>Friend</span>
-                                        </i>
-                                    </button>
-                                </div>
+                                {user?.id !== groupUser?.user.id && infoUserGroup?.role === "admin" ? (
+                                    <div className="group-button-user">
+                                        <button type="button" className="btn btn-secondary btn-edit btn-group-navbar" onClick={() => handleShowModalRemoveUser(groupUser?.id)}>
+                                            <i className="fas fa-users-slash fas-user">
+                                                <span>Remove member</span>
+                                            </i>
+                                        </button>
+                                    </div>
+                                ) : null}
+
+
 
                             </div>
 
@@ -98,6 +141,24 @@ const MemberGroup = (props) => {
                     ))}
                 </div>
             </div>
+
+            {/* Modal Remove User  */}
+            <Modal show={showModalRemoveUser} onHide={handleCloseModalRemoveUser} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title style={{ transform: "translateX(170px)" }}>Confirm :</Modal.Title>
+                </Modal.Header>
+                <Modal.Body
+                    style={{ textAlign: "center", fontSize: "20px", fontWeight: "600" }}
+                >Are you sure to remove user ?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModalRemoveUser}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={() => handleRemoveUser(userId)}>
+                        Yes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 }

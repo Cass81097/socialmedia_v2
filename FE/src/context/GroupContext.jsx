@@ -15,8 +15,9 @@ export const GroupContextProvider = ({ children }) => {
     const [showGroupList, setShowGroupList] = useState([]);
     const [showGroupInfo, setShowGroupInfo] = useState([]);
     const [infoUserGroup, setInfoUserGroup] = useState([]);
+    const [userInfoGroupPending, setUserInfoGroupPeding] = useState([]);
 
-    const domain = window.location.pathname.split("/groups")[1];
+    const domain = window.location.pathname.split("/groups/")[1];
     const groupId = domain || "";
 
     useEffect(() => {
@@ -46,8 +47,10 @@ export const GroupContextProvider = ({ children }) => {
     useEffect(() => {
         const fetchInfoUserGroup = async () => {
             try {
-                const response = await getRequest(`${baseUrl}/userGroups/${groupId}/${user?.id}`);
-                setInfoUserGroup(response[0]);
+                if (groupId) {
+                    const response = await getRequest(`${baseUrl}/userGroups/userId/${user?.id}/groupId/${groupId}`);
+                    setInfoUserGroup(response[0]);
+                }
             } catch (error) {
                 console.error("Error fetching all users:", error);
             }
@@ -55,9 +58,64 @@ export const GroupContextProvider = ({ children }) => {
         fetchInfoUserGroup();
     }, [groupId, user]);
 
+    useEffect(() => {
+        const fetchUserInfoGroupPending = async () => {
+            try {
+                if (groupId) {
+                    const response = await getRequest(`${baseUrl}/userGroups/pending-groupId/${groupId}`);
+                    setUserInfoGroupPeding(response);
+                }
+            } catch (error) {
+                console.error("Error fetching all users:", error);
+            }
+        };
+
+        const interval = setInterval(fetchUserInfoGroupPending, 5000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [groupId]);
+
+    const fetchGroupInfo = useCallback(async () => {
+        try {
+            const response = await getRequest(`${baseUrl}/groups/${groupId}`);
+            setShowGroupInfo(response[0]);
+        } catch (error) {
+            console.error("Error fetching all users:", error);
+        }
+    }, [groupId]);
+
+    const fetchInfoUserGroup = useCallback(async () => {
+        try {
+            const response = await getRequest(`${baseUrl}/userGroups/userId/${user?.id}/groupId/${groupId}`);
+            setInfoUserGroup(response[0]);
+        } catch (error) {
+            console.error("Error fetching all users:", error);
+        }
+    }, [groupId, user]);
+
+    const fetchUserInfoGroupPending = useCallback(async () => {
+        try {
+            const response = await getRequest(`${baseUrl}/userGroups/pending-groupId/${groupId}`);
+            setUserInfoGroupPeding(response);
+        } catch (error) {
+            console.error("Error fetching all users:", error);
+        }
+    }, [groupId, user]);
+
+    const fetchGroupList = useCallback(async () => {
+        try {
+            const response = await getRequest(`${baseUrl}/userGroups/userId/${user?.id}`);
+            setShowGroupList(response);
+        } catch (error) {
+            console.error("Error fetching all users:", error);
+        }
+    }, [user]);
+
     return (
-        <GroupContext.Provider value={{ 
-            showMemberRequest, 
+        <GroupContext.Provider value={{
+            showMemberRequest,
             setShowMemberRequest,
             showMemberGroup,
             setShowMemberGroup,
@@ -75,7 +133,13 @@ export const GroupContextProvider = ({ children }) => {
             setShowGroupInfo,
             infoUserGroup,
             setInfoUserGroup,
-            }}>
+            fetchGroupInfo,
+            fetchInfoUserGroup,
+            userInfoGroupPending,
+            setUserInfoGroupPeding,
+            fetchUserInfoGroupPending,
+            fetchGroupList,
+        }}>
             {children}
         </GroupContext.Provider>
     );

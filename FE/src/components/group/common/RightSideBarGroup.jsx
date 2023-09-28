@@ -12,7 +12,7 @@ const RightSideBarGroup = (props) => {
 
                 <ol className="right-sidebar-about">
                     <li>
-                        <i class="fas fa-lock"></i>
+                        <i className="fas fa-lock"></i>
                         <div className="right-sidebar-about-content">
                             <h5>Private</h5>
                             <p>Only members can see who's in the group and what they post.</p>
@@ -21,7 +21,7 @@ const RightSideBarGroup = (props) => {
                     </li>
 
                     <li>
-                        <i class="fas fa-eye"></i>
+                        <i className="fas fa-eye"></i>
                         <div className="right-sidebar-about-content">
                             <h5>Visible</h5>
                             <p>Anyone can find this group.</p>
@@ -29,7 +29,7 @@ const RightSideBarGroup = (props) => {
                     </li>
 
                     <li>
-                        <i class="fas fa-map-marker-alt"></i>
+                        <i className="fas fa-map-marker-alt"></i>
                         <h5>TP.HCM  · Hanoi, Vietnam</h5>
                     </li>
                 </ol>
