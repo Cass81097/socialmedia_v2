@@ -14,7 +14,7 @@ import { baseUrl, deleteRequest, postRequest, putRequest } from "../../../utils/
 
 const CreateGroup = (props) => {
     const { user } = useContext(AuthContext)
-    const { showGroupCreate, setShowGroupCreate, setIsImageLoading, isImageLoading, setIsLoading, isLoading } = useContext(GroupContext);
+    const { showGroupCreate, setShowGroupCreate, setIsImageLoading, isImageLoading, setIsLoading, isLoading, fetchGroupList } = useContext(GroupContext);
     const [groupName, setGroupName] = useState('');
     const [imageSrcGroup, setImageSrcGroup] = useState(null);
 
@@ -32,10 +32,11 @@ const CreateGroup = (props) => {
         };
 
         const response = await postRequest(`${baseUrl}/userGroups/create-group/${user?.id}`, JSON.stringify(data));
-
+        await fetchGroupList();
         setIsLoading(false)
         setImageSrcGroup(null);
         setShowGroupCreate(false);
+        
     };
 
     const handleImageUpload = (e) => {
