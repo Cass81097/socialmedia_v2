@@ -515,7 +515,7 @@ header {
 .index-content {
     margin-top: 15px;
     background: white !important;
-    border-radius: 15px;
+    border-radius: 6px;
     overflow: hidden;
     border: 1px solid #dfdaec;
 }

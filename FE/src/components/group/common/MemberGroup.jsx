@@ -67,7 +67,7 @@ const MemberGroup = (props) => {
         <>
             <div className="member-group">
                 <div className="member-group-header">
-                    <h6>Members - <span>{showGroupInfo?.userGroupCount}</span></h6>
+                    <h6>Members - {showGroupInfo?.userGroupCount}</h6>
                     <p>New people and Pages who join this group will appear here</p>
                 </div>
 
@@ -121,8 +121,6 @@ const MemberGroup = (props) => {
                                         </button>
                                     </div>
                                 ) : null}
-
-
 
                             </div>
 
