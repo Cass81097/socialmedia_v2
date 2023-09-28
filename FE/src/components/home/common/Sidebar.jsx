@@ -19,6 +19,9 @@ export default function Sidebar() {
        await fetchGroupInfo(groupId);
     }
 
+    const goProfile = (username) => {
+        navigate(`/${username}`);
+    }
 
     return (
         <>
@@ -30,7 +33,7 @@ export default function Sidebar() {
                             <span className="text nav-text">Home</span>
                         </Link>
                     </li>
-                    <li className="links link-avatar sidebar-link-avatar" >
+                    <li className="links link-avatar sidebar-link-avatar" onClick={() => goProfile(user?.username)} >
                         <div className="sidebar-avatar">
                             <img
                                 src={user.avatar} alt="load" />
@@ -43,7 +46,7 @@ export default function Sidebar() {
                 </div>
 
                 <div className="mid-content-container">
-                    {/* <li>
+                    <li>
                         <Link to="/watch">
                             <i className="watch icon"></i>
                             <span className="text nav-text">Watch</span>
@@ -69,7 +72,7 @@ export default function Sidebar() {
                             <i className="game icon"></i>
                             <span className="text nav-text">Game</span>
                         </Link>
-                    </li> */}
+                    </li>
 
                     <li>
                         <Link to=""

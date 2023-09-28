@@ -90,12 +90,12 @@ header {
 
 .pd-left {
     width: 60%;
-    margin-right: 100px;
+    /* margin-right: 100px; */
 }
 
 .pd-right {
     display: flex;
-    /* width: 510px; */
+    margin-right: 20px;
 }
 
 /* .add-button {

@@ -152,19 +152,12 @@
 }
 
 .left-sidebar li a:hover {
-    background: var(--primary-color);
+    background: #d5d5d5b5;
 }
 
-.left-sidebar li a:hover .icon,
+/* .left-sidebar li a:hover .icon,
 .left-sidebar li a:hover .text {
     color: var(--sidebar-color);
-}
-
-/* hr {
-    width: 100%;
-    margin-left: 5px !important;
-    margin-bottom: 0px !important;
-    margin-top: 5px !important;
 } */
 
 .mid-content li:nth-child(1),
