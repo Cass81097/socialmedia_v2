@@ -63,6 +63,7 @@ export const ProfileContextProvider = ({ children, user }) => {
         if (storedUser && username) {
           const response = await getRequest(`${baseUrl}/friendShips/checkStatusByUserId/${user?.id}/${userProfile[0]?.id}`);
           setCheckFriendStatus(response);
+          console.log(response)
         } else return;
       } catch (error) {
         console.error("Error fetching user profiles:", error);

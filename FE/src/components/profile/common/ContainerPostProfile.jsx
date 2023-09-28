@@ -85,6 +85,7 @@ export default function ContainerPostProfile(props) {
     }, [privacyIndex, postUser]);
 
     const handlePrivacyChange = (event) => {
+        console.log("value o container")
         setPostUserPrivacy(event.target.value);
     };
 

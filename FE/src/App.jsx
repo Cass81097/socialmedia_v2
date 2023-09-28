@@ -14,6 +14,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
 import Profile from "./pages/Profile";
+import ErrorBoundary from "./error/ErrorBoundary";
 
 export default function App() {
   const { user, allUser } = useContext(AuthContext);
@@ -36,7 +37,8 @@ export default function App() {
         <HomeContextProvider>
           <ProfileContextProvider user={user}>
             <PostContextProvider>
-              
+
+
               <Routes>
                 <Route path="/loading" element={<Loading />} />
                 <Route path="/404" element={<PageNotFound />} />
@@ -56,6 +58,7 @@ export default function App() {
                 <Route path="/status/:id" element={<SearchPostId />} />
                 <Route path="/listPendFriend" element={<ListPendFriend />} />
               </Routes>
+
               {/*<Notification></Notification>*/}
 
             </PostContextProvider>

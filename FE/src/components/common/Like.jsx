@@ -10,7 +10,7 @@ import { baseUrl, deleteRequest, getRequest, postRequest } from "../../utils/ser
 export default function Like(props) {
     const navigate = useNavigate();
     const handleStatusRef = useRef(null);
-    const { postId, countLike, checkStatusLike, setIsCountLike, userLike, onLikeClick } = props
+    const { postId, countLike, checkStatusLike, setIsCountLike, userLike, onLikeClick,load } = props
     const { user } = useContext(AuthContext)
     const { userProfile, socket } = useContext(ProfileContext)
     const { fetchPostUser } = useContext(PostContext)
@@ -30,7 +30,9 @@ export default function Like(props) {
         const response = await postRequest(`${baseUrl}/likes/add/${postId}`, JSON.stringify(data));
         setIsLiked(true);
         fetchPostUser();
-        // onLikeClick();
+        load();
+
+        onLikeClick();
 
         if (socket) {
             socket.emit("likeStatus", {     
@@ -46,6 +48,7 @@ export default function Like(props) {
         const response = await deleteRequest(`${baseUrl}/likes/${postId}?userId=${data}`);
         setIsLiked(false);
         fetchPostUser();
+        load();
         onLikeClick();
     };
 
@@ -106,27 +109,6 @@ export default function Like(props) {
                 </Button>
             )}
 
-            {/* {showToast && (
-                <Toast onClose={() => setShowToast(false)}>
-                    <div className="toast-header">
-                        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Thông báo mới</strong>
-                        <button type="button" className="btn-close" onClick={() => setShowToast(false)}></button>
-                    </div>
-                    <Toast.Body>
-                        <div className="toast-container">
-                            <div className="toast-avatar">
-                                <img src={userPost?.avatar} alt="" />
-                            </div>
-                            <div className="toast-content" style={{ color: "black", marginLeft: "5px" }}>
-                                <p><span style={{ fontWeight: "600" }}>{userPost?.fullname}</span> vừa mới thích bài viết của bạn</p>
-                                <span style={{ color: "#0D6EFD" }}>vài giây trước</span>
-                            </div>
-                            <i className="fas fa-circle"></i>
-                        </div>
-                    </Toast.Body>
-                </Toast>
-            )} */}
         </>
     );
 }

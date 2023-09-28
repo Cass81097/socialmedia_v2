@@ -8,6 +8,7 @@ import { CommentContext } from "../../context/CommentContext";
 import { PostContext } from "../../context/PostContext";
 import { ProfileContext } from "../../context/ProfileContext";
 import "../../styles/user/post/comment-status.css";
+import axios from "axios";
 
 export default function Comment({ cmt,postSenderId, showComment, postVisi, postId }) {
     const { user } = useContext(AuthContext)
@@ -140,6 +141,18 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
 
 
     // img
+
+// check friend
+    const [checkFriend, setCheckFriend] = useState([])
+    const userLogin = JSON.parse(localStorage.getItem("User"))
+
+    useEffect(() => {
+        axios.get(`http://localhost:5000/friendShips/friendList/${userLogin.id}`).then((res) => {
+            setCheckFriend(res.data)
+            console.log(res)
+        })
+    }, [])
+    console.log(checkFriend)
 
     return (
         <>
@@ -404,7 +417,11 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                         )}
 
 
-                    {postUser[0]?.visibility !== "friend" && checkFriendStatus?.status !== "friend" && user.id !== postSenderId ? (
+                    { !checkFriend.some((c) => {
+                        return (
+                            c.user1.id === postSenderId || c.user2.id === postSenderId
+                        )
+                    }) && postUser[0]?.visibility !== "friend" && checkFriendStatus?.status !== "friend" && user.id !== postSenderId ? (
                         <div></div>
                     ) : (
                         <div className="enter-comment">

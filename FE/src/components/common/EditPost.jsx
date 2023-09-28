@@ -21,6 +21,7 @@ export default function EditPost(props) {
     const [textMessage, setTextMessage] = useState('');
     const [showChangeImage, setShowChangeImage] = useState(false);
     const [showPicker, setShowPicker] = useState(false);
+    console.log(postUser)
 
     const handleCloseChangeImage = async () => {
         const postId = postUser[postEditIndex].id;
@@ -56,6 +57,7 @@ export default function EditPost(props) {
             setTextMessage(postUser[postEditIndex]?.content);
         }
     }, [postUser, postEditIndex]);
+    console.log(textMessage)
 
     const handleInputChange = (event) => {
         const value = event.target.value;

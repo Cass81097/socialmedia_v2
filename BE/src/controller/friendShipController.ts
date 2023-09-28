@@ -57,14 +57,30 @@ export class FriendShipController {
     }
 
     findAll = async (req,res)=>{
-        let list = await friendShipService.findAll()
+        let list ;
+        if(req.query.findUser){
+            list = await friendShipService.findListFriendByUser(req.query.findUser)
+        }else {
+            list = await friendShipService.findAll()
+        }
         res.json(list)
     }
+    findFriend = async (req, res) => {
+        let data = await friendShipService.findFriend(req.params.userId1)
+        res.json(data);
+    }
+
+    findBlock = async (req, res) => {
+        let data = await friendShipService.findBlock()
+        res.json(data);
+    }
+
 
     findPendingFriend = async (req, res) => {
         const user1Id = req.params.user1Id;
         let data = await friendShipService.findPendingFriend(user1Id)
         res.json(data);
     }
+
 }
 export default new FriendShipController()

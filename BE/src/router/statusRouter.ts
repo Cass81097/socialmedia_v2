@@ -19,3 +19,4 @@ statusRouter.get("/visibility/public/:userId", statusController.findByIdAndStatu
 
 statusRouter.get("/statusId/:id", statusController.findStatusById);
 
+statusRouter.get("/friend",statusController.finAllByFriend)

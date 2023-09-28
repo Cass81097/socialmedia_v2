@@ -8,7 +8,7 @@ import uploadImages from "../hooks/UploadMulti";
 
 export const CommentContext = createContext();
 
-export const CommentContextProvider = ({ children, postId }) => {
+export const CommentContextProvider = ({ children, postId,reloadHome }) => {
     const { socket } = useContext(HomeContext)
     const { user } = useContext(AuthContext);
     const { fetchPostUser, commentList, setCommentList } = useContext(PostContext);
@@ -54,7 +54,7 @@ export const CommentContextProvider = ({ children, postId }) => {
 
             const newComment = await postRequest(`${baseUrl}/comments`, JSON.stringify(data));
             setCommentList((prevCommentList) => [...prevCommentList, newComment]);
-
+            reloadHome();
             setTextMessage("");
             fetchPostUser();
 
@@ -79,6 +79,7 @@ export const CommentContextProvider = ({ children, postId }) => {
         deleteRequest(`${baseUrl}/comments/commentId/${commentId}`)
             .then(() => {
                 const updatedCommentList = commentList.filter((comment) => comment.id !== commentId);
+                reloadHome();
                 setCommentList(updatedCommentList);
                 fetchPostUser();
             })

@@ -10,6 +10,10 @@ export class StatusController {
         let list = await statusService.findAll()
         res.json(list)
     }
+    finAllByFriend = async  (req, res) => {
+        let list = await statusService.findAllByFiends(req.query.user1,req.query.user2)
+        res.json(list)
+    }
 
     add = async (req, res) => {
         let data = await statusService.add(req.body);
