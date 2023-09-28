@@ -11,11 +11,9 @@ import Modal from 'react-bootstrap/Modal';
 const MemberGroup = (props) => {
     const { infoUserGroup, showGroupInfo, fetchGroupInfo } = useContext(GroupContext)
     const { user } = useContext(AuthContext)
-    const [friendStatus, setFriendStatus] = useState([]);
+    const [friendStatus, setFriendStatus] = useState(null);
     const [showModalRemoveUser, setShowModalRemoveUser] = useState(false);
     const [userId, setUserId] = useState(null);
-
-    console.log(friendStatus);
 
     useEffect(() => {
         const fetchFriendStatus = async () => {
