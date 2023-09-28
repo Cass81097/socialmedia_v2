@@ -46,7 +46,7 @@ const NavbarGroup = (props) => {
         setShowLeaveGroup(false);
     }
 
-    const handleLeaveGroup = async() => {
+    const handleLeaveGroup = async () => {
         try {
             const response = await deleteRequest(`${baseUrl}/userGroups/userId/${infoUserGroup?.id}`);
             setShowLeaveGroup(false);
@@ -99,7 +99,7 @@ const NavbarGroup = (props) => {
                     {infoUserGroup?.role === "member" && infoUserGroup?.status === "accepted" ? (
                         <ol className="group-leave" style={{ display: "none" }}>
                             <li onClick={handleShowLeaveGroup}>
-                                <i className="fas fa-user-lock" />Leave group
+                                <i className="fas fa-user-times" /><span style={{marginLeft:"5px"}}>Leave group</span>
                             </li>
                         </ol>
                     ) : null}
