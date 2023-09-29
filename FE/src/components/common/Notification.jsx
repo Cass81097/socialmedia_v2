@@ -201,7 +201,7 @@ export default function Notification(props) {
                 <Toast onClose={() => setShowToastComment(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Notification :</strong>
+                        <strong className="me-auto">Notification</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToastComment(false)}></button>
                     </div>
                     <Toast.Body onClick={() => showPost(status?.postId)}>
@@ -224,7 +224,7 @@ export default function Notification(props) {
                 <Toast onClose={() => setShowToast(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Notificatnion :</strong>
+                        <strong className="me-auto">Notification</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToast(false)}></button>
                     </div>
                     <Toast.Body onClick={() => showPost(userPost?.postId)}>
@@ -247,7 +247,7 @@ export default function Notification(props) {
                 <Toast onClose={() => setShowToastFriend(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Notifcation :</strong>
+                        <strong className="me-auto">Notification</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToastFriend(false)}></button>
                     </div>
                     <Toast.Body onClick={() => goProfileUser(userRequest[0]?.username)}>
@@ -270,7 +270,7 @@ export default function Notification(props) {
                 <Toast onClose={() => setShowToastGroup(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Notifcation :</strong>
+                        <strong className="me-auto">Notifcation</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToastGroup(false)}></button>
                     </div>
                     <Toast.Body onClick={() => showGroup(userGroupRequest?.groupId)}>

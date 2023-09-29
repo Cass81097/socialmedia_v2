@@ -30,8 +30,7 @@ export default function Like(props) {
         const response = await postRequest(`${baseUrl}/likes/add/${postId}`, JSON.stringify(data));
         setIsLiked(true);
         fetchPostUser();
-        // onLikeClick();
-
+       
         if (socket) {
             socket.emit("likeStatus", {     
                 senderId: user?.id,
@@ -39,6 +38,7 @@ export default function Like(props) {
                 postId: postId
             });
         }
+        onLikeClick();
     };
 
     const handleRemoveLike = async () => {
@@ -48,28 +48,6 @@ export default function Like(props) {
         fetchPostUser();
         onLikeClick();
     };
-
-    // useEffect(() => {
-    //     if (socket === null) return;
-        
-    //     const handleStatus = async (response) => {
-    //         console.log(response);
-    //         try {
-    //             const userId = response.senderId;
-    //             const res = await getRequest(`${baseUrl}/users/find/id/${userId}`);
-    //             setUserPost(res[0]);
-    //             setShowToast(true);
-    //         } catch (error) {
-    //             console.error("Error fetching user post:", error);
-    //         }
-    //     };
-    
-    //     socket.on("status", handleStatus);
-    
-    //     return () => {
-    //         socket.off("status", handleStatus);
-    //     };
-    // }, [socket]);
 
     useEffect(() => {
         async function checkLikedStatus() {
@@ -105,28 +83,6 @@ export default function Like(props) {
                     <span className="buttonLike-span">Like</span>
                 </Button>
             )}
-
-            {/* {showToast && (
-                <Toast onClose={() => setShowToast(false)}>
-                    <div className="toast-header">
-                        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Thông báo mới</strong>
-                        <button type="button" className="btn-close" onClick={() => setShowToast(false)}></button>
-                    </div>
-                    <Toast.Body>
-                        <div className="toast-container">
-                            <div className="toast-avatar">
-                                <img src={userPost?.avatar} alt="" />
-                            </div>
-                            <div className="toast-content" style={{ color: "black", marginLeft: "5px" }}>
-                                <p><span style={{ fontWeight: "600" }}>{userPost?.fullname}</span> vừa mới thích bài viết của bạn</p>
-                                <span style={{ color: "#0D6EFD" }}>vài giây trước</span>
-                            </div>
-                            <i className="fas fa-circle"></i>
-                        </div>
-                    </Toast.Body>
-                </Toast>
-            )} */}
         </>
     );
 }

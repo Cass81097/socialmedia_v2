@@ -38,7 +38,12 @@ export const AuthContextProvider = ({ children }) => {
                 console.error("Error fetching all users:", error);
             }
         };
-        fetchAllUsers();
+
+        const interval = setInterval(fetchAllUsers, 5000);
+
+        return () => {
+            clearInterval(interval);
+        };
     }, []);
 
     const generateAvatar = () => {
