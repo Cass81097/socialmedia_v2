@@ -23,10 +23,12 @@ export class GroupController {
         res.json(del)
     }
     update = async (req, res) => {
-        const data = await groupService.updateImage(req.params.groupId, req.body)
+        const data = await groupService.updateImage(req.params.groupId, req.body.image)
         res.json(data)
 
     }
+
+
 }
 
 export default new GroupController ()

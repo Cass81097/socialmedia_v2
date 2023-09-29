@@ -47,14 +47,14 @@ const MemberRequest = (props) => {
             const response = await deleteRequest(`${baseUrl}/userGroups/userId/${userGroupId}`);
             await fetchUserInfoGroupPending();
             await fetchGroupInfo();
-            toast.error("You declined request.", toastOptions);
+            toast.success("You declined request.", toastOptions);
         } catch (error) {
             console.error("Error fetching all users:", error);
         }
     }
 
     const toastOptions = {
-        position: "bottom-left",
+        position: "bottom-right",
         autoClose: 8000,
         pauseOnHover: true,
         draggable: true,
@@ -85,7 +85,34 @@ const MemberRequest = (props) => {
 
                                         <div className='request-name'>
                                             <h6>{userPending?.user?.fullname}</h6>
-                                            <p>{userPending?.time}</p>
+                                            {(() => {
+                                                const timeString = userPending?.time;
+                                                const date = new Date(timeString);
+                                                const now = new Date();
+                                                const timeDiffInMinutes = Math.floor((now - date) / (1000 * 60));
+                                                let timeAgo;
+
+                                                if (timeDiffInMinutes === 0) {
+                                                    timeAgo = "Just now";
+                                                } else if (timeDiffInMinutes < 60) {
+                                                    timeAgo = `${timeDiffInMinutes} minute ago`;
+                                                } else {
+                                                    const hours = Math.floor(timeDiffInMinutes / 60);
+                                                    const minutes = timeDiffInMinutes % 60;
+                                                    if (hours >= 24) {
+                                                        timeAgo = "1 day ago";
+                                                    } else if (minutes === 0) {
+                                                        timeAgo = `${hours} hour`;
+                                                    } else {
+                                                        timeAgo = `${hours} hour ${minutes} minute ago`;
+                                                    }
+                                                }
+                                                return (
+                                                    <div>
+                                                        <p>{timeAgo}</p>
+                                                    </div>
+                                                );
+                                            })()}
                                         </div>
                                     </div>
 

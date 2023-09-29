@@ -11,11 +11,13 @@ import { SearchResultsList } from "../search/SearchResultsList";
 import { CometChatUI } from '../../cometchat-chat-uikit-react-3/CometChatWorkspace/src';
 import axios from "axios";
 import Notification from "./Notification";
+import { GroupContext } from '../../context/GroupContext';
 
 export default function Navbar() {
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
     const { setUserProfile } = useContext(ProfileContext);
+    const { fetchGroupInfo } = useContext(GroupContext)
     const [results, setResults] = useState([]);
     const [notifications, setNotifications] = useState([]);
     const [userRequest, setUserRequest] = useState({})
@@ -23,7 +25,12 @@ export default function Navbar() {
     const [down, setDown] = useState(false);
     const [count, setCount] = useState(0);
     const [isUnread, setIsUnread] = useState(false);
-    const [status, setStatus] = useState([])
+    const [status, setStatus] = useState([]);
+    const [userGroupRequest, setUserGroupRequest] = useState([]);
+    const [groupRequest, setGroupRequest] = useState([])
+
+
+    console.log(notifications, "noti");
 
 
     useEffect(() => {
@@ -35,8 +42,8 @@ export default function Navbar() {
                         sender: userRequest.id,
                         receiver: user.id,
                         des: userRequest.userAccepted
-                            ? "đã đồng ý lời mời kết bạn của bạn"
-                            : "vừa mới gửi lời mời kết bạn tới bạn",
+                            ? "accepted your friend request"
+                            : "Just sent a friend request",
                     };
                     await axios.post("http://localhost:5000/friendNotifications", data);
                     setUserRequest({});
@@ -46,18 +53,33 @@ export default function Navbar() {
                     const data = {
                         sender: userPost.id,
                         status: userPost.postId,
-                        des: "đã like bài viết của bạn",
+                        des: "just like your post",
                     };
                     await axios.post("http://localhost:5000/statusNotifications", data);
                     setUserPost({});
+                }
+                if (Object.keys(groupRequest).length !== 0) {
+
+                    const data = {
+                        sender: groupRequest.id,
+                        receiver: groupRequest.receiver,
+                        group :groupRequest.groupId,
+                        des : groupRequest .userAccepted?
+                            "has accepted your request to join the group"
+                            :"Just sent a request to join group"
+
+                    };
+
+                    await axios.post("http://localhost:5000/groupNotifications", data);
+                    setGroupRequest({});
                 }
                 if (Object.keys(status).length !== 0) {
                     const data = {
                         sender: status.id,
                         status: status.postId,
-                        des: "đã bình luận bài viết của bạn",
+                        des: "just comment your post",
                     };
-                    console.log(data,88888)
+
                     await axios.post("http://localhost:5000/statusNotifications", data);
                     setStatus({});
                 }
@@ -66,9 +88,7 @@ export default function Navbar() {
                     `http://localhost:5000/statusNotifications/receiverId/${user.id}`
                 );
 
-                const notifications1 = response.data;
-                const notificationCount = notifications1.length;
-
+                const notifications1 = response.data
                 setNotifications(notifications1);
 
                 // Sử dụng biến newNotificationCount cho mục đích khác nếu cần thiết
@@ -78,7 +98,7 @@ export default function Navbar() {
         };
 
         fetchData();
-    }, [user.id, setUserRequest, setUserPost, userRequest, userPost, setStatus, status]);
+    }, [user.id, setUserRequest, setUserPost, userRequest, userPost, setStatus, status,setGroupRequest, groupRequest]);
 
     const handleUserRequest = (data) => {
         setUserRequest(data);
@@ -91,8 +111,12 @@ export default function Navbar() {
 
     };
     const handleStatus = (data) => {
-        console.log(data,11111)
         setStatus(data);
+        setCount(count => count + 1)
+
+    };
+    const handleGroupRequest = (data) => {
+        setGroupRequest(data)
         setCount(count => count + 1)
 
     };
@@ -155,10 +179,17 @@ export default function Navbar() {
         setDown(false);
         navigate(`/status/${statusId}`)
     }
-    const goProfileUser = async (username, id) => {
-        await axios.put(`http://localhost:5000/friendNotifications/update/${id}`)
-        setDown(false);
-        navigate(`/${username}`);
+    const goProfileUser = async (item) => {
+        if (item.group) {
+            await axios.put(`http://localhost:5000/groupNotifications/update/${item.id}`);
+            setDown(false);
+            navigate(`/groups/${item.group.id}`);
+            await fetchGroupInfo(item.group.id);
+        } else {
+            await axios.put(`http://localhost:5000/friendNotifications/update/${item.id}`);
+            setDown(false);
+            navigate(`/${item.sender.username}`);
+        }
     }
     // xu ly nut chua doc
     const showIsReadNotification = async () => {
@@ -178,12 +209,11 @@ export default function Navbar() {
         setNotifications(response.data);
         setIsUnread(false);
     }
-
-
+    
     return (
         <>
             {/*{!down && <Notification setUserRequest={setUserRequest} setUserPost={setUserPost}></Notification>}*/}
-            <Notification setUserRequest={handleUserRequest} setUserPost={handleUserPost} setStatus={handleStatus} />
+            <Notification setUserRequest={handleUserRequest} setUserPost={handleUserPost} setStatus={handleStatus} setGroupRequest={handleGroupRequest} />
             <header>
                 <div className="fb-nav">
                     <div className="title">
@@ -366,15 +396,45 @@ export default function Navbar() {
 
                                             ) : (
                                                 <div className="notifi-item" key={index}
-                                                     onClick={() => goProfileUser(item.sender.username, item.id)}>
+                                                     onClick={() => goProfileUser(item)}>
+                                                    {item.des=== "has accepted your request to join the group" &&
+
                                                     <div style={{ position: "relative" }}>
                                                         <div className="item-image">
-                                                            <img src={item.sender.avatar} alt="img" />
+                                                            <img src={item.group.image} alt="img" />
                                                         </div>
                                                         <div className="icon-avatar">
-                                                            <i className="fas fa-user"></i>
+                                                           <div className="icon-avatar"
+                                                                              style={{ background: "#6de46d" }}>
+                                                               <i className="fas fa-users"></i>                                                            </div>
+
                                                         </div>
-                                                    </div>
+                                                    </div>}
+                                                    {item?.des === "Just sent a request to join group" && (
+                                                        <div style={{ position: "relative" }}>
+                                                            <div className="item-image">
+                                                                <img src={item?.sender.avatar} alt="img" />
+                                                            </div>
+                                                            <div className="icon-avatar">
+                                                                <div className="icon-avatar" style={{ background: "#6de46d" }}>
+                                                                    <i className="fas fa-users"></i>                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    {(item.des === "Just sent a friend request" || item.des === "accepted your friend request") && (
+                                                        <div style={{ position: "relative" }}>
+                                                            <div className="item-image">
+                                                                <img src={item.sender.avatar} alt="img" />
+                                                            </div>
+                                                            <div className="icon-avatar">
+                                                                <div className="icon-avatar" style={{ background: "#4e59ff" }}>
+                                                                    <i className="fas fa-user"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+
                                                     <div className="text">
                                                         <h4>
                                                             {item.sender.fullname}
@@ -415,6 +475,7 @@ export default function Navbar() {
                                                         {!item.isRead && <div className="icon-read"></div>}
                                                     </div>
                                                 </div>
+
                                             )
                                         ))
                                     ) : (

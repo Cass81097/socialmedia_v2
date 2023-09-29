@@ -16,6 +16,7 @@ export const GroupContextProvider = ({ children }) => {
     const [showGroupInfo, setShowGroupInfo] = useState([]);
     const [infoUserGroup, setInfoUserGroup] = useState([]);
     const [userInfoGroupPending, setUserInfoGroupPeding] = useState([]);
+    const [showStatusGroup, setShowStatusGroup] = useState([]);
 
     const domain = window.location.pathname.split("/groups/")[1];
     const groupId = domain || "";
@@ -77,6 +78,20 @@ export const GroupContextProvider = ({ children }) => {
         };
     }, [groupId]);
 
+    useEffect(() => {
+        const fetchShowStatusGroup = async () => {
+            try {
+                if (groupId) {
+                    const response = await getRequest(`${baseUrl}/statusGroups/groupId/${groupId}`);
+                    setShowStatusGroup(response);
+                }
+            } catch (error) {
+                console.error("Error fetching all users:", error);
+            }
+        };
+        fetchShowStatusGroup();
+    }, [groupId]);
+
     const fetchGroupInfo = useCallback(async () => {
         try {
             const response = await getRequest(`${baseUrl}/groups/${groupId}`);
@@ -113,6 +128,17 @@ export const GroupContextProvider = ({ children }) => {
         }
     }, [user]);
 
+    const fetchShowStatusGroup = useCallback(async () => {
+        try {
+            if (groupId) {
+                const response = await getRequest(`${baseUrl}/statusGroups/groupId/${groupId}`);
+                setShowStatusGroup(response);
+            }
+        } catch (error) {
+            console.error("Error fetching all users:", error);
+        }
+    }, [groupId]);
+
     return (
         <GroupContext.Provider value={{
             showMemberRequest,
@@ -139,6 +165,10 @@ export const GroupContextProvider = ({ children }) => {
             setUserInfoGroupPeding,
             fetchUserInfoGroupPending,
             fetchGroupList,
+            setShowStatusGroup,
+            showStatusGroup,
+            fetchShowStatusGroup,
+
         }}>
             {children}
         </GroupContext.Provider>

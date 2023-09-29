@@ -9,13 +9,14 @@ export class StatusGroupService {
         this.statusGroupRepository = AppDataSource.getRepository(StatusGroup)
     }
 
-
-
     findAll = async () => {
         let status = await this.statusGroupRepository.find({
             relations: {
                 group: true,
                 sender: true
+            },
+            order: {
+                time: 'DESC'
             }
         });
         return status;
@@ -31,6 +32,9 @@ export class StatusGroupService {
                 group: {
                     id: GroupId
                 }
+            },
+            order: {
+                time: 'DESC'
             }
         });
 

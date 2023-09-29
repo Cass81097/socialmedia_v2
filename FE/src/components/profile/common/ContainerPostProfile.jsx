@@ -7,9 +7,11 @@ import { FaUserFriends } from 'react-icons/fa';
 import { FaEarthAmericas } from 'react-icons/fa6';
 import InputEmoji from "react-input-emoji";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { CommentContextProvider } from "../../../context/CommentContext";
+import { HomeContext } from '../../../context/HomeContext';
 import { PostContext } from "../../../context/PostContext";
 import { ProfileContext } from "../../../context/ProfileContext";
 import uploadImages from "../../../hooks/UploadMulti";
@@ -22,7 +24,6 @@ import { baseUrl, deleteRequest, postRequest, putRequest } from "../../../utils/
 import Comment from "../../common/Comment";
 import Like from "../../common/Like";
 import LoadingNew from "../../common/LoadingNew";
-import { HomeContext } from '../../../context/HomeContext';
 
 export default function ContainerPostProfile(props) {
     const { user, userProfile, setShowLikeList, setLikeListIndex, setShowPostEdit, setPostEditIndex } = props;
@@ -37,8 +38,15 @@ export default function ContainerPostProfile(props) {
     const [isImageLoading, setIsImageLoading] = useState(false);
     const containerRef = useRef(null);
 
+    const toastOptions = {
+        position: "bottom-right",
+        autoClose: 8000,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+    };
+
     //Comment
-    // const [showComment, setShowComment] = useState(false);
     const { showComment, setShowComment } = useContext(HomeContext)
 
     const [visibleCommentIndex, setVisibleCommentIndex] = useState(-1);
@@ -153,7 +161,7 @@ export default function ContainerPostProfile(props) {
     }, [imageSrcProfile]);
 
     const handleImageClose = () => {
-        setImageSrcProfile([]);
+        setImageSrcProfile(null);
     };
 
     //Handle Post
@@ -263,6 +271,7 @@ export default function ContainerPostProfile(props) {
     const handleDeleteStatus = (async (postId) => {
         setIsPostLoading(true);
         const response = await deleteRequest(`${baseUrl}/status/${postId}`);
+        toast.success("You have deleted post.", toastOptions);
         setIsPostLoading(false);
         setIsShowAlert(false);
         await fetchPostUser();
@@ -409,7 +418,8 @@ export default function ContainerPostProfile(props) {
                                     <img src="./images/watch.png" /> Video
                                 </Link>
                                 <label htmlFor="image-upload-post" className="upload-label" style={{ cursor: "pointer", alignItems: "center", display: "flex", justifyContent: "center" }}>
-                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> Picture
+                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> 
+                                    <span style={{fontSize:"14px", color:"#626262"}}>Picture</span> 
                                     <input
                                         id="image-upload-post"
                                         type="file"
@@ -564,7 +574,8 @@ export default function ContainerPostProfile(props) {
                                     <img src="./images/watch.png" /> Video
                                 </Link>
                                 <label htmlFor="image-upload-post" className="upload-label" style={{ cursor: "pointer", alignItems: "center", display: "flex", justifyContent: "center" }}>
-                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> Picture
+                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> 
+                                    <span style={{fontSize:"14px", color:"#626262"}}>Picture</span> 
                                     <input
                                         id="image-upload-post"
                                         type="file"

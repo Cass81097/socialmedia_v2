@@ -30,3 +30,19 @@
   object-fit: cover;
   cursor: pointer;
 }
+
+.group-search-photo {
+  overflow: hidden;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  border: 1px solid #e1dddd;
+}
+
+.group-search-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+
+}

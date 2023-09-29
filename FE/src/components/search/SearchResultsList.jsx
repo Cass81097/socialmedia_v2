@@ -28,7 +28,17 @@ export const SearchResultsList = ({ results, clearSearchResult }) => {
   return (
     <div className="results-list">
       {filteredResults.map((result, id) => {
-        return <SearchResult result={result.fullname} userId={result.id} key={id} onClickSearchResult={onClickSearchResult} />;
+        return <SearchResult 
+        fullname={result.fullname} 
+        username={result.username}
+        userId={result.id} 
+        avatar={result.avatar} 
+        key={id} 
+        onClickSearchResult={onClickSearchResult} 
+        groupName={result.groupName}
+        groupPhoto={result.image}
+        groupId={result.id}
+        />;
       })}
     </div>
   );

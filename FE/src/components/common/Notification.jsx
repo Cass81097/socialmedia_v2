@@ -35,7 +35,6 @@ export default function Notification(props) {
         if (socket === null) return;
 
         const handleLikeStatus = async (response) => {
-            console.log(response, 5555)
             if (response?.senderId !== response?.receiverId && user?.id !== response?.senderId) {
                 try {
                     const userId = response.senderId;
@@ -174,8 +173,9 @@ export default function Notification(props) {
         const fetchDataGroup = async () => {
             try {
                 const response = await getRequest(`${baseUrl}/users/find/id/${userGroupRequest?.senderId}`);
-                // props.setGroupRequest({ ...response[0], userAccepted: userGroupAccepted })
-                setGroupRequest(response[0]);
+                const group = await getRequest(`${baseUrl}/groups/${userGroupRequest?.groupId}`)
+                props.setGroupRequest({...response[0],groupName: group[0].groupName,groupId :userGroupRequest?.groupId, receiver:userGroupRequest?.receiverId  , userAccepted: userGroupAccepted })
+                setGroupRequest({...response[0],groupName: group[0].groupName, avatarGroup: group[0].image});
             } catch (error) {
                 console.error("Error checking friend status:", error);
             }
@@ -185,7 +185,7 @@ export default function Notification(props) {
             fetchDataGroup();
         }
     }, [userGroupRequest]);
-
+    
     const showGroup = async (groupId) => {
         await fetchGroupList();
         await fetchInfoUserGroup();
@@ -201,7 +201,7 @@ export default function Notification(props) {
                 <Toast onClose={() => setShowToastComment(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Notification :</strong>
+                        <strong className="me-auto">Notification</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToastComment(false)}></button>
                     </div>
                     <Toast.Body onClick={() => showPost(status?.postId)}>
@@ -224,7 +224,7 @@ export default function Notification(props) {
                 <Toast onClose={() => setShowToast(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Notificatnion :</strong>
+                        <strong className="me-auto">Notification</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToast(false)}></button>
                     </div>
                     <Toast.Body onClick={() => showPost(userPost?.postId)}>
@@ -247,7 +247,7 @@ export default function Notification(props) {
                 <Toast onClose={() => setShowToastFriend(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Notifcation :</strong>
+                        <strong className="me-auto">Notification</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToastFriend(false)}></button>
                     </div>
                     <Toast.Body onClick={() => goProfileUser(userRequest[0]?.username)}>
@@ -270,16 +270,16 @@ export default function Notification(props) {
                 <Toast onClose={() => setShowToastGroup(false)}>
                     <div className="toast-header">
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                        <strong className="me-auto">Notifcation :</strong>
+                        <strong className="me-auto">Notification</strong>
                         <button type="button" className="btn-close" onClick={() => setShowToastGroup(false)}></button>
                     </div>
                     <Toast.Body onClick={() => showGroup(userGroupRequest?.groupId)}>
                         <div className="toast-container">
                             <div className="toast-avatar">
-                                <img src={groupRequest?.avatar} alt="" />
+                                <img src={userGroupAccepted? groupRequest?.avatarGroup: groupRequest?.avatar} alt="" />
                             </div>
                             <div className="toast-content" style={{ color: "black", marginLeft: "5px" }}>
-                                <p><span style={{ fontWeight: "600" }}>{groupRequest?.fullname}</span> {userGroupAccepted ? "accepted" : "just sent"} join a group request</p>
+                                <p><span style={{ fontWeight: "600" }}>{userGroupAccepted ? groupRequest?.groupName: groupRequest?.fullName}</span> {userGroupAccepted ? "has accepted your request to join the group" : "just send join a request"} </p>
                                 <span style={{ color: "#0D6EFD" }}>a few second ago</span>
                             </div>
                             <i className="fas fa-circle"></i>

@@ -11,6 +11,8 @@ export class StatusGroup {
     id: number;
     @Column({type : "longtext"})
     content: string;
+    @Column({type : "longtext"})
+    imageSrc: string;
     @ManyToOne(() => User, (sender) => sender.id)
     sender: User;
     @ManyToOne(() => Group, ( group) => group.id)

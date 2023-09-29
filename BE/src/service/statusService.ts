@@ -271,6 +271,12 @@ export class StatusService {
 
             await this.statusRepository.createQueryBuilder()
                 .delete()
+                .from("status_notification")
+                .where("statusId = :statusId", { statusId })
+                .execute();
+
+            await this.statusRepository.createQueryBuilder()
+                .delete()
                 .from("image_status")
                 .where("statusId = :statusId", { statusId })
                 .execute();

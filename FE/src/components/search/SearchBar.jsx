@@ -22,46 +22,35 @@ export const SearchBar = ({setResults, results}) => {
     }, [window.location.pathname]);
 
     const fetchData = (value) => {
-        fetch("http://localhost:5000/users/")
-            .then((response) => response.json())
-            .then((json) => {
-                const filteredResults = json.filter((user) => {
-                    return (
-                        value &&
-                        user &&
-                        user.fullname &&
-                        (user.fullname.toLowerCase().includes(value) ||
-                            user.fullname.includes(value))
-                    );
-                });
-                setResults(filteredResults);
-            });
+        const userPromise = fetch("http://localhost:5000/users/").then((response) =>
+            response.json()
+        );
+        const groupPromise = fetch("http://localhost:5000/groups/").then((response) =>
+            response.json()
+        );
+
+        Promise.all([userPromise, groupPromise]).then(([users, groups]) => {
+            const userResults = users.filter(
+                (user) =>
+                    user.fullname &&
+                    (user.fullname.toLowerCase().includes(value) ||
+                        user.fullname.includes(value))
+            );
+            const groupResults = groups.filter(
+                (group) =>
+                    group.groupName &&
+                    (group.groupName.toLowerCase().includes(value) ||
+                        group.groupName.includes(value))
+            );
+
+            const mergedResults = [...userResults, ...groupResults];
+            setResults(mergedResults);
+        });
     };
-    const fetchDataGroup = (value) => {
-        fetch("http://localhost:5000/groups/")
-            .then((response) => response.json())
-            .then((json) => {
-                const filteredResults = json.filter((group) => {
-                    return (
-                        value &&
-                        group &&
-                        group.groupName &&
-                        (group.groupName.toLowerCase().includes(value) ||
-                            group.groupName.includes(value))
-                    );
-                });
-                setResults(filteredResults);
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-                // Xử lý lỗi ở đây, ví dụ thông báo cho người dùng
-            });
-    }
 
     const handleChange = (value) => {
         setInput(value);
         fetchData(value);
-        // fetchDataGroup(value);
     };
 
     const handleSearch = () => {
@@ -75,24 +64,6 @@ export const SearchBar = ({setResults, results}) => {
         }
     };
 
-    useEffect(() => {
-        // Add a click event listener to the document body
-        const handleClickOutside = (event) => {
-            if (inputRef.current && !inputRef.current.contains(event.target)) {
-
-                setResults([]);
-            }
-        };
-
-        // Add the event listener when the component mounts
-        document.body.addEventListener("click", handleClickOutside);
-
-        // Remove the event listener when the component unmounts
-        return () => {
-            document.body.removeEventListener("click", handleClickOutside);
-        };
-    }, [setResults]);
-
     return (
         <div className={`input-wrapper ${hasResults ? "with-results" : ""}`}>
             <FaSearch className="icon-search" onClick={handleSearch}/>
@@ -105,4 +76,35 @@ export const SearchBar = ({setResults, results}) => {
             />
         </div>
     );
-};
+}
+//     useEffect(() => {
+//         // Add a click event listener to the document body
+//         const handleClickOutside = (event) => {
+//             if (inputRef.current && !inputRef.current.contains(event.target)) {
+//
+//                 setResults([]);
+//             }
+//         };
+//
+//         // Add the event listener when the component mounts
+//         document.body.addEventListener("click", handleClickOutside);
+//
+//         // Remove the event listener when the component unmounts
+//         return () => {
+//             document.body.removeEventListener("click", handleClickOutside);
+//         };
+//     }, [setResults]);
+//
+//     return (
+//         <div className={`input-wrapper ${hasResults ? "with-results" : ""}`}>
+//             <FaSearch className="icon-search" onClick={handleSearch}/>
+//             <input
+//                 placeholder="Search..."
+//                 value={input}
+//                 onChange={(e) => handleChange(e.target.value)}
+//                 onKeyPress={handleKeyPress}
+//                 ref={inputRef}
+//             />
+//         </div>
+//     );
+// };
