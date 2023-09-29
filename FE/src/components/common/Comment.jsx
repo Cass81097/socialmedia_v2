@@ -149,10 +149,8 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
     useEffect(() => {
         axios.get(`http://localhost:5000/friendShips/friendList/${userLogin.id}`).then((res) => {
             setCheckFriend(res.data)
-            console.log(res)
         })
     }, [])
-    console.log(checkFriend)
 
     return (
         <>
@@ -223,14 +221,14 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                             }}>
 
                                                                 <i className="far fa-edit"></i>
-                                                                <span>Sửa bình luận</span>
+                                                                <span>Edit</span>
                                                             </li>
 
                                                             <li onClick={() => {
                                                                 handleShowAlert(item.id)
                                                             }}>
                                                                 <i className="far fa-trash-alt"></i>
-                                                                <span>Xóa bình luận</span>
+                                                                <span>Delete</span>
                                                             </li>
                                                         </ol>
                                                     </div>
@@ -242,8 +240,8 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
 
                                         </div>
                                         <div className="actions-status">
-                                            <p>Thích</p>
-                                            <p>Bình luận</p>
+                                            {/*<p>Like</p>*/}
+                                            {/*<p>Comment</p>*/}
 
                                             {(() => {
                                                 const timeString = item.time;
@@ -252,21 +250,21 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                 const timeDiffInMinutes = Math.floor((now - date) / (1000 * 60));
                                                 let timeAgo;
                                                 if (timeDiffInMinutes === 0) {
-                                                    timeAgo = "Vừa xong";
+                                                    timeAgo = "Just now";
                                                 }else if(timeDiffInMinutes === -1 ){
-                                                    timeAgo = "Vừa xong"
+                                                    timeAgo = "Just now"
                                                 }
                                                 else if (timeDiffInMinutes < 60) {
-                                                    timeAgo = `${timeDiffInMinutes} phút trước`;
+                                                    timeAgo = `${timeDiffInMinutes}m`;
                                                 } else {
                                                     const hours = Math.floor(timeDiffInMinutes / 60);
                                                     const minutes = timeDiffInMinutes % 60;
                                                     if (hours >= 24) {
-                                                        timeAgo = "1 ngày trước";
+                                                        timeAgo = "1 day ago";
                                                     } else if (minutes === 0) {
-                                                        timeAgo = `${hours} giờ`;
+                                                        timeAgo = `${hours} hours ago`;
                                                     } else {
-                                                        timeAgo = `${hours} giờ`;
+                                                        timeAgo = `${hours} hours ago`;
                                                     }
                                                 }
 
@@ -279,29 +277,31 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                             {item.timeEdit !== null ? (
                                                 <p style={{ marginLeft: "10px" }}
                                                    onClick={() => { showModalTimeEdit(item.timeEdit.toString()) }}>
-                                                    Đã chỉnh sửa</p>
+                                                    Edited</p>
                                             ) : (<></>)}
 
 
                                         </div>
                                     </div>
                                 ))}
-                                <div className="show-more-comments">
-                                    <p onClick={closeShowAll}>Ẩn bình luận</p>
-                                </div>
+                                {commentList.length === 1 ? (
+<div></div>): (
+                                    <div className="show-more-comments">
+                                    <p onClick={closeShowAll}>Hide comment</p>
+                                </div>)}
                             </div>
                         ) : (
                             <div>
 
                                 {commentList.length === 0 ? (
-                                    <div>Chưa có bình luận</div>
+                                    <div></div>
                                 ) : (
 
                                     // Handle comment
                                     <div>
                                         {commentList.length === 1 ? (<></>) : (
                                             <div className="show-more-comments">
-                                                <p onClick={toggleShowAll}>Hiện bình luận</p>
+                                                <p onClick={toggleShowAll}>View more comments</p>
                                             </div>)}
                                         <div className="all-comments">
                                             <div className="comments">
@@ -361,14 +361,14 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                                     handleStartEdit(latestComment?.id, latestComment?.content)
                                                                 }}>
                                                                     <i className="far fa-edit"></i>
-                                                                    <span>Sửa bình luận</span>
+                                                                    <span>Edit</span>
                                                                 </li>
 
                                                                 <li onClick={() => {
                                                                     handleShowAlert(latestComment?.id)
                                                                 }}>
                                                                     <i className="far fa-trash-alt"></i>
-                                                                    <span>Xóa bình luận</span>
+                                                                    <span>Delete</span>
                                                                 </li>
                                                             </ol>
                                                         </div>)}
@@ -376,8 +376,8 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                             </div>
 
                                             <div className="actions-status">
-                                                <p>Thích</p>
-                                                <p>Bình luận</p>
+                                                {/*<p>Thích</p>*/}
+                                                {/*<p>Bình luận</p>*/}
 
                                                 {(() => {
                                                     const timeString = latestComment?.time;
@@ -386,18 +386,20 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                     const timeDiffInMinutes = Math.floor((now - date) / (1000 * 60));
                                                     let timeAgo;
                                                     if (timeDiffInMinutes === 0) {
-                                                        timeAgo = "Vừa xong";
+                                                        timeAgo = "Just now";
+                                                    }else  if (timeDiffInMinutes === -1) {
+                                                        timeAgo = "Just now";
                                                     } else if (timeDiffInMinutes < 60) {
-                                                        timeAgo = `${timeDiffInMinutes} phút trước`;
+                                                        timeAgo = `${timeDiffInMinutes}m`;
                                                     } else {
                                                         const hours = Math.floor(timeDiffInMinutes / 60);
                                                         const minutes = timeDiffInMinutes % 60;
                                                         if (hours >= 24) {
-                                                            timeAgo = "1 ngày trước";
+                                                            timeAgo = "1 day ago";
                                                         } else if (minutes === 0) {
-                                                            timeAgo = `${hours} giờ`;
+                                                            timeAgo = `${hours} hours ago`;
                                                         } else {
-                                                            timeAgo = `${hours} giờ`;
+                                                            timeAgo = `${hours} hours ago`;
                                                         }
                                                     }
 
@@ -407,6 +409,11 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                         </div>
                                                     );
                                                 })()}
+                                                {latestComment.timeEdit !== null ? (
+                                                    <p style={{ marginLeft: "10px" }}
+                                                       onClick={() => { showModalTimeEdit(latestComment?.timeEdit.toString()) }}>
+                                                        Edited</p>
+                                                ) : (<></>)}
                                             </div>
                                         </div>
                                     </div>)}
@@ -451,22 +458,23 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
 
                     <Modal show={showAlert} onHide={handleCloseAlert} centered>
                         <Modal.Header closeButton>
-                            <Modal.Title style={{ transform: "translateX(170px)" }}>Xác nhận</Modal.Title>
+                            <Modal.Title style={{ transform: "translateX(170px)" }}>Confirm</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>Bạn có chắc chắn muốn xóa bình luận ?</Modal.Body>
+                        <Modal.Body>
+                            Are you sure you want to delete this comment ?</Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={handleCloseAlert}>
-                                Đóng
+                                No
                             </Button>
                             <Button variant="primary" onClick={() => handleDelete(postIdToDelete)}>
-                                Có
+                                Delete
                             </Button>
                         </Modal.Footer>
                     </Modal>
 
                     <Modal show={isModalOpen} onHide={handleCloseTimeEdit} centered>
                         <Modal.Body>
-                            Thời gian chỉnh sửa gần nhất : {timeEdit}
+                            Last edit time : {timeEdit}
                         </Modal.Body>
                     </Modal>
 

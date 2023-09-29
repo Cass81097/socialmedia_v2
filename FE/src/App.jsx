@@ -55,6 +55,7 @@ export default function App() {
                         element={user ? <Profile user={username} /> : <Login />}
                       />
                     ))}
+
                   <Route path="/status" element={<SearchPost />} />
                   <Route path="/messages" element={<Chat />} />
                   <Route path="/status/:id" element={<SearchPostId />} />

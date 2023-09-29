@@ -6,6 +6,9 @@ import {userRouter} from "./userRouter";
 export const statusRouter = Router();
 statusRouter.get("/", statusController.findAll);
 statusRouter.get("/:id", statusController.findAllByIdUser);
+statusRouter.get("/sender/:senderId",statusController.findAllByIdUserSender)
+
+
 statusRouter.delete("/:id", statusController.delete);
 statusRouter.post("", statusController.add);
 statusRouter.put('/content/:id', statusController.updateContent);

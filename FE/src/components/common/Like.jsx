@@ -31,9 +31,6 @@ export default function Like(props) {
         setIsLiked(true);
         fetchPostUser();
         load();
-
-        onLikeClick();
-
         if (socket) {
             socket.emit("likeStatus", {     
                 senderId: user?.id,
@@ -41,6 +38,8 @@ export default function Like(props) {
                 postId: postId
             });
         }
+        onLikeClick();
+
     };
 
     const handleRemoveLike = async () => {

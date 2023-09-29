@@ -36,7 +36,7 @@ import styled from "styled-components";
 
 const Home = (props) => {
     const navigate = useNavigate();
-    const {userProfile, setIsAddStatus, isAddStatus} = useContext(ProfileContext)
+    const {setUserProfile,userProfile, setIsAddStatus, isAddStatus} = useContext(ProfileContext)
     const {user, loginFinish, setLoginFinish} = useContext(AuthContext)
     const {profileId, setProfileId, setShowComment, showComment} = useContext(HomeContext)
     const {postUser, postImageUser, fetchPostUser, fetchImagePostUser} = useContext(PostContext);
@@ -44,6 +44,7 @@ const Home = (props) => {
     const [isCountLike, setIsCountLike] = useState([]);
     const [listPost, setListPost] = useState([])
     const userLogin = JSON.parse(localStorage.getItem("User"))
+
     const [visibleCommentIndex, setVisibleCommentIndex] = useState(-1);
     const containerRef = useRef(null);
 
@@ -67,6 +68,7 @@ const Home = (props) => {
             try {
                 const response = await getRequest(`${baseUrl}/status`);
                 setListPost(response);
+                setUserProfile([])
             } catch (error) {
                 console.error("Error fetching data:", error);
                 // Xử lý lỗi mạng hoặc lỗi khác ở đây nếu cần
@@ -93,8 +95,7 @@ const Home = (props) => {
                 setCheckFriend(checkList)
                 const checkBlockList = await getRequest(`${baseUrl}/friendShips/blockList`)
                 setCheckBlock(checkBlockList)
-            }
-            catch (e) {
+            } catch (e) {
                 console.error(e)
             }
         }
@@ -104,7 +105,6 @@ const Home = (props) => {
         checkFriendByUser();
         checkBlockByUser();
     }, [])
-
 
 
     const handleReloadCount = (async () => {
@@ -122,7 +122,7 @@ const Home = (props) => {
         }
     }, [isAddStatus]);
     const [privacyPost, setPrivacyPost] = useState('public');
-    const [privacyValue, setPrivacyValue] = useState('friend');
+    const [privacyValue, setPrivacyValue] = useState('public');
     const [isPostLoading, setIsPostLoading] = useState(false);
     const [textMessage, setTextMessage] = useState("")
     const [imageSrcProfile, setImageSrcProfile] = useState(null);
@@ -265,11 +265,14 @@ const Home = (props) => {
     };
 
 
-
     const handlePostEditShow = async (index) => {
         setPostEditIndex(index)
         setShowPostEdit(true);
     };
+    console.log(postEditIndex)
+
+
+
     useEffect(() => {
         if (privacyIndex !== null) {
             setPostUserPrivacy(postUser[privacyIndex]?.visibility);
@@ -305,11 +308,6 @@ const Home = (props) => {
     };
 
 
-
-
-
-
-
     useEffect(() => {
         if (imageSrcProfile) {
             setIsImageLoading(false);
@@ -339,6 +337,7 @@ const Home = (props) => {
         setListPost(listStatus)
         setShowDelete(false);
         await fetchPostUser();
+
     })
 
 
@@ -349,6 +348,7 @@ const Home = (props) => {
         draggable: true,
         theme: "light",
     };
+
 
 
     return (
@@ -368,50 +368,50 @@ const Home = (props) => {
                                     <p onClick={() => goProfile(user?.username)}>{user?.fullname}</p>
 
                                     {user?.username === userLogin.username ? (
-                                        <small onClick={handlePrivacyPostShow} style={{ cursor: "pointer" }}>
+                                        <small onClick={handlePrivacyPostShow} style={{cursor: "pointer"}}>
                                             {privacyPost === "public" ? (
                                                 <>
-                                                    <FaEarthAmericas />
-                                                    <i className="fas fa-caret-down" style={{ marginLeft: "5px" }} />
+                                                    <FaEarthAmericas/>
+                                                    <i className="fas fa-caret-down" style={{marginLeft: "5px"}}/>
                                                 </>
                                             ) : privacyPost === "friend" ? (
                                                 <>
-                                                    <FaUserFriends />
-                                                    <i className="fas fa-caret-down" style={{ marginLeft: "5px" }} />
+                                                    <FaUserFriends/>
+                                                    <i className="fas fa-caret-down" style={{marginLeft: "5px"}}/>
                                                 </>
                                             ) : privacyPost === "private" ? (
                                                 <>
-                                                    <BiSolidLockAlt />
-                                                    <i className="fas fa-caret-down" style={{ marginLeft: "5px" }} />
+                                                    <BiSolidLockAlt/>
+                                                    <i className="fas fa-caret-down" style={{marginLeft: "5px"}}/>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <FaEarthAmericas />
-                                                    <i className="fas fa-caret-down" style={{ marginLeft: "5px" }} />
+                                                    <FaEarthAmericas/>
+                                                    <i className="fas fa-caret-down" style={{marginLeft: "5px"}}/>
                                                 </>
                                             )}
                                         </small>
                                     ) : (
-                                        <small style={{ cursor: "pointer" }}>
+                                        <small style={{cursor: "pointer"}}>
                                             {privacyPost === "public" ? (
                                                 <>
-                                                    <FaEarthAmericas />
-                                                    <i className="fas fa-caret-down" style={{ marginLeft: "5px" }} />
+                                                    <FaEarthAmericas/>
+                                                    <i className="fas fa-caret-down" style={{marginLeft: "5px"}}/>
                                                 </>
                                             ) : privacyPost === "friend" ? (
                                                 <>
-                                                    <FaUserFriends />
-                                                    <i className="fas fa-caret-down" style={{ marginLeft: "5px" }} />
+                                                    <FaUserFriends/>
+                                                    <i className="fas fa-caret-down" style={{marginLeft: "5px"}}/>
                                                 </>
                                             ) : privacyPost === "private" ? (
                                                 <>
-                                                    <BiSolidLockAlt />
-                                                    <i className="fas fa-caret-down" style={{ marginLeft: "5px" }} />
+                                                    <BiSolidLockAlt/>
+                                                    <i className="fas fa-caret-down" style={{marginLeft: "5px"}}/>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <FaEarthAmericas />
-                                                    <i className="fas fa-caret-down" style={{ marginLeft: "5px" }} />
+                                                    <FaEarthAmericas/>
+                                                    <i className="fas fa-caret-down" style={{marginLeft: "5px"}}/>
                                                 </>
                                             )}
                                         </small>
@@ -529,8 +529,9 @@ const Home = (props) => {
                                     <div></div>
                                 ) : (
                                     <div>
-                                        { post.visibility !== "public" && post.visibility === "private" ? (
-                                            <div></div>
+                                        {post.visibility !== "public" && post.visibility === "private" ? (
+                                            <div>
+                                            </div>
                                         ) : (
                                             <div>
                                                 {checkBlock.some((item) =>
@@ -540,247 +541,260 @@ const Home = (props) => {
                                                     // Nếu người gửi bài viết đã bị chặn, ẩn bài viết
                                                     <div></div>
                                                 ) : (
-                                                    <div className="index-content">
-                                                        <div className="post-container">
-                                                            <div className="user-profile">
-                                                                <div style={{display: "flex", alignItems: "center"}}>
-                                                                    <div className="user-avatar"
-                                                                         onClick={() => goProfile(post.sender?.username)}>
-                                                                        <img src={post.sender?.avatar}
-                                                                             alt="User Avatar"/>
-                                                                    </div>
-                                                                    <div>
-                                                                        <div className="post-user-name">
-                                                                            {post.sender?.id !== post.receiver?.id && (
-                                                                                <>
-                                                                                    <p onClick={() => goProfile(post.sender?.username)}>{post.sender?.fullname}</p>
-                                                                                    <i className="fas fa-caret-right icon-post-user"></i>
-                                                                                </>
-                                                                            )}
-                                                                            <p>{post.receiver?.fullname}</p>
-                                                                        </div>
-
-                                                                        <div className="time-status">
-                                                                            {(() => {
-                                                                                const timeString = post.time;
-                                                                                const date = new Date(timeString);
-                                                                                const now = new Date();
-                                                                                const timeDiffInMinutes = Math.floor((now - date) / (1000 * 60));
-                                                                                let timeAgo;
-
-                                                                                if (timeDiffInMinutes === 0) {
-                                                                                    timeAgo = "Just now";
-                                                                                } else if (timeDiffInMinutes < 60) {
-                                                                                    timeAgo = `${timeDiffInMinutes} minute ago`;
-                                                                                } else {
-                                                                                    const hours = Math.floor(timeDiffInMinutes / 60);
-                                                                                    const minutes = timeDiffInMinutes % 60;
-                                                                                    if (hours >= 24) {
-                                                                                        timeAgo = "1 day ago";
-                                                                                    } else if (minutes === 0) {
-                                                                                        timeAgo = `${hours} hour`;
-                                                                                    } else {
-                                                                                        timeAgo = `${hours} hour ${minutes} minute ago`;
-                                                                                    }
-                                                                                }
-
-                                                                                return (
-                                                                                    <div
-                                                                                        className="post-privacy-change">
-                                                                                        <span>{timeAgo}</span>
-
-
-                                                                                        <>
-                                                                                            {post.visibility === 'public' && (
-                                                                                                <i className="fas fa-globe-americas"
-                                                                                                   style={{
-                                                                                                       color: '#65676B',
-                                                                                                       cursor: 'pointer',
-                                                                                                       padding: "5px",
-                                                                                                       fontSize: "smaller"
-                                                                                                   }}/>
-                                                                                            )}
-                                                                                            {post.visibility === 'friend' && (
-                                                                                                <i className="fas fa-user-friends"
-                                                                                                   style={{
-                                                                                                       color: '#65676B',
-                                                                                                       cursor: 'pointer',
-                                                                                                       padding: "5px",
-                                                                                                       fontSize: "smaller"
-                                                                                                   }}/>
-                                                                                            )}
-                                                                                            {post.visibility === 'private' && (
-                                                                                                <i className="fas fa-lock"
-                                                                                                   style={{
-                                                                                                       color: '#65676B',
-                                                                                                       cursor: 'pointer',
-                                                                                                       padding: "5px",
-                                                                                                       fontSize: "smaller"
-                                                                                                   }}/>
-                                                                                            )}
-                                                                                        </>
-
-
-                                                                                        {user?.username !== userProfile[0]?.username && user?.username === post?.sender?.username && (
-                                                                                            <>
-                                                                                                {postUser[index]?.visibility === 'public' && (
-                                                                                                    <i className="fas fa-globe-americas"
-                                                                                                       style={{
-                                                                                                           color: '#65676B',
-                                                                                                           cursor: 'pointer',
-                                                                                                           padding: "5px",
-                                                                                                           fontSize: "smaller"
-                                                                                                       }}/>
-                                                                                                )}
-                                                                                                {postUser[index]?.visibility === 'friend' && (
-                                                                                                    <i className="fas fa-user-friends"
-                                                                                                       style={{
-                                                                                                           color: '#65676B',
-                                                                                                           cursor: 'pointer',
-                                                                                                           padding: "5px",
-                                                                                                           fontSize: "smaller"
-                                                                                                       }}/>
-                                                                                                )}
-                                                                                                {postUser[index]?.visibility === 'private' && (
-                                                                                                    <i className="fas fa-lock"
-                                                                                                       style={{
-                                                                                                           color: '#65676B',
-                                                                                                           cursor: 'pointer',
-                                                                                                           padding: "5px",
-                                                                                                           fontSize: "smaller"
-                                                                                                       }}/>
-                                                                                                )}
-                                                                                            </>
-                                                                                        )}
-
-                                                                                        {user?.username !== post?.sender?.username && user?.username !== userProfile[0]?.username && (
-                                                                                            <>
-                                                                                                {postUser[index]?.visibility === 'public' && (
-                                                                                                    <i className="fas fa-globe-americas"
-                                                                                                       style={{
-                                                                                                           color: '#65676B',
-                                                                                                           cursor: 'pointer',
-                                                                                                           padding: "5px",
-                                                                                                           fontSize: "smaller"
-                                                                                                       }}/>
-                                                                                                )}
-                                                                                                {postUser[index]?.visibility === 'friend' && (
-                                                                                                    <i className="fas fa-user-friends"
-                                                                                                       style={{
-                                                                                                           color: '#65676B',
-                                                                                                           cursor: 'pointer',
-                                                                                                           padding: "5px",
-                                                                                                           fontSize: "smaller"
-                                                                                                       }}/>
-                                                                                                )}
-                                                                                                {postUser[index]?.visibility === 'private' && (
-                                                                                                    <i className="fas fa-lock"
-                                                                                                       style={{
-                                                                                                           color: '#65676B',
-                                                                                                           cursor: 'pointer',
-                                                                                                           padding: "5px",
-                                                                                                           fontSize: "smaller"
-                                                                                                       }}/>
-                                                                                                )}
-                                                                                            </>
-                                                                                        )}
-                                                                                    </div>
-                                                                                );
-                                                                            })()}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                {user?.username === userProfile[0]?.username && (
-                                                                    <div className="user-action-post"
-                                                                         onClick={() => showPostMenu(index)}>
-                                                                        <Button variant="light">
-                                                                            <i className="fas fa-ellipsis-h"></i>
-                                                                        </Button>
-                                                                        <ol className={`post-menu-${index} show-post-menu`}
-                                                                            style={{display: "none"}}>
-
-                                                                            {user?.username !== userProfile[0]?.username && user?.username !== post?.sender?.username && (
-                                                                                <li onClick={() => handlePostEditShow(index)}>
-                                                                                    <i className="far fa-edit"></i>
-                                                                                    <span>Edit post</span>
-                                                                                </li>
-                                                                            )}
-
-                                                                            {user?.username === userProfile[0]?.username && user?.username === post?.sender?.username && (
-                                                                                <li onClick={() => handlePostEditShow(index)}>
-                                                                                    <i className="far fa-edit"></i>
-                                                                                    <span>Edit post</span>
-                                                                                </li>
-                                                                            )}
-
-                                                                            <li onClick={() => {
-                                                                                handleShowAlert(post.id)
-                                                                            }}>
-                                                                                <i className="far fa-trash-alt"></i>
-                                                                                <span>Delete post</span>
-                                                                            </li>
-                                                                        </ol>
-                                                                    </div>
-                                                                )}
-
-                                                                {user?.username !== userProfile[0]?.username && user?.username === post?.sender?.username && (
-                                                                    <div className="user-action-post"
-                                                                         onClick={() => showPostMenu(index)}>
-                                                                        <Button variant="light">
-                                                                            <i className="fas fa-ellipsis-h"></i>
-                                                                        </Button>
-                                                                        <ol className={`post-menu-${index} show-post-menu`}
-                                                                            style={{display: "none"}}>
-
-                                                                            <li onClick={() => handlePostEditShow(index)}>
-                                                                                <i className="far fa-edit"></i>
-                                                                                <span>Edit post</span>
-                                                                            </li>
-
-                                                                            <li onClick={() => {
-                                                                                handleShowAlert(post.id)
-                                                                            }}>
-                                                                                <i className="far fa-trash-alt"></i>
-                                                                                <span>Delete post</span>
-                                                                            </li>
-                                                                        </ol>
-                                                                    </div>
-                                                                )}
-
-                                                            </div>
-
-                                                            <div className="post-user">
-                                                                <p className="post-text">{post.content}</p>
-                                                                {post.image.length > 0 && (
-                                                                    <div
-                                                                        className={`post-image ${postImageUser[index]?.length === 4 ? 'four' :
-                                                                            postImageUser[index]?.length === 5 ? 'five' :
-                                                                                postImageUser[index]?.length > 2 && postImageUser[index]?.length !== 4 ? 'three' : ''
-                                                                        }`}>
-                                                                        {post.image.map((image, imageIndex) => (
-                                                                            <img src={image.imageUrl} alt="Post Image"
-                                                                                 className="post-img"
-                                                                                 key={imageIndex}/>
-                                                                        ))}
-                                                                    </div>
-                                                                )}
-
-                                                                <div className="interact-status"
-                                                                     style={{
-                                                                         display: "flex",
-                                                                         justifyContent: "space-between"
-                                                                     }}>
-                                                                    {post.accountLike === 0 ? (
-                                                                            <div>
+                                                    <div>
+                                                        {post.visibility === "friend" &&
+                                                        (!checkFriend.length > 0 ||
+                                                            !checkFriend.some(
+                                                                (item) =>
+                                                                    post.sender.id === item?.user1.id ||
+                                                                    post.sender.id === item?.user2.id
+                                                            ))  ? (<div></div>) : (
+                                                            <div className="index-content">
+                                                                <div className="post-container">
+                                                                    <div className="user-profile">
+                                                                        <div style={{
+                                                                            display: "flex",
+                                                                            alignItems: "center"
+                                                                        }}>
+                                                                            <div className="user-avatar"
+                                                                                 onClick={() => goProfile(post.sender?.username)}>
+                                                                                <img src={post.sender?.avatar}
+                                                                                     alt="User Avatar"/>
                                                                             </div>
-                                                                        ) :
-                                                                        (post.accountLike > 0 && post.accountLike < 3 ? (
-                                                                            <div className="activity-icons">
-                                                                                <BiSolidLike
-                                                                                    style={{color: "rgb(27 97 255)"}}
-                                                                                    className="like-icon"/>
-                                                                                <span style={{marginLeft: "5px"}}>
+                                                                            <div>
+                                                                                <div className="post-user-name">
+                                                                                    {post.sender?.id !== post.receiver?.id && (
+                                                                                        <>
+                                                                                            <p onClick={() => goProfile(post.sender?.username)}>{post.sender?.fullname}</p>
+                                                                                            <i className="fas fa-caret-right icon-post-user"></i>
+                                                                                        </>
+                                                                                    )}
+                                                                                    <p>{post.receiver?.fullname}</p>
+                                                                                </div>
+
+                                                                                <div className="time-status">
+                                                                                    {(() => {
+                                                                                        const timeString = post.time;
+                                                                                        const date = new Date(timeString);
+                                                                                        const now = new Date();
+                                                                                        const timeDiffInMinutes = Math.floor((now - date) / (1000 * 60));
+                                                                                        let timeAgo;
+
+                                                                                        if (timeDiffInMinutes === 0) {
+                                                                                            timeAgo = "Just now";
+                                                                                        } else if (timeDiffInMinutes < 60) {
+                                                                                            timeAgo = `${timeDiffInMinutes} minute ago`;
+                                                                                        } else {
+                                                                                            const hours = Math.floor(timeDiffInMinutes / 60);
+                                                                                            const minutes = timeDiffInMinutes % 60;
+                                                                                            if (hours >= 24) {
+                                                                                                timeAgo = "1 day ago";
+                                                                                            } else if (minutes === 0) {
+                                                                                                timeAgo = `${hours} hour`;
+                                                                                            } else {
+                                                                                                timeAgo = `${hours} hour ${minutes} minute ago`;
+                                                                                            }
+                                                                                        }
+
+                                                                                        return (
+                                                                                            <div
+                                                                                                className="post-privacy-change">
+                                                                                                <span>{timeAgo}</span>
+
+
+                                                                                                <>
+                                                                                                    {post.visibility === 'public' && (
+                                                                                                        <i className="fas fa-globe-americas"
+                                                                                                           style={{
+                                                                                                               color: '#65676B',
+                                                                                                               cursor: 'pointer',
+                                                                                                               padding: "5px",
+                                                                                                               fontSize: "smaller"
+                                                                                                           }}/>
+                                                                                                    )}
+                                                                                                    {post.visibility === 'friend' && (
+                                                                                                        <i className="fas fa-user-friends"
+                                                                                                           style={{
+                                                                                                               color: '#65676B',
+                                                                                                               cursor: 'pointer',
+                                                                                                               padding: "5px",
+                                                                                                               fontSize: "smaller"
+                                                                                                           }}/>
+                                                                                                    )}
+                                                                                                    {post.visibility === 'private' && (
+                                                                                                        <i className="fas fa-lock"
+                                                                                                           style={{
+                                                                                                               color: '#65676B',
+                                                                                                               cursor: 'pointer',
+                                                                                                               padding: "5px",
+                                                                                                               fontSize: "smaller"
+                                                                                                           }}/>
+                                                                                                    )}
+                                                                                                </>
+
+
+                                                                                                {user?.username !== userProfile[0]?.username && user?.username === post?.sender?.username && (
+                                                                                                    <>
+                                                                                                        {postUser[index]?.visibility === 'public' && (
+                                                                                                            <i className="fas fa-globe-americas"
+                                                                                                               style={{
+                                                                                                                   color: '#65676B',
+                                                                                                                   cursor: 'pointer',
+                                                                                                                   padding: "5px",
+                                                                                                                   fontSize: "smaller"
+                                                                                                               }}/>
+                                                                                                        )}
+                                                                                                        {postUser[index]?.visibility === 'friend' && (
+                                                                                                            <i className="fas fa-user-friends"
+                                                                                                               style={{
+                                                                                                                   color: '#65676B',
+                                                                                                                   cursor: 'pointer',
+                                                                                                                   padding: "5px",
+                                                                                                                   fontSize: "smaller"
+                                                                                                               }}/>
+                                                                                                        )}
+                                                                                                        {postUser[index]?.visibility === 'private' && (
+                                                                                                            <i className="fas fa-lock"
+                                                                                                               style={{
+                                                                                                                   color: '#65676B',
+                                                                                                                   cursor: 'pointer',
+                                                                                                                   padding: "5px",
+                                                                                                                   fontSize: "smaller"
+                                                                                                               }}/>
+                                                                                                        )}
+                                                                                                    </>
+                                                                                                )}
+
+                                                                                                {user?.username !== post?.sender?.username && user?.username !== userProfile[0]?.username && (
+                                                                                                    <>
+                                                                                                        {postUser[index]?.visibility === 'public' && (
+                                                                                                            <i className="fas fa-globe-americas"
+                                                                                                               style={{
+                                                                                                                   color: '#65676B',
+                                                                                                                   cursor: 'pointer',
+                                                                                                                   padding: "5px",
+                                                                                                                   fontSize: "smaller"
+                                                                                                               }}/>
+                                                                                                        )}
+                                                                                                        {postUser[index]?.visibility === 'friend' && (
+                                                                                                            <i className="fas fa-user-friends"
+                                                                                                               style={{
+                                                                                                                   color: '#65676B',
+                                                                                                                   cursor: 'pointer',
+                                                                                                                   padding: "5px",
+                                                                                                                   fontSize: "smaller"
+                                                                                                               }}/>
+                                                                                                        )}
+                                                                                                        {postUser[index]?.visibility === 'private' && (
+                                                                                                            <i className="fas fa-lock"
+                                                                                                               style={{
+                                                                                                                   color: '#65676B',
+                                                                                                                   cursor: 'pointer',
+                                                                                                                   padding: "5px",
+                                                                                                                   fontSize: "smaller"
+                                                                                                               }}/>
+                                                                                                        )}
+                                                                                                    </>
+                                                                                                )}
+                                                                                            </div>
+                                                                                        );
+                                                                                    })()}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        {user?.username === userProfile[0]?.username && (
+                                                                            <div className="user-action-post"
+                                                                                 onClick={() => showPostMenu(index)}>
+                                                                                <Button variant="light">
+                                                                                    <i className="fas fa-ellipsis-h"></i>
+                                                                                </Button>
+                                                                                <ol className={`post-menu-${index} show-post-menu`}
+                                                                                    style={{display: "none"}}>
+
+                                                                                    {user?.username !== userProfile[0]?.username && user?.username !== post?.sender?.username && (
+                                                                                        <li onClick={() => handlePostEditShow(index)}>
+                                                                                            <i className="far fa-edit"></i>
+                                                                                            <span>Edit post</span>
+                                                                                        </li>
+                                                                                    )}
+
+                                                                                    {user?.username === userProfile[0]?.username && user?.username === post?.sender?.username && (
+                                                                                        <li onClick={() => handlePostEditShow(index)}>
+                                                                                            <i className="far fa-edit"></i>
+                                                                                            <span>Edit post</span>
+                                                                                        </li>
+                                                                                    )}
+
+                                                                                    <li onClick={() => {
+                                                                                        handleShowAlert(post.id)
+                                                                                    }}>
+                                                                                        <i className="far fa-trash-alt"></i>
+                                                                                        <span>Delete post</span>
+                                                                                    </li>
+                                                                                </ol>
+                                                                            </div>
+                                                                        )}
+
+                                                                        {user?.username !== userProfile[0]?.username && user?.username === post?.sender?.username && (
+                                                                            <div className="user-action-post"
+                                                                                 onClick={() => showPostMenu(index)}>
+                                                                                <Button variant="light">
+                                                                                    <i className="fas fa-ellipsis-h"></i>
+                                                                                </Button>
+                                                                                <ol className={`post-menu-${index} show-post-menu`}
+                                                                                    style={{display: "none"}}>
+
+                                                                                    <li onClick={() => handlePostEditShow(index)}>
+                                                                                        <i className="far fa-edit"></i>
+                                                                                        <span>Edit post</span>
+                                                                                    </li>
+
+                                                                                    <li onClick={() => {
+                                                                                        handleShowAlert(post.id)
+                                                                                    }}>
+                                                                                        <i className="far fa-trash-alt"></i>
+                                                                                        <span>Delete post</span>
+                                                                                    </li>
+                                                                                </ol>
+                                                                            </div>
+                                                                        )}
+
+                                                                    </div>
+
+                                                                    <div className="post-user">
+                                                                        <p className="post-text">{post.content}</p>
+                                                                        {post.image.length > 0 && (
+                                                                            <div
+                                                                                className={`post-image ${postImageUser[index]?.length === 4 ? 'four' :
+                                                                                    postImageUser[index]?.length === 5 ? 'five' :
+                                                                                        postImageUser[index]?.length > 2 && postImageUser[index]?.length !== 4 ? 'three' : ''
+                                                                                }`}>
+                                                                                {post.image.map((image, imageIndex) => (
+                                                                                    <img src={image.imageUrl}
+                                                                                         alt="Post Image"
+                                                                                         className="post-img"
+                                                                                         key={imageIndex}/>
+                                                                                ))}
+                                                                            </div>
+                                                                        )}
+
+                                                                        <div className="interact-status"
+                                                                             style={{
+                                                                                 display: "flex",
+                                                                                 justifyContent: "space-between"
+                                                                             }}>
+                                                                            {post.accountLike === 0 ? (
+                                                                                    <div>
+                                                                                    </div>
+                                                                                ) :
+                                                                                (post.accountLike > 0 && post.accountLike < 3 ? (
+                                                                                    <div className="activity-icons">
+                                                                                        <BiSolidLike
+                                                                                            style={{color: "rgb(27 97 255)"}}
+                                                                                            className="like-icon"/>
+                                                                                        <span
+                                                                                            style={{marginLeft: "5px"}}>
                                                         {post.listUserLike.map((userLike) => {
                                                             if (user.username === userLike?.user?.username) {
                                                                 return "You";
@@ -789,63 +803,65 @@ const Home = (props) => {
                                                             }
                                                         }).join(" and ")} liked
                                                     </span>
-                                                                            </div>
-                                                                        ) : (
-                                                                            post.accountLike > 2 && (
-                                                                                <div className="activity-icons">
-                                                                                    <BiSolidLike
-                                                                                        style={{color: "rgb(27 97 255)"}}
-                                                                                        className="like-icon"/>
-                                                                                    <span
-                                                                                        style={{marginLeft: "5px"}}>{post?.accountLike} người đã thích</span>
+                                                                                    </div>
+                                                                                ) : (
+                                                                                    post.accountLike > 2 && (
+                                                                                        <div className="activity-icons">
+                                                                                            <BiSolidLike
+                                                                                                style={{color: "rgb(27 97 255)"}}
+                                                                                                className="like-icon"/>
+                                                                                            <span
+                                                                                                style={{marginLeft: "5px"}}>{post?.accountLike} </span>
+                                                                                        </div>
+                                                                                    )
+                                                                                ))}
+                                                                            {post.commentCount.commentCount < 1 ? (
+                                                                                <div></div>
+                                                                            ) : (
+                                                                                <div>
+                                                                                    <span>{post?.commentCount?.commentCount} comment</span>
                                                                                 </div>
                                                                             )
-                                                                        ))}
-                                                                    {post.commentCount.commentCount < 1 ? (
-                                                                        <div></div>
-                                                                    ) : (
-                                                                        <div>
-                                                                            <span>{post?.commentCount?.commentCount} comment</span>
+                                                                            }
+
                                                                         </div>
-                                                                    )
-                                                                    }
+                                                                    </div>
 
+                                                                    <div className="post-action">
+
+                                                                        <div className="post-like">
+                                                                            <Like key={post.id} postId={post.id}
+                                                                                  countLike={post.acountLike}
+                                                                                  checkStatusLike={post.isLiked}
+                                                                                  isCountLike={isCountLike}
+                                                                                  setIsCountLike={setIsCountLike}
+                                                                                  load={handleReloadCount}
+                                                                            ></Like>
+                                                                        </div>
+
+                                                                        <div className="post-comment">
+                                                                            <Button variant="light"
+                                                                                    onClick={() => handleToggleComment(index)}>
+                                                                                <i className="far fa-comment"></i>
+                                                                                <span>Comment</span>
+                                                                            </Button>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    {visibleCommentIndex === index && (
+                                                                        <CommentContextProvider postId={post.id}
+                                                                                                reloadHome={handleReloadCmt}>
+                                                                            <Comment post={post}
+                                                                                     postVisi={post.visibility}
+                                                                                     postSenderId={post.sender.id}
+                                                                                     postId={post.id}
+                                                                                     showComment={showComment}
+                                                                                     setShowComment={setShowComment}/>
+                                                                        </CommentContextProvider>
+                                                                    )}
                                                                 </div>
-                                                            </div>
-
-                                                            <div className="post-action">
-
-                                                                <div className="post-like">
-                                                                    <Like key={post.id} postId={post.id}
-                                                                          countLike={post.acountLike}
-                                                                          checkStatusLike={post.isLiked}
-                                                                          isCountLike={isCountLike}
-                                                                          setIsCountLike={setIsCountLike}
-                                                                          load={handleReloadCount}
-                                                                    ></Like>
-                                                                </div>
-
-                                                                <div className="post-comment">
-                                                                    <Button variant="light"
-                                                                            onClick={() => handleToggleComment(index)}>
-                                                                        <i className="far fa-comment"></i>
-                                                                        <span>Comment</span>
-                                                                    </Button>
-                                                                </div>
-
-                                                            </div>
-                                                            {visibleCommentIndex === index && (
-                                                                <CommentContextProvider postId={post.id}
-                                                                                        reloadHome={handleReloadCmt}>
-                                                                    <Comment post={post} postVisi={post.visibility}
-                                                                             postSenderId={post.sender.id}
-                                                                             postId={post.id}
-                                                                             showComment={showComment}
-                                                                             setShowComment={setShowComment}/>
-                                                                </CommentContextProvider>
-                                                            )}
-                                                        </div>
-                                                    </div>)}
+                                                            </div>)
+                                                    }</div>)}
                                             </div>
                                         )}
                                     </div>)}
@@ -896,9 +912,10 @@ const Home = (props) => {
                     {imageSrcProfile && imageSrcProfile.length > 0 && (
                         <div className="modal-image-container">
                             {imageSrcProfile.map((src, index) => (
-                                <div className="modal-image-change" key={index} >
-                                    <img src={src} alt={`Image ${index}`} />
-                                    <Button variant="light" className="modal-image-delete" onClick={() => handleDeleteImage(index)}>
+                                <div className="modal-image-change" key={index}>
+                                    <img src={src} alt={`Image ${index}`}/>
+                                    <Button variant="light" className="modal-image-delete"
+                                            onClick={() => handleDeleteImage(index)}>
                                         X
                                     </Button>
                                 </div>
@@ -914,8 +931,6 @@ const Home = (props) => {
             </CustomModal>
 
 
-
-
             <Modal show={showPrivacyPost} onHide={handlePrivacyPostClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Select audience</Modal.Title>
@@ -926,7 +941,7 @@ const Home = (props) => {
                             <div className="privacy-container">
                                 <div className="privacy-select">
                                     <div className="privacy-icon">
-                                        <FaEarthAmericas />
+                                        <FaEarthAmericas/>
                                     </div>
                                 </div>
                                 <div className="privacy-name">
@@ -936,7 +951,8 @@ const Home = (props) => {
                             </div>
 
                             <div className="input-radio">
-                                <input type="radio" name="privacy" value="public" checked={privacyValue === 'public'} onChange={handlePrivacyPostChange} />
+                                <input type="radio" name="privacy" value="public" checked={privacyValue === 'public'}
+                                       onChange={handlePrivacyPostChange}/>
                             </div>
                         </div>
 
@@ -944,7 +960,7 @@ const Home = (props) => {
                             <div className="privacy-container">
                                 <div className="privacy-select">
                                     <div className="privacy-icon">
-                                        <FaUserFriends />
+                                        <FaUserFriends/>
                                     </div>
                                 </div>
                                 <div className="privacy-name">
@@ -953,7 +969,8 @@ const Home = (props) => {
                                 </div>
                             </div>
                             <div className="input-radio">
-                                <input type="radio" name="privacy" value="friend" checked={privacyValue === 'friend'} onChange={handlePrivacyPostChange} />
+                                <input type="radio" name="privacy" value="friend" checked={privacyValue === 'friend'}
+                                       onChange={handlePrivacyPostChange}/>
                             </div>
 
                         </div>
@@ -962,7 +979,7 @@ const Home = (props) => {
                             <div className="privacy-container">
                                 <div className="privacy-select">
                                     <div className="privacy-icon">
-                                        <BiSolidLockAlt />
+                                        <BiSolidLockAlt/>
                                     </div>
                                 </div>
                                 <div className="privacy-name">
@@ -972,7 +989,8 @@ const Home = (props) => {
                             </div>
 
                             <div className="input-radio">
-                                <input type="radio" name="privacy" value="private" checked={privacyValue === 'private'} onChange={handlePrivacyPostChange} />
+                                <input type="radio" name="privacy" value="private" checked={privacyValue === 'private'}
+                                       onChange={handlePrivacyPostChange}/>
                             </div>
                         </div>
 
@@ -989,7 +1007,6 @@ const Home = (props) => {
             </Modal>
 
 
-
             <Modal show={showPrivacy && privacyIndex !== null} onHide={handlePrivacyClose} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>Select audience</Modal.Title>
@@ -1000,7 +1017,7 @@ const Home = (props) => {
                             <div className="privacy-container">
                                 <div className="privacy-select">
                                     <div className="privacy-icon">
-                                        <FaEarthAmericas />
+                                        <FaEarthAmericas/>
                                     </div>
                                 </div>
                                 <div className="privacy-name">
@@ -1010,7 +1027,8 @@ const Home = (props) => {
                             </div>
 
                             <div className="input-radio">
-                                <input type="radio" name="privacy" checked={postUserPrivacy === 'public'} onChange={handlePrivacyChange} value="public" />
+                                <input type="radio" name="privacy" checked={postUserPrivacy === 'public'}
+                                       onChange={handlePrivacyChange} value="public"/>
                             </div>
                         </div>
 
@@ -1018,7 +1036,7 @@ const Home = (props) => {
                             <div className="privacy-container">
                                 <div className="privacy-select">
                                     <div className="privacy-icon">
-                                        <FaUserFriends />
+                                        <FaUserFriends/>
                                     </div>
                                 </div>
                                 <div className="privacy-name">
@@ -1028,7 +1046,8 @@ const Home = (props) => {
                             </div>
 
                             <div className="input-radio">
-                                <input type="radio" name="privacy" checked={postUserPrivacy === 'friend'} onChange={handlePrivacyChange} value="friend" />
+                                <input type="radio" name="privacy" checked={postUserPrivacy === 'friend'}
+                                       onChange={handlePrivacyChange} value="friend"/>
                             </div>
 
                         </div>
@@ -1037,7 +1056,7 @@ const Home = (props) => {
                             <div className="privacy-container">
                                 <div className="privacy-select">
                                     <div className="privacy-icon">
-                                        <BiSolidLockAlt />
+                                        <BiSolidLockAlt/>
                                     </div>
                                 </div>
                                 <div className="privacy-name">
@@ -1047,7 +1066,8 @@ const Home = (props) => {
                             </div>
 
                             <div className="input-radio">
-                                <input type="radio" name="privacy" checked={postUserPrivacy === 'private'} onChange={handlePrivacyChange} value="private" />
+                                <input type="radio" name="privacy" checked={postUserPrivacy === 'private'}
+                                       onChange={handlePrivacyChange} value="private"/>
                             </div>
                         </div>
 
@@ -1057,21 +1077,23 @@ const Home = (props) => {
                     <Button variant="primary" onClick={handlePrivacyClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => handleChangePrivacy(postUser[privacyIndex]?.id, postUserPrivacy)}>
+                    <Button variant="primary"
+                            onClick={() => handleChangePrivacy(postUser[privacyIndex]?.id, postUserPrivacy)}>
                         Save
                     </Button>
                 </Modal.Footer>
             </Modal>
 
-            <EditPost showPostEdit={showPostEdit} setShowPostEdit={setShowPostEdit} postEditIndex={postEditIndex} setPostEditIndex={setPostEditIndex}></EditPost>
+            <EditPost reload={handleReloadCmt} inforUser={userLogin} showPostEdit={showPostEdit} setShowPostEdit={setShowPostEdit} postEditIndex={postEditIndex}
+                      setPostEditIndex={setPostEditIndex}></EditPost>
 
         </>
     );
 }
 
 const CustomModal = styled(Modal)`
-.custom-modal {
-    max-width: 1000px; 
+  .custom-modal {
+    max-width: 1000px;
   }
 
   .modal-dialog-centered {
@@ -1083,7 +1105,7 @@ const CustomModal = styled(Modal)`
     max-width: 999px;
     background: #E4E6EB;
   }
-  
+
 `;
 
 

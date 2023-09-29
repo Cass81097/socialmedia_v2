@@ -10,21 +10,48 @@ import LoadingNew from "./LoadingNew";
 import uploadImages from "../../hooks/UploadMulti";
 import styled from "styled-components";
 import Picker from "emoji-picker-react";
+import {ProfileContext} from "../../context/ProfileContext";
 
 export default function EditPost(props) {
-    const { showPostEdit, setShowPostEdit, postEditIndex, setPostEditIndex } = props;
+    const { showPostEdit, setShowPostEdit, postEditIndex, setPostEditIndex, inforUser, reload } = props;
     const { user } = useContext(AuthContext)
     const { postUser, postImageUser, fetchPostUser, fetchImagePostUser } = useContext(PostContext);
+    // const {setUserProfile} = useContext(ProfileContext)
     const [isPostEditLoading, setIsPostEditLoading] = useState(false);
     const [imageEdit, setImageEdit] = useState([]);
     const [imagePostEdit, setImagePostEdit] = useState([]);
     const [textMessage, setTextMessage] = useState('');
     const [showChangeImage, setShowChangeImage] = useState(false);
     const [showPicker, setShowPicker] = useState(false);
+
+   useEffect(()=>{
+       if (postUser.length === 0) {
+
+           const fetchData = async () => {
+               try {
+                   const response = await getRequest(`${baseUrl}/status/sender/${inforUser?.id}`);
+                   setMyPost(response);
+               } catch (error) {
+                   console.error("Error fetching data:", error);
+               }
+           };
+           fetchData()
+       }else {
+           setMyPost(postUser)
+       }
+   },[postUser])
+    const [post, setMyPost] = useState(postUser);
+
+    // console.log(myPost)
+
+
+
+
     console.log(postUser)
 
     const handleCloseChangeImage = async () => {
         const postId = postUser[postEditIndex].id;
+
         const responseImage = await deleteRequest(`${baseUrl}/imageStatus/delete/${postId}`);
 
         const postRequests = imageEdit.map(async (image) => {
@@ -47,16 +74,16 @@ export default function EditPost(props) {
     };
 
     useEffect(() => {
-        if (postUser && postUser[postEditIndex]?.image) {
-            setImageEdit(postUser[postEditIndex]?.image);
+        if (post && post[postEditIndex]?.image) {
+            setImageEdit(post[postEditIndex]?.image);
         }
-    }, [postUser, postEditIndex]);
+    }, [post, postEditIndex]);
 
     useEffect(() => {
-        if (postUser[postEditIndex]?.content !== undefined) {
-            setTextMessage(postUser[postEditIndex]?.content);
+        if (post[postEditIndex]?.content !== undefined) {
+            setTextMessage(post[postEditIndex]?.content);
         }
-    }, [postUser, postEditIndex]);
+    }, [post, postEditIndex]);
     console.log(textMessage)
 
     const handleInputChange = (event) => {
@@ -76,15 +103,19 @@ export default function EditPost(props) {
         setShowPostEdit(false);
     }
 
+
+
     const handleEditPost = async () => {
         setIsPostEditLoading(true);
 
-        const postId = postUser[postEditIndex].id;
+        const postId = post[postEditIndex].id;
+        console.log("id edit", postId)
         const data = {
             content: textMessage
         };
 
         const response = await putRequest(`${baseUrl}/status/content/${postId}`, JSON.stringify(data));
+        console.log(response)
 
         if (imageEdit.length === 0) {
             const responseImage = await deleteRequest(`${baseUrl}/imageStatus/delete/${postId}`);
@@ -107,6 +138,7 @@ export default function EditPost(props) {
         setShowPostEdit(false);
         await fetchPostUser();
         await fetchImagePostUser();
+        await reload();
     };
 
     const handleImageDelete = async () => {
@@ -147,24 +179,24 @@ export default function EditPost(props) {
                                 <div className="post-form">
                                     <div className="content" style={{ margin: "82px 0 10px 0" }}>
                                         <div className="content-avatar">
-                                            <img src={postUser[postEditIndex]?.sender.avatar} alt="logo" />
+                                            <img src={post[postEditIndex]?.sender.avatar} alt="logo" />
                                         </div>
                                         <div className="details">
-                                            <p>{postUser[postEditIndex]?.sender.fullname}</p>
+                                            <p>{post[postEditIndex]?.sender.fullname}</p>
                                             <div className="privacy">
-                                                {postUser[postEditIndex]?.visibility === "friend" && (
+                                                {post[postEditIndex]?.visibility === "friend" && (
                                                     <>
                                                         <i className="fas fa-user-friends" style={{marginTop:"2px"}} />
                                                         <span>Friend</span>
                                                     </>
                                                 )}
-                                                {postUser[postEditIndex]?.visibility === "public" && (
+                                                {post[postEditIndex]?.visibility === "public" && (
                                                     <>
                                                         <i className="fas fa-globe-americas" style={{marginTop:"2px"}} />
                                                         <span>Public</span>
                                                     </>
                                                 )}
-                                                {postUser[postEditIndex]?.visibility === "private" && (
+                                                {post[postEditIndex]?.visibility === "private" && (
                                                     <>
                                                         <i className="fas fa-lock" style={{marginTop:"2px"}} />
                                                         <span>Private</span>
@@ -177,7 +209,7 @@ export default function EditPost(props) {
 
                                     <div className={`post-edit-container ${imageEdit.length > 0 ? 'edit-with-image' : ''}`}>
                                         <textarea
-                                            placeholder={`What are you thinking?, ${postUser[postEditIndex]?.sender.fullname}`}
+                                            placeholder={`What are you thinking?, ${post[postEditIndex]?.sender.fullname}`}
                                             spellCheck="false"
                                             value={textMessage}
                                             onChange={handleInputChange}

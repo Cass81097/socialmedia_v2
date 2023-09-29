@@ -4,6 +4,8 @@ import { baseUrl, deleteRequest, getRequest, postRequest, putRequest } from '../
 import { AuthContext } from './AuthContext';
 import { PostContext } from './PostContext';
 import { HomeContext } from './HomeContext';
+import { format } from 'date-fns';
+
 import uploadImages from "../hooks/UploadMulti";
 
 export const CommentContext = createContext();
@@ -91,9 +93,11 @@ export const CommentContextProvider = ({ children, postId,reloadHome }) => {
     const handleEditMessage = useCallback((commentId, context) => {
         console.log("edit");
         const time = new Date();
+        const formattedTime = format(time, "h:mm a"); // Định dạng thời gian theo "7:10 PM"
+
         const data = {
             content: context,
-            timeEdit: time,
+            timeEdit: formattedTime,
         };
         console.log(data);
 

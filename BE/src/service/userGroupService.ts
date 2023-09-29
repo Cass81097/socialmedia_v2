@@ -80,7 +80,6 @@ export class UserGroupService {
                 }
             });
         } catch (error) {
-
             console.error("Error in findById:", error);
             throw error;
         }

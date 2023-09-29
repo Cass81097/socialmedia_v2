@@ -144,6 +144,36 @@ export class StatusService {
         return status;
     };
 
+    findStatusByUserSender = async (userId) => {
+        let status = await this.statusRepository.find({
+            relations: {
+                receiver: true,
+                sender: true
+            },
+            where: {
+                sender: {
+                    id: userId
+                }
+            },
+            order: {
+                time: 'DESC'
+            }
+        });
+        for (let i = 0; i < status.length; i++) {
+            let imageByStatusId = await imageStatusService.findAllByStatusId(status[i].id);
+            let likeByStatusId = await likeService.getLikeForStatus(status[i].id);
+            let cmtCount = await commentService.getCommentForStatus(status[i].id)
+            status[i] = {
+                ...status[i],
+                image: [...imageByStatusId],
+                accountLike: likeByStatusId.likeCount,
+                listUserLike: [...likeByStatusId.likeRecords],
+                commentCount: cmtCount
+            };
+        }
+        return status;
+    };
+
     findByIdAndStatus = async (id) => {
 
         let status = await this.statusRepository.find({

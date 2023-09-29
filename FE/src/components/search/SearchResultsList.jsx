@@ -24,6 +24,7 @@ export const SearchResultsList = ({ results, clearSearchResult }) => {
     clearSearchResult();
   };
 
+
   return (
     <div className="results-list">
       {filteredResults.map((result, id) => {

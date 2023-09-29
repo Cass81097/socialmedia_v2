@@ -47,7 +47,7 @@ export class GroupService {
         try {
             let group = await this.groupRepository.find({
                 where: {
-                   groupName: Like(`${name}`),
+                   groupName: Like(`%${name}%`),
                 }
             });
             for (let i = 0; i < group.length ; i++) {

@@ -134,18 +134,6 @@ export default function SearchPost() {
                                         </div>
                                     </div>
                                     <div className="post-user">
-                                        {/* <p className="post-text">{item.content}</p>
-
-
-                                   {item.images.map((image, imageIndex) => (
-                                       <img
-                                           
-                                           src={image.imageUrl}
-                                           alt={`Image ${imageIndex + 1}`}
-                                           className="post-img"
-                                           key={imageIndex}
-                                       />
-                                   ))} */}
 
                                         <p className="post-text">{item.content}</p>
 
