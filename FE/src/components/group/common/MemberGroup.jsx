@@ -102,15 +102,23 @@ const MemberGroup = (props) => {
 
                             <div className="button-member-group">
 
-                                {user?.id !== groupUser?.user.id ? (
-                                    <div className="add-button" >
+                                {user?.id !== groupUser?.user.id && friendStatus?.[index]?.status === "friend" ? (
+                                    <div className="add-button">
                                         <button type="button" className="btn btn-primary btn-add btn-friend-group">
                                             <i className="fas fa-user">
                                                 <span>Friend</span>
                                             </i>
                                         </button>
                                     </div>
-                                ) : null}
+                                ) : (user?.id !== groupUser?.user.id) ? (
+                                    <div className="add-button">
+                                        <button type="button" className="btn btn-primary btn-add btn-add-friend">
+                                            <i className="fas fa-user-plus">
+                                                <span>Add friend</span>
+                                            </i>
+                                        </button>
+                                    </div>
+                                ) : friendStatus === null ? null : null}
 
                                 {user?.id !== groupUser?.user.id && infoUserGroup?.role === "admin" ? (
                                     <div className="group-button-user">
@@ -121,18 +129,7 @@ const MemberGroup = (props) => {
                                         </button>
                                     </div>
                                 ) : null}
-
                             </div>
-
-                            {/* <div className="add-button" >
-                                <button type="button" className="btn btn-primary btn-add btn-add-friend" >
-                                    <i className="fas fa-user-plus">
-                                        <span>Add friend</span>
-                                    </i>
-                                </button>
-                            </div> */}
-
-
                         </div>
                     ))}
                 </div>

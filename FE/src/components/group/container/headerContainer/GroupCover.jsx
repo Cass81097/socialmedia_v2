@@ -7,9 +7,10 @@ import { GroupContext } from '../../../../context/GroupContext';
 import "../../../../styles/group/group-cover.css";
 import uploadImages from "../../../../hooks/UploadMulti";
 import LoadingNew from "../../../../components/common/LoadingNew"
+import { baseUrl, deleteRequest, postRequest, putRequest, getRequest } from "../../../../utils/services"
 
 const GroupCover = (props) => {
-    const { setIsImageLoading, isImageLoading, showGroupChange, setShowGroupChange, showGroupInfo, infoUserGroup } = useContext(GroupContext)
+    const { setIsImageLoading, isImageLoading, showGroupChange, setShowGroupChange, showGroupInfo, infoUserGroup, fetchGroupInfo, fetchGroupList } = useContext(GroupContext)
     const [imageSrcGroup, setImageSrcGroup] = useState(null);
 
     const handleClose = () => {
@@ -21,8 +22,19 @@ const GroupCover = (props) => {
         setShowGroupChange(true);
     }
 
-    const handleCreateGroup = () => {
-        console.log("Create Group");
+    const handleSaveAvatarGroup = async() => {
+        try {
+            const data = {
+                image : imageSrcGroup[0]
+            }
+            const response = await putRequest(`${baseUrl}/groups/${showGroupInfo?.id}`, JSON.stringify(data));
+            await fetchGroupInfo();
+            await fetchGroupList();
+
+        } catch (error) {
+            console.error("Error fetching all users:", error);
+        }
+        setShowGroupChange(false);
         setImageSrcGroup(null);
     }
 
@@ -73,8 +85,8 @@ const GroupCover = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleCreateGroup}>
-                        Create
+                    <Button variant="primary" onClick={handleSaveAvatarGroup}>
+                        Save
                     </Button>
                 </Modal.Footer>
             </Modal>

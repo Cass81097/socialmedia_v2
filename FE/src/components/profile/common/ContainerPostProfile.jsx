@@ -152,7 +152,7 @@ export default function ContainerPostProfile(props) {
     }, [imageSrcProfile]);
 
     const handleImageClose = () => {
-        setImageSrcProfile([]);
+        setImageSrcProfile(null);
     };
 
     //Handle Post
@@ -408,7 +408,8 @@ export default function ContainerPostProfile(props) {
                                     <img src="./images/watch.png" /> Video
                                 </Link>
                                 <label htmlFor="image-upload-post" className="upload-label" style={{ cursor: "pointer", alignItems: "center", display: "flex", justifyContent: "center" }}>
-                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> Picture
+                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> 
+                                    <span style={{fontSize:"14px", color:"#626262"}}>Picture</span> 
                                     <input
                                         id="image-upload-post"
                                         type="file"
@@ -563,7 +564,8 @@ export default function ContainerPostProfile(props) {
                                     <img src="./images/watch.png" /> Video
                                 </Link>
                                 <label htmlFor="image-upload-post" className="upload-label" style={{ cursor: "pointer", alignItems: "center", display: "flex", justifyContent: "center" }}>
-                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> Picture
+                                    <img src="./images/photo.png" style={{ marginRight: "10px", width: "20px" }} /> 
+                                    <span style={{fontSize:"14px", color:"#626262"}}>Picture</span> 
                                     <input
                                         id="image-upload-post"
                                         type="file"

@@ -20,20 +20,30 @@ export const SearchBar = ({ setResults, results }) => {
   }, [window.location.pathname]);
 
   const fetchData = (value) => {
-    fetch("http://localhost:5000/users/")
-        .then((response) => response.json())
-        .then((json) => {
-          const filteredResults = json.filter((user) => {
-            return (
-                value &&
-                user &&
-                user.fullname &&
-                (user.fullname.toLowerCase().includes(value) ||
-                    user.fullname.includes(value))
-            );
-          });
-          setResults(filteredResults);
-        });
+    const userPromise = fetch("http://localhost:5000/users/").then((response) =>
+      response.json()
+    );
+    const groupPromise = fetch("http://localhost:5000/groups/").then((response) =>
+      response.json()
+    );
+
+    Promise.all([userPromise, groupPromise]).then(([users, groups]) => {
+      const userResults = users.filter(
+        (user) =>
+          user.fullname &&
+          (user.fullname.toLowerCase().includes(value) ||
+            user.fullname.includes(value))
+      );
+      const groupResults = groups.filter(
+        (group) =>
+          group.groupName &&
+          (group.groupName.toLowerCase().includes(value) ||
+            group.groupName.includes(value))
+      );
+
+      const mergedResults = [...userResults, ...groupResults];
+      setResults(mergedResults);
+    });
   };
 
   const handleChange = (value) => {
@@ -51,24 +61,6 @@ export const SearchBar = ({ setResults, results }) => {
       handleSearch();
     }
   };
-
-  useEffect(() => {
-    // Add a click event listener to the document body
-    const handleClickOutside = (event) => {
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
-
-        setResults([]);
-      }
-    };
-
-    // Add the event listener when the component mounts
-    document.body.addEventListener("click", handleClickOutside);
-
-    // Remove the event listener when the component unmounts
-    return () => {
-      document.body.removeEventListener("click", handleClickOutside);
-    };
-  }, [setResults]);
 
   return (
       <div className={`input-wrapper ${hasResults ? "with-results" : ""}`}>
