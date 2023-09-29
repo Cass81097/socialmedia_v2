@@ -2,13 +2,13 @@ import $ from 'jquery';
 import React, { useContext, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../../../context/AuthContext";
 import { GroupContext } from "../../../../context/GroupContext";
 import "../../../../styles/group/group-post.css";
 import { baseUrl, deleteRequest } from "../../../../utils/services";
 import LoadingNew from "../../../common/LoadingNew";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 
 const GroupPostStatus = (props) => {
     const { user } = useContext(AuthContext);
@@ -57,9 +57,9 @@ const GroupPostStatus = (props) => {
     const handleDeleteStatus = (async (statusId) => {
         setIsLoading(true);
         const response = await deleteRequest(`${baseUrl}/statusGroups/${statusId}`);
-        setIsLoading(false);
-        setShowModalDeleteStatus(false);
         toast.success("You have deleted post.", toastOptions);
+        setIsLoading(false);
+        setShowModalDeleteStatus(false);    
         await fetchShowStatusGroup();
     })
 
