@@ -12,12 +12,14 @@ import { CometChatUI } from '../../cometchat-chat-uikit-react-3/CometChatWorkspa
 import axios from "axios";
 import Notification from "./Notification";
 import { GroupContext } from '../../context/GroupContext';
+import {PostContext} from "../../context/PostContext";
 
 export default function Navbar() {
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
-    const { setUserProfile } = useContext(ProfileContext);
+    const { fetchUserProfile,setUserProfile } = useContext(ProfileContext);
     const { fetchGroupInfo } = useContext(GroupContext)
+    const {fetchPostUser } =useContext(PostContext)
     const [results, setResults] = useState([]);
     const [notifications, setNotifications] = useState([]);
     const [userRequest, setUserRequest] = useState({})
@@ -28,6 +30,7 @@ export default function Navbar() {
     const [status, setStatus] = useState([]);
     const [userGroupRequest, setUserGroupRequest] = useState([]);
     const [groupRequest, setGroupRequest] = useState([])
+
 
 
     console.log(notifications, "noti");
@@ -178,6 +181,7 @@ export default function Navbar() {
         await axios.put(`http://localhost:5000/statusNotifications/update/${notificationId}`)
         setDown(false);
         navigate(`/status/${statusId}`)
+        await fetchPostUser()
     }
     const goProfileUser = async (item) => {
         if (item.group) {
@@ -189,6 +193,7 @@ export default function Navbar() {
             await axios.put(`http://localhost:5000/friendNotifications/update/${item.id}`);
             setDown(false);
             navigate(`/${item.sender.username}`);
+           await fetchUserProfile ()
         }
     }
     // xu ly nut chua doc

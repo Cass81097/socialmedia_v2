@@ -57,7 +57,7 @@ export const CommentContextProvider = ({ children, postId,reloadHome }) => {
             const newComment = await postRequest(`${baseUrl}/comments`, JSON.stringify(data));
             setCommentList((prevCommentList) => [...prevCommentList, newComment]);
             setTextMessage("");
-            reloadHome();
+
             fetchPostUser();
 
             const statusReponse =  await getRequest(`${baseUrl}/status/statusId/${data.status.id}`);
@@ -70,6 +70,7 @@ export const CommentContextProvider = ({ children, postId,reloadHome }) => {
                     commentId: newComment.id
                 });
             }
+            reloadHome();
 
         } catch (error) {
             console.error("Error adding comment:", error);

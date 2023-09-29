@@ -25,6 +25,8 @@ export default function Notification(props) {
     const [status, setStatus] = useState([])
     const { setCommentList } = useContext(PostContext);
     const { fetchGroupInfo, fetchGroupList, fetchInfoUserGroup } = useContext(GroupContext);
+    const { fetchUserProfile,setUserProfile } = useContext(ProfileContext);
+    const {fetchPostUser } =useContext(PostContext)
 
     // Group Request
     const [userGroupRequest, setUserGroupRequest] = useState([])
@@ -58,6 +60,8 @@ export default function Notification(props) {
     const goProfileUser = (username) => {
         setShowToastFriend(false)
         navigate(`/${username}`);
+        fetchUserProfile()
+
     }
 
     useEffect(() => {
@@ -103,7 +107,8 @@ export default function Notification(props) {
     }, [friendRequest]);
 
     const showPost = async (id) => {
-        navigate(`/status/${id}`)
+        navigate(`/status/${id}`);
+        fetchPostUser()
     }
 
     // Comment
