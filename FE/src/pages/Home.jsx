@@ -836,6 +836,7 @@ const Home = (props) => {
                                                                                   isCountLike={isCountLike}
                                                                                   setIsCountLike={setIsCountLike}
                                                                                   load={handleReloadCount}
+                                                                                  receiver={post.receiver.id}
                                                                             ></Like>
                                                                         </div>
 

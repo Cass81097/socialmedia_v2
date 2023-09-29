@@ -10,7 +10,7 @@ import { baseUrl, deleteRequest, getRequest, postRequest } from "../../utils/ser
 export default function Like(props) {
     const navigate = useNavigate();
     const handleStatusRef = useRef(null);
-    const { postId, countLike, checkStatusLike, setIsCountLike, userLike, onLikeClick } = props
+    const { load,postId, countLike, checkStatusLike, setIsCountLike, userLike, onLikeClick,receiver } = props
     const { user } = useContext(AuthContext)
     const { userProfile, socket } = useContext(ProfileContext)
     const { fetchPostUser } = useContext(PostContext)
@@ -30,15 +30,17 @@ export default function Like(props) {
         const response = await postRequest(`${baseUrl}/likes/add/${postId}`, JSON.stringify(data));
         setIsLiked(true);
         fetchPostUser();
-        load();
 
         if (socket) {
+            const receiverId = userProfile[0]?.id !== undefined ? userProfile[0]?.id : receiver;
+
             socket.emit("likeStatus", {     
                 senderId: user?.id,
-                receiverId: userProfile[0]?.id,
+                receiverId:receiverId,
                 postId: postId
             });
         }
+        load();
         onLikeClick();
 
     };
@@ -54,7 +56,7 @@ export default function Like(props) {
 
     // useEffect(() => {
     //     if (socket === null) return;
-        
+    //
     //     const handleStatus = async (response) => {
     //         console.log(response);
     //         try {
@@ -66,9 +68,9 @@ export default function Like(props) {
     //             console.error("Error fetching user post:", error);
     //         }
     //     };
-    
+    //
     //     socket.on("status", handleStatus);
-    
+    //
     //     return () => {
     //         socket.off("status", handleStatus);
     //     };

@@ -20,7 +20,7 @@ import "../../../styles/user/post/inputEmoji.css";
 import "../../../styles/user/post/postImage.css";
 import "../../../styles/user/post/postUser.css";
 import "../../../styles/user/post/privacy.css";
-import { baseUrl, deleteRequest, postRequest, putRequest } from "../../../utils/services";
+import {baseUrl, deleteRequest, getRequest, postRequest, putRequest} from "../../../utils/services";
 import Comment from "../../common/Comment";
 import Like from "../../common/Like";
 import LoadingNew from "../../common/LoadingNew";
@@ -277,6 +277,30 @@ export default function ContainerPostProfile(props) {
         await fetchPostUser();
     })
 
+
+    const userLogin = JSON.parse(localStorage.getItem("User"))
+
+    const [checkFriend, setCheckFriend] = useState([])
+    const [checkBlock, setCheckBlock] = useState([])
+    useEffect(() => {
+        const checkFriendByUser = async () => {
+            try {
+                console.log(1)
+                const checkList = await getRequest(`${baseUrl}/friendShips/friendList/${userLogin.id}`)
+                setCheckFriend(checkList)
+                const checkBlockList = await getRequest(`${baseUrl}/friendShips/blockList`)
+                setCheckBlock(checkBlockList)
+            } catch (e) {
+                console.error(e)
+            }
+        }
+        const checkBlockByUser = async () => {
+
+        }
+        checkFriendByUser();
+        checkBlockByUser();
+    }, [])
+
     return (
         <>
             <div className="post-col">
@@ -436,7 +460,7 @@ export default function ContainerPostProfile(props) {
                     </div>
                 )}
 
-                {checkFriendStatus?.status === "friend" && (
+                {checkFriendStatus?.status === "friend" &&  (
                     <div className="home-content">
                         <div className="write-post-container" ref={containerRef}>
                             <div className="user-profile">
@@ -593,7 +617,13 @@ export default function ContainerPostProfile(props) {
                 )}
 
                 <div>
+
                     {postUser.map((post, index) => (
+                        <div>
+                            {  checkBlock.some((item) =>
+                                (item?.user1.id === post.sender.id || item.user2.id === post.sender.id) &&
+                                (userLogin.id === item?.user1.id || userLogin.id === item?.user2.id)
+                                ) && userLogin.id !== post.sender.id ? (<div></div>):(
                         <div key={index} className="index-content">
                             <div className="post-container">
                                 <div className="user-profile">
@@ -813,6 +843,7 @@ export default function ContainerPostProfile(props) {
                                     </CommentContextProvider>
                                 )}
                             </div>
+                        </div>)}
                         </div>
                     ))}
                 </div>

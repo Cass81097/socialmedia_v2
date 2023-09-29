@@ -51,7 +51,6 @@ io.on("connection", (socket) => {
     socket.on("likeStatus", (data) => {
         const { senderId, receiverId, postId } = data;
         const receiver = onlineUsers.find(user => user?.userId === receiverId);
-        console.log(receiver);
         if (receiver) {
             io.to(receiver.socketId).emit("status", { senderId, receiverId, postId });
         }

@@ -76,6 +76,8 @@
 
 .user-action-post {
     position: relative;
+    margin-top: -32px;
+    margin-right: -10px;
 }
 
 .user-action-post ol {
