@@ -130,7 +130,6 @@ const GroupPostStatus = (props) => {
                                             </li>
                                         </ol>
                                     ) : null }
-
                                 </div>
                             </div>
 
