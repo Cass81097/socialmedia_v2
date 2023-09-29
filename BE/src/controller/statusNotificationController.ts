@@ -1,12 +1,14 @@
 import statusNotificationService from "../service/statusNotificationService";
 import friendNotificationService from "../service/friendNotificationService";
+import groupNotificationService from "../service/groupNotificationService";
 
 export class StatusNotificationController {
     getNotificationForReceiver = async (req,res)=>{
 
         let data = await statusNotificationService.getNotificationForReceiver(req.params.id)
         let data2 = await friendNotificationService.getNotificationForReceiver(req.params.id)
-        let notification=[...data,...data2]
+        let data3 = await groupNotificationService.getNotificationForReceiver(req.params.id)
+        let notification=[...data,...data2,...data3]
         notification.sort((a, b) => {
             const timeA = a.time.getTime();
             const timeB = b.time.getTime();

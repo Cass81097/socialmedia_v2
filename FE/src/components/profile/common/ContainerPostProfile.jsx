@@ -39,7 +39,7 @@ export default function ContainerPostProfile(props) {
     const containerRef = useRef(null);
 
     const toastOptions = {
-        position: "bottom-left",
+        position: "bottom-right",
         autoClose: 8000,
         pauseOnHover: true,
         draggable: true,

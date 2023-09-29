@@ -18,7 +18,7 @@ const GroupPostStatus = (props) => {
     console.log(infoUserGroup);
 
     const toastOptions = {
-        position: "bottom-left",
+        position: "bottom-right",
         autoClose: 8000,
         pauseOnHover: true,
         draggable: true,

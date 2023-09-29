@@ -68,7 +68,6 @@ export default function SearchPostId() {
 
     const publicPost = listStatus[0]?.visibility === "public";
     const friendPost = listStatus[0]?.visibility === "friend" && checkFriendStatus === true;
-    console.log(listStatus)
 
 
     // comment
@@ -79,8 +78,6 @@ export default function SearchPostId() {
         setShowComment(true)
         setVisibleCommentIndex(visibleCommentIndex === index ? -1 : index);
     };
-
-
 
     return (
         <>
