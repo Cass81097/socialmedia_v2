@@ -297,7 +297,7 @@ export default function EditUser() {
                                 <i className="fas fa-address-card"></i>
                             </div>
                             <div className="item-text">
-                                <p>{user.fullname || "Chưa có"}</p>
+                                <p>{user.fullname || "Please update"}</p>
                             </div>
                         </div>
                         <div className="item-Right">
@@ -364,7 +364,7 @@ export default function EditUser() {
                             <div className="item-text"
                                 style={{ marginLeft: "7px" }}
                             >
-                                <p> {user.address || "Chưa có"}</p></div>
+                                <p> {user.address || "Please update"}</p></div>
                         </div>
                         <div className="item-Right">
                             <div className="right-icons">
@@ -426,7 +426,7 @@ export default function EditUser() {
                                 <i className="fas fa-phone-alt"></i>
                             </div>
                             <div className="item-text">
-                                <p>{user.phone || <p >Please edit</p>}</p></div>
+                                <p>{user.phone || <p >Please update</p>}</p></div>
                         </div>
                         <div className="item-Right">
                             <div className="right-icons">

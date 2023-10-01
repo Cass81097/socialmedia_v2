@@ -29,29 +29,28 @@ export default function Like(props) {
         }
         const response = await postRequest(`${baseUrl}/likes/add/${postId}`, JSON.stringify(data));
         setIsLiked(true);
-        fetchPostUser();
-
+        await fetchPostUser();
+    
         if (socket) {
             const receiverId = userProfile[0]?.id !== undefined ? userProfile[0]?.id : receiver;
-
-            socket.emit("likeStatus", {     
+    
+            socket.emit("likeStatus", {
                 senderId: user?.id,
-                receiverId:receiverId,
+                receiverId: receiverId,
                 postId: postId
             });
         }
-        load();
-        onLikeClick();
-
+    
+        await Promise.all([onLikeClick(), load()]);
     };
-
+    
     const handleRemoveLike = async () => {
         const data = user.id;
         const response = await deleteRequest(`${baseUrl}/likes/${postId}?userId=${data}`);
         setIsLiked(false);
-        fetchPostUser();
-        load();
-        onLikeClick();
+        await fetchPostUser();
+    
+        await Promise.all([onLikeClick(), load()]);
     };
 
     // useEffect(() => {

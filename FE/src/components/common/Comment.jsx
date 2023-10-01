@@ -1,23 +1,24 @@
+import axios from "axios";
 import $ from "jquery";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Button } from "react-bootstrap"; // Nhập Button từ react-bootstrap
+import { Button } from "react-bootstrap"; 
 import Modal from "react-bootstrap/Modal";
 import InputEmoji from "react-input-emoji";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { CommentContext } from "../../context/CommentContext";
 import { PostContext } from "../../context/PostContext";
 import { ProfileContext } from "../../context/ProfileContext";
 import "../../styles/user/post/comment-status.css";
-import axios from "axios";
 
-export default function Comment({ cmt,postSenderId, showComment, postVisi, postId }) {
+export default function Comment({ cmt, postSenderId, showComment, postVisi, postId }) {
     const { user } = useContext(AuthContext)
     const lastCommentRef = useRef(null);
     const { postUser } = useContext(PostContext)
     const { checkFriendStatus } = useContext(ProfileContext)
+    const navigate = useNavigate()
 
     const {
-
         textMessage,
         handleInputChange,
         handleEditMessage,
@@ -142,7 +143,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
 
     // img
 
-// check friend
+    // check friend
     const [checkFriend, setCheckFriend] = useState([])
     const userLogin = JSON.parse(localStorage.getItem("User"))
 
@@ -151,6 +152,10 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
             setCheckFriend(res.data)
         })
     }, [])
+
+    const goProfile = (username) => {
+        navigate(`/${username}`);
+    }
 
     return (
         <>
@@ -163,27 +168,19 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                 {commentList.map((item, index) => (
                                     <div className="all-comments" key={item.id} ref={index === commentList.length - 1 ? lastCommentRef : null}>
                                         <div className="comments">
-                                            <div className="avatar-comments">
+                                            <div className="avatar-comments" style={{ cursor: "pointer" }} onClick={() => goProfile(item?.user.username)}>
                                                 <img className="avatar-comments"
-                                                     src={item?.user.avatar}
-                                                     alt="" />
+                                                    src={item?.user.avatar}
+                                                    alt="" />
                                             </div>
                                             <div className="detail-comments">
                                                 {editingCommentId === item.id && showEditStatus ?
                                                     (
-                                                        <div style={{padding:"10px"}}>
+                                                        <div style={{ padding: "10px" }}>
                                                             <div
                                                                 className="nameUser-comments">{item.user?.fullname}</div>
                                                             <div className="edit-comment-form">
-                                                                {/*<InputEmoji*/}
-                                                                {/*    value={"Abc"}*/}
-                                                                {/*    onChange={(value) => {*/}
-                                                                {/*        setEditingCommentContent({*/}
-                                                                {/*            ...editingCommentContent,*/}
-                                                                {/*            [editingCommentId]: value*/}
-                                                                {/*        });*/}
-                                                                {/*    }}*/}
-                                                                {/*/>*/}
+
                                                                 <textarea
                                                                     className="textarea-comment"
 
@@ -192,13 +189,13 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                                     onChange={handleCommentChange}
                                                                 />
                                                                 <i
-                                                                   className="fas fa-paper-plane"
-                                                                   onClick={handleSubmitEdit}></i>
+                                                                    className="fas fa-paper-plane"
+                                                                    onClick={handleSubmitEdit}></i>
                                                             </div>
                                                         </div>
 
                                                     ) : (
-                                                        <div style={{padding:"10px"}}>
+                                                        <div style={{ padding: "10px" }}>
                                                             <div
                                                                 className="nameUser-comments">{item.user?.fullname}</div>
                                                             <p>{item.content}</p>
@@ -209,7 +206,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                     <></>
                                                 ) : (<>
                                                     <div style={{ marginTop: "12px", marginLeft: "5px" }}
-                                                         className="user-action-post" onClick={() => showMenu(index)}>
+                                                        className="user-action-post" onClick={() => showMenu(index)}>
 
                                                         <Button variant="light">
                                                             <i className="fas fa-ellipsis-h"></i>
@@ -240,8 +237,6 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
 
                                         </div>
                                         <div className="actions-status">
-                                            {/*<p>Like</p>*/}
-                                            {/*<p>Comment</p>*/}
 
                                             {(() => {
                                                 const timeString = item.time;
@@ -251,7 +246,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                 let timeAgo;
                                                 if (timeDiffInMinutes === 0) {
                                                     timeAgo = "Just now";
-                                                }else if(timeDiffInMinutes === -1 ){
+                                                } else if (timeDiffInMinutes === -1) {
                                                     timeAgo = "Just now"
                                                 }
                                                 else if (timeDiffInMinutes < 60) {
@@ -276,7 +271,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                             })()}
                                             {item.timeEdit !== null ? (
                                                 <p style={{ marginLeft: "10px" }}
-                                                   onClick={() => { showModalTimeEdit(item.timeEdit.toString()) }}>
+                                                    onClick={() => { showModalTimeEdit(item.timeEdit.toString()) }}>
                                                     Edited</p>
                                             ) : (<></>)}
 
@@ -285,10 +280,10 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                     </div>
                                 ))}
                                 {commentList.length === 1 ? (
-<div></div>): (
+                                    <div></div>) : (
                                     <div className="show-more-comments">
-                                    <p onClick={closeShowAll}>Hide comment</p>
-                                </div>)}
+                                        <p onClick={closeShowAll}>Hide comment</p>
+                                    </div>)}
                             </div>
                         ) : (
                             <div>
@@ -305,13 +300,13 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                             </div>)}
                                         <div className="all-comments">
                                             <div className="comments">
-                                                <div className="avatar-comments">
+                                                <div className="avatar-comments" style={{ cursor: "pointer" }} onClick={() => goProfile(latestComment?.user.username)}>
                                                     <img src={latestComment?.user?.avatar} alt="" />
                                                 </div>
                                                 <div className="detail-comments">
                                                     {showEditStatus ?
                                                         (
-                                                            <div style={{padding:"10px"}}>
+                                                            <div style={{ padding: "10px" }}>
                                                                 <div
                                                                     className="nameUser-comments">{latestComment.user?.fullname}</div>
                                                                 <div className="edit-comment-form">
@@ -331,13 +326,13 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                                         onChange={handleCommentChange}
                                                                     />
                                                                     {/* <Picker /> */}
-                                                                    <i 
-                                                                       className="fas fa-paper-plane"
-                                                                       onClick={handleSubmitEdit}></i>
+                                                                    <i
+                                                                        className="fas fa-paper-plane"
+                                                                        onClick={handleSubmitEdit}></i>
                                                                 </div>
                                                             </div>
                                                         ) : (
-                                                            <div style={{padding:"10px"}}>
+                                                            <div style={{ padding: "10px" }}>
                                                                 <div
                                                                     className="nameUser-comments">{latestComment?.user?.fullname}</div>
                                                                 <p>{latestComment?.content}</p>
@@ -350,7 +345,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                     ) : (
 
                                                         <div style={{ marginTop: "5px" }} className="user-action-post"
-                                                             onClick={() => showMenu(latestComment?.id)}>
+                                                            onClick={() => showMenu(latestComment?.id)}>
                                                             <Button variant="light">
                                                                 <i className="fas fa-ellipsis-h"></i>
                                                             </Button>
@@ -387,7 +382,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                     let timeAgo;
                                                     if (timeDiffInMinutes === 0) {
                                                         timeAgo = "Just now";
-                                                    }else  if (timeDiffInMinutes === -1) {
+                                                    } else if (timeDiffInMinutes === -1) {
                                                         timeAgo = "Just now";
                                                     } else if (timeDiffInMinutes < 60) {
                                                         timeAgo = `${timeDiffInMinutes}m`;
@@ -411,7 +406,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                                                 })()}
                                                 {latestComment.timeEdit !== null ? (
                                                     <p style={{ marginLeft: "10px" }}
-                                                       onClick={() => { showModalTimeEdit(latestComment?.timeEdit.toString()) }}>
+                                                        onClick={() => { showModalTimeEdit(latestComment?.timeEdit.toString()) }}>
                                                         Edited</p>
                                                 ) : (<></>)}
                                             </div>
@@ -424,7 +419,7 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                         )}
 
 
-                    { !checkFriend.some((c) => {
+                    {!checkFriend.some((c) => {
                         return (
                             c.user1.id === postSenderId || c.user2.id === postSenderId
                         )
@@ -432,10 +427,10 @@ export default function Comment({ cmt,postSenderId, showComment, postVisi, postI
                         <div></div>
                     ) : (
                         <div className="enter-comment">
-                            <div className="avt-comment">
+                            <div className="avt-comment" style={{ cursor: "pointer" }} onClick={() => goProfile(user?.username)}>
                                 <img
                                     className="avatar-comments"
-                                    src={user.avatar}
+                                    src={user?.avatar}
                                     alt=""
                                 />
                             </div>

@@ -11,25 +11,26 @@ import Comment from "../common/Comment";
 import Like from "../common/Like";
 import Navbar from "../common/Navbar";
 import $ from "jquery";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function SearchPost() {
     const { searchTerm } = useContext(SearchContext);
-    const user = JSON.parse(localStorage.getItem("User"))
+    const { user } = useContext(AuthContext)
     const navigate = useNavigate()
     const [isCountLike, setIsCountLike] = useState([]);
 
     const { postUser, postImageUser, fetchPostUser, fetchImagePostUser } = useContext(PostContext);
     const [listStatus, setListStatus] = useState([])
 
+    console.log(listStatus);
 
     const handleLikeClick = async () => {
         axios.get(`http://localhost:5000/status/content/${user.id}/?content=${searchTerm}`).then((res) => {
-            setListStatus(res.data);
+            setListStatus(res.data);   
         });
         fetchPostUser();
     };
-
-    // const response =  getRequest(`${baseUrl}/status/content/7/${userId}`);
+    
     const goProfile = (username) => {
         navigate(`/${username}`);
     };
@@ -44,10 +45,8 @@ export default function SearchPost() {
     };
 
     const handleAddComment = (postId, newComment) => {
-        // Tìm bài viết trong listStatus dựa vào postId
         const updatedListStatus = listStatus.map((post) => {
             if (post.id === postId) {
-                // Cập nhật số lượng bình luận cho bài viết
                 const updatedCommentCount = post.commentCount.commentCount + 1;
                 console.log(updatedCommentCount)
                 return {
@@ -59,11 +58,12 @@ export default function SearchPost() {
         });
         setListStatus(updatedListStatus);
     };
+
     useEffect(() => {
         axios.get(`http://localhost:5000/status/content/${user.id}/?content=${searchTerm}`).then((res) => {
             setListStatus(res.data)
         });
-    }, [searchTerm,handleAddComment])
+    }, [searchTerm])
 
     return (
         <>

@@ -59,11 +59,8 @@ export default function LikeList(props) {
                                             <div className="modal-like-avatar">
                                                 <img src={userLike?.user.avatar} alt="" onClick={() => goProfileUser(userLike?.user.username)} />
                                             </div>
-                                            {/* <div className="like-avatar">
-                                                <BiLike />
-                                            </div> */}
                                             <div className="icon-avatar-like-list">
-                                                <i className="fas fa-thumbs-up" style={{color:"white", fontSize:"13px"}}></i>
+                                                <i className="fas fa-thumbs-up" style={{ color: "white", fontSize: "13px" }}></i>
                                             </div>
                                         </div>
                                         <p onClick={() => goProfileUser(userLike?.user.username)}>{userLike?.user.fullname}</p>
@@ -80,13 +77,14 @@ export default function LikeList(props) {
                                                 <span>Pending</span>
                                             </i>
                                         </button>
-                                    ) : (
-                                        <button type="button" className="btn btn-secondary btn-edit like-edit">
-                                            <i className="fas fa-user-plus">
-                                                <span>Add Friend</span>
-                                            </i>
-                                        </button>
-                                    )}
+                                    ) : user?.id === userLike?.user?.id ? (
+                                        null
+                                    ) : 
+                                    <button type="button" className="btn btn-secondary btn-edit like-edit">
+                                        <i className="fas fa-user-plus">
+                                            <span>Add Friend</span>
+                                        </i>
+                                    </button>}
                                 </div>
                             );
                         })}

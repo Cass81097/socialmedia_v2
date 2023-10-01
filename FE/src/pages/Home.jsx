@@ -198,9 +198,11 @@ const Home = (props) => {
             handleSendMessage();
         }
     };
+
     const handleImageClose = () => {
-        setImageSrcProfile([]);
+        setImageSrcProfile(null);
     };
+
     const handleImageUploadMore = (e) => {
         uploadImages(e, (images) => {
             setIsImageLoading(false);
@@ -269,9 +271,6 @@ const Home = (props) => {
         setPostEditIndex(index)
         setShowPostEdit(true);
     };
-    console.log(postEditIndex)
-
-
 
     useEffect(() => {
         if (privacyIndex !== null) {
@@ -349,7 +348,9 @@ const Home = (props) => {
         theme: "light",
     };
 
-
+    const onLikeClick = () => {
+        console.log("OK");
+    }
 
     return (
         <>
@@ -562,7 +563,7 @@ const Home = (props) => {
                                                                                      alt="User Avatar"/>
                                                                             </div>
                                                                             <div>
-                                                                                <div className="post-user-name">
+                                                                                <div className="post-user-name" onClick={() => goProfile(post.sender?.username)}>
                                                                                     {post.sender?.id !== post.receiver?.id && (
                                                                                         <>
                                                                                             <p onClick={() => goProfile(post.sender?.username)}>{post.sender?.fullname}</p>
@@ -837,6 +838,7 @@ const Home = (props) => {
                                                                                   setIsCountLike={setIsCountLike}
                                                                                   load={handleReloadCount}
                                                                                   receiver={post.receiver.id}
+                                                                                  onLikeClick={onLikeClick}
                                                                             ></Like>
                                                                         </div>
 

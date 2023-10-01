@@ -12,14 +12,14 @@ import { CometChatUI } from '../../cometchat-chat-uikit-react-3/CometChatWorkspa
 import axios from "axios";
 import Notification from "./Notification";
 import { GroupContext } from '../../context/GroupContext';
-import {PostContext} from "../../context/PostContext";
+import { PostContext } from "../../context/PostContext";
 
 export default function Navbar() {
     const navigate = useNavigate();
     const { user } = useContext(AuthContext);
-    const { fetchUserProfile,setUserProfile } = useContext(ProfileContext);
+    const { fetchUserProfile, setUserProfile } = useContext(ProfileContext);
     const { fetchGroupInfo } = useContext(GroupContext)
-    const {fetchPostUser } =useContext(PostContext)
+    const { fetchPostUser } = useContext(PostContext)
     const [results, setResults] = useState([]);
     const [notifications, setNotifications] = useState([]);
     const [userRequest, setUserRequest] = useState({})
@@ -30,11 +30,6 @@ export default function Navbar() {
     const [status, setStatus] = useState([]);
     const [userGroupRequest, setUserGroupRequest] = useState([]);
     const [groupRequest, setGroupRequest] = useState([])
-
-
-
-    console.log(notifications, "noti");
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -66,10 +61,10 @@ export default function Navbar() {
                     const data = {
                         sender: groupRequest.id,
                         receiver: groupRequest.receiver,
-                        group :groupRequest.groupId,
-                        des : groupRequest .userAccepted?
+                        group: groupRequest.groupId,
+                        des: groupRequest.userAccepted ?
                             "has accepted your request to join the group"
-                            :"Just sent a request to join group"
+                            : "Just sent a request to join group"
 
                     };
 
@@ -101,7 +96,7 @@ export default function Navbar() {
         };
 
         fetchData();
-    }, [user.id, setUserRequest, setUserPost, userRequest, userPost, setStatus, status,setGroupRequest, groupRequest]);
+    }, [user.id, setUserRequest, setUserPost, userRequest, userPost, setStatus, status, setGroupRequest, groupRequest]);
 
     const handleUserRequest = (data) => {
         setUserRequest(data);
@@ -165,8 +160,9 @@ export default function Navbar() {
         setDown(false);
         const currentDomain = window.location.pathname.split("/")[1];
         if (`/${user?.username}` !== `/${currentDomain}`) {
-            navigate(`/${user?.username}`);
+            // navigate(`/${user?.username}`);
             // setUserProfile(res)
+            window.location.href = `/${user?.username}`;
             $('.profile-menu').hide();
         } else {
             $('.profile-menu').hide();
@@ -193,7 +189,7 @@ export default function Navbar() {
             await axios.put(`http://localhost:5000/friendNotifications/update/${item.id}`);
             setDown(false);
             navigate(`/${item.sender.username}`);
-           await fetchUserProfile ()
+            await fetchUserProfile()
         }
     }
     // xu ly nut chua doc
@@ -214,7 +210,12 @@ export default function Navbar() {
         setNotifications(response.data);
         setIsUnread(false);
     }
-    
+
+    const handleClick = (event) => {
+        event.preventDefault();
+        window.location.href = "/";
+    };
+
     return (
         <>
             {/*{!down && <Notification setUserRequest={setUserRequest} setUserPost={setUserPost}></Notification>}*/}
@@ -222,7 +223,7 @@ export default function Navbar() {
             <header>
                 <div className="fb-nav">
                     <div className="title">
-                        <Link to={"/"}>F4kebook</Link>
+                        <Link to={"/"} onClick={handleClick}>F4kebook</Link>
                     </div>
                     <div className="search-box">
                         <SearchBar setResults={setResults} results={results} clearSearchResult={clearSearchResult} />
@@ -288,7 +289,7 @@ export default function Navbar() {
                                         </h2>
 
                                         <button type="button" className="btn btn-light "
-                                                style={{ borderRadius: "50%", height: "40px", width: "40px" }}>
+                                            style={{ borderRadius: "50%", height: "40px", width: "40px" }}>
                                             <i className="fas fa-ellipsis-h"></i>
                                         </button>
 
@@ -328,7 +329,7 @@ export default function Navbar() {
                                     }}>
                                         <h5> New </h5>
                                         <button type="button" className="btn btn-light "
-                                                style={{ color: "#1877F2", fontWeight: "bold" }} onClick={showAllNotification} >See all
+                                            style={{ color: "#1877F2", fontWeight: "bold" }} onClick={showAllNotification} >See all
                                         </button>
 
                                     </div>
@@ -336,21 +337,21 @@ export default function Navbar() {
                                         notifications.map((item, index) => (
                                             typeof item.status !== "undefined" ? (
                                                 <div className="notifi-item" key={index}
-                                                     onClick={() => showPost(item.status.id, item.id)
-                                                     }>
+                                                    onClick={() => showPost(item.status.id, item.id)
+                                                    }>
                                                     <div style={{ position: "relative" }}>
                                                         <div className="item-image">
                                                             <img src={item.sender.avatar} alt="img" />
                                                         </div>
-                                                        {item.des ==="just like your post" &&  <div className="icon-avatar"
-                                                                                                         style={{ background: "#4e59ff" }}>
+                                                        {item.des === "just like your post" && <div className="icon-avatar"
+                                                            style={{ background: "#4e59ff" }}>
                                                             <i className="fas fa-thumbs-up"></i>
 
-                                                        </div> }
+                                                        </div>}
 
-                                                        {item.des ==="just comment your post" &&
+                                                        {item.des === "just comment your post" &&
                                                             < div className="icon-avatar"
-                                                                  style={{ background: "lightgreen" }}>
+                                                                style={{ background: "lightgreen" }}>
 
                                                                 <i className="fas fa-sticky-note"></i>
 
@@ -401,20 +402,20 @@ export default function Navbar() {
 
                                             ) : (
                                                 <div className="notifi-item" key={index}
-                                                     onClick={() => goProfileUser(item)}>
-                                                    {item.des=== "has accepted your request to join the group" &&
+                                                    onClick={() => goProfileUser(item)}>
+                                                    {item.des === "has accepted your request to join the group" &&
 
-                                                    <div style={{ position: "relative" }}>
-                                                        <div className="item-image">
-                                                            <img src={item.group.image} alt="img" />
-                                                        </div>
-                                                        <div className="icon-avatar">
-                                                           <div className="icon-avatar"
-                                                                              style={{ background: "#6de46d" }}>
-                                                               <i className="fas fa-users"></i>                                                            </div>
+                                                        <div style={{ position: "relative" }}>
+                                                            <div className="item-image">
+                                                                <img src={item.group.image} alt="img" />
+                                                            </div>
+                                                            <div className="icon-avatar">
+                                                                <div className="icon-avatar"
+                                                                    style={{ background: "#6de46d" }}>
+                                                                    <i className="fas fa-users"></i>                                                            </div>
 
-                                                        </div>
-                                                    </div>}
+                                                            </div>
+                                                        </div>}
                                                     {item?.des === "Just sent a request to join group" && (
                                                         <div style={{ position: "relative" }}>
                                                             <div className="item-image">

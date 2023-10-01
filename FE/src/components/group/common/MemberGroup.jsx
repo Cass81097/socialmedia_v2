@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useNavigate } from "react-router-dom";
 
 const MemberGroup = (props) => {
     const { infoUserGroup, showGroupInfo, fetchGroupInfo } = useContext(GroupContext)
@@ -14,6 +15,7 @@ const MemberGroup = (props) => {
     const [friendStatus, setFriendStatus] = useState(null);
     const [showModalRemoveUser, setShowModalRemoveUser] = useState(false);
     const [userId, setUserId] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchFriendStatus = async () => {
@@ -63,6 +65,10 @@ const MemberGroup = (props) => {
         theme: "light",
     };
 
+    const goProfile = (username) => {
+        navigate(`/${username}`);
+    };
+
     return (
         <>
             <div className="member-group">
@@ -75,10 +81,10 @@ const MemberGroup = (props) => {
                     <h6>Admin</h6>
                     <div className="admin-group">
                         <div className="admin-group-user">
-                            <div className="admin-group-avatar">
+                            <div className="admin-group-avatar" onClick={() => goProfile(showGroupInfo?.userGroup[0]?.user?.username)}>
                                 <img src={showGroupInfo?.userGroup[0]?.user.avatar} alt="" />
                             </div>
-                            <h6>{showGroupInfo?.userGroup[0]?.user.fullname}</h6>
+                            <h6 onClick={() => goProfile(showGroupInfo?.userGroup[0]?.user?.username)}>{showGroupInfo?.userGroup[0]?.user.fullname}</h6>
                         </div>
 
                         <div className="group-button-user">
@@ -94,10 +100,10 @@ const MemberGroup = (props) => {
                     {showGroupInfo?.userGroup?.map((groupUser, index) => (
                         <div className="user-group" key={index}>
                             <div className="admin-group-user">
-                                <div className="admin-group-avatar">
+                                <div className="admin-group-avatar" onClick={() => goProfile(groupUser?.user?.username)}>
                                     <img src={groupUser?.user.avatar} alt="" />
                                 </div>
-                                <h6>{groupUser?.user.fullname}</h6>
+                                <h6 onClick={() => goProfile(groupUser?.user?.username)} >{groupUser?.user.fullname}</h6>
                             </div>
 
                             <div className="button-member-group">
@@ -110,7 +116,7 @@ const MemberGroup = (props) => {
                                             </i>
                                         </button>
                                     </div>
-                                ) : (user?.id !== groupUser?.user.id) ? (
+                                ) : (user?.id !== groupUser?.user.id && friendStatus?.[index] === null) ? (
                                     <div className="add-button">
                                         <button type="button" className="btn btn-primary btn-add btn-add-friend">
                                             <i className="fas fa-user-plus">
@@ -118,7 +124,16 @@ const MemberGroup = (props) => {
                                             </i>
                                         </button>
                                     </div>
-                                ) : friendStatus === null ? null : null}
+                                ) : (user?.id !== groupUser?.user.id && friendStatus?.[index]?.status === "pending") ? (
+                                    <div className="add-button">
+                                        <button type="button" className="btn btn-primary btn-add btn-add-friend">
+                                            <i className="fas fa-user">
+                                                <span>Pending</span>
+                                            </i>
+                                        </button>
+                                    </div>
+                                ) :
+                                    null}
 
                                 {user?.id !== groupUser?.user.id && infoUserGroup?.role === "admin" ? (
                                     <div className="group-button-user">

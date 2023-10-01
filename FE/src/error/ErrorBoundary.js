@@ -21,7 +21,7 @@ class ErrorBoundary extends Component {
         if (this.state.hasError) {
             // Thay thế bằng component hoặc thông báo lỗi tùy ý
             return <div style={{display : "flex"}}>
-               <p> Coó lỗi trang quá trình tải trang</p>
+               <p> Có lỗi trang quá trình tải trang</p>
               <span>Vui lòng tải lại trang tại <span onClick={this.reload}>đây</span></span>
             </div>;
         }

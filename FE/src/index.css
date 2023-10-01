@@ -18,6 +18,10 @@ code {
   box-sizing: border-box;
 }
 
+h4 {
+  margin-bottom: unset !important;
+}
+
 .modal-open {
   overflow: unset !important;
   padding-right: unset !important;

@@ -79,6 +79,10 @@ export default function SearchPostId() {
         setVisibleCommentIndex(visibleCommentIndex === index ? -1 : index);
     };
 
+    const load = () => {
+        console.log("OK")
+    }
+
     return (
         <>
             <Navbar></Navbar>
@@ -220,6 +224,7 @@ export default function SearchPostId() {
                                                         isCountLike={isCountLike}
                                                         setIsCountLike={setIsCountLike}
                                                         onLikeClick={handleLikeClick}
+                                                        load={load}
                                                     ></Like>
                                                 </div>
                                                 <div className="post-comment">

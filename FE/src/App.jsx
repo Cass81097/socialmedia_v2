@@ -33,7 +33,6 @@ export default function App() {
     return <Loading />;
   }
 
-
   return (
     <Router>
       <SearchContextProvider>
@@ -47,20 +46,20 @@ export default function App() {
                   <Route path="/" element={user ? <Home /> : <Login />} />
                   <Route path="/login" element={user ? <Home /> : <Login />} />
                   <Route path="/home" element={user ? <Home /> : <Login />} />
-                  {allUser?.length > 0 &&
+                  {/* {allUser?.length > 0 &&
                     allUser.map((username) => (
                       <Route
                         key={username}
                         path={`/${username}`}
                         element={user ? <Profile user={username} /> : <Login />}
                       />
-                    ))}
-
+                    ))} */}
+                  <Route path="/:username" element={user ? <Profile /> : <Login />} />
                   <Route path="/status" element={<SearchPost />} />
                   <Route path="/messages" element={<Chat />} />
                   <Route path="/status/:id" element={<SearchPostId />} />
                   <Route path="/listPendFriend" element={<ListPendFriend />} />
-                  <Route path="/groups/:groupId" element={<Group/>} />
+                  <Route path="/groups/:groupId" element={<Group />} />
                 </Routes>
                 {/*<Notification></Notification>*/}
               </PostContextProvider>

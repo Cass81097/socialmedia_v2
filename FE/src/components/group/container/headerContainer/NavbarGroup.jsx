@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { baseUrl, deleteRequest, postRequest, putRequest } from "../../../../utils/services";
 
 const NavbarGroup = (props) => {
-    const { setShowMemberRequest, showMemberGroup, setShowMemberGroup, infoUserGroup, fetchGroupInfo, fetchInfoUserGroup, fetchGroupList } = useContext(GroupContext);
+    const { setShowMemberRequest, showMemberGroup, setShowMemberGroup, infoUserGroup, fetchGroupInfo, fetchInfoUserGroup, fetchGroupList, fetchUserInfoGroupPending } = useContext(GroupContext);
     const [showLeaveGroup, setShowLeaveGroup] = useState(false);
 
     const toastOptions = {
@@ -21,8 +21,9 @@ const NavbarGroup = (props) => {
         theme: "light",
     };
 
-    const handleShowModalRequest = () => {
-        setShowMemberRequest(true)
+    const handleShowModalRequest = async() => {
+        setShowMemberRequest(true);
+        await fetchUserInfoGroupPending();
     }
 
     const handleShowMemberGroup = () => {

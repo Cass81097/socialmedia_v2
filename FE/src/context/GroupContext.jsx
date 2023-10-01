@@ -70,12 +70,12 @@ export const GroupContextProvider = ({ children }) => {
                 console.error("Error fetching all users:", error);
             }
         };
+        fetchUserInfoGroupPending();
+        // const interval = setInterval(fetchUserInfoGroupPending, 5000);
 
-        const interval = setInterval(fetchUserInfoGroupPending, 5000);
-
-        return () => {
-            clearInterval(interval);
-        };
+        // return () => {
+        //     clearInterval(interval);
+        // };
     }, [groupId]);
 
     useEffect(() => {

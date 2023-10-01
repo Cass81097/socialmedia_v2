@@ -1,22 +1,23 @@
 
 
 import 'firebase/compat/auth';
-import React, { useContext, useEffect, useRef, useState } from "react";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useContext } from "react";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import "../../../styles/group/member-request.css"
-import { GroupContext } from '../../../context/GroupContext';
-import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { baseUrl, deleteRequest, postRequest, putRequest } from "../../../utils/services";
-import { HomeContext } from '../../../context/HomeContext';
 import { AuthContext } from '../../../context/AuthContext';
+import { GroupContext } from '../../../context/GroupContext';
+import { HomeContext } from '../../../context/HomeContext';
+import "../../../styles/group/member-request.css";
+import { baseUrl, deleteRequest, putRequest } from "../../../utils/services";
 
 const MemberRequest = (props) => {
     const { showMemberRequest, setShowMemberRequest, userInfoGroupPending, fetchUserInfoGroupPending, fetchGroupInfo, showGroupInfo } = useContext(GroupContext);
     const { socket } = useContext(HomeContext);
     const { user } = useContext(AuthContext)
+    const navigate = useNavigate();
 
     const handleClose = () => {
         setShowMemberRequest(false)
@@ -61,6 +62,10 @@ const MemberRequest = (props) => {
         theme: "light",
     };
 
+    const goProfile = (username) => {
+        navigate(`/${username}`);
+    };
+
     return (
         <>
             <Modal show={showMemberRequest} onHide={handleClose} centered>
@@ -79,12 +84,12 @@ const MemberRequest = (props) => {
                             userInfoGroupPending?.map((userPending, index) => (
                                 <div className="request-user" key={index}>
                                     <div className='request-username' >
-                                        <div className='request-avatar'>
+                                        <div className='request-avatar' onClick={() => goProfile(userPending?.user?.username)}>
                                             <img src={userPending?.user?.avatar} alt="" />
                                         </div>
 
                                         <div className='request-name'>
-                                            <h6>{userPending?.user?.fullname}</h6>
+                                            <h6 onClick={() => goProfile(userPending?.user?.username)}>{userPending?.user?.fullname}</h6>
                                             {(() => {
                                                 const timeString = userPending?.time;
                                                 const date = new Date(timeString);

@@ -245,9 +245,9 @@ export default function NavbarContainer(props) {
                 {/* Modal Confirm Block */}
                 <Modal show={showAlert} onHide={handleCloseAlert} centered>
                     <Modal.Header closeButton>
-                        <Modal.Title style={{ transform: "translateX(170px)" }}>Confirm</Modal.Title>
+                        <Modal.Title style={{ transform: "translateX(185px)" }}>Confirm</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Are you sure to unblock ?</Modal.Body>
+                    <Modal.Body  style={{ textAlign: "center", fontSize: "20px", fontWeight: "600" }}>Are you sure to unblock ?</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAlert}>
                             Close
@@ -262,9 +262,9 @@ export default function NavbarContainer(props) {
 
                 <Modal show={showAlertUser} onHide={handleCloseAlertUser} centered>
                     <Modal.Header closeButton>
-                        <Modal.Title style={{ transform: "translateX(170px)" }}>Confirm</Modal.Title>
+                        <Modal.Title style={{ transform: "translateX(185px)" }}>Confirm</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Are you sure to block ?</Modal.Body>
+                    <Modal.Body  style={{ textAlign: "center", fontSize: "20px", fontWeight: "600" }}>Are you sure to block ?</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAlertUser}>
                             Close

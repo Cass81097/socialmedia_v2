@@ -15,8 +15,6 @@ const GroupPostStatus = (props) => {
     const { showStatusGroup, setIsLoading, isLoading, fetchShowStatusGroup, infoUserGroup } = useContext(GroupContext)
     const [imageSrcStatus, setImageSrcStatus] = useState(null);
 
-    console.log(infoUserGroup);
-
     const toastOptions = {
         position: "bottom-right",
         autoClose: 8000,

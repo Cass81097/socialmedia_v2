@@ -108,7 +108,7 @@ export const AuthContextProvider = ({ children }) => {
         const userId = response.userId.toString();
         createCometChatAccount({
             userUuid: userId,
-            fullname: registerInfoWithAvatar.username,
+            fullname: registerInfoWithAvatar.fullname,
             userAvatar: registerInfoWithAvatar.avatar,
         });
 

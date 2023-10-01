@@ -805,7 +805,7 @@ export default function ContainerPostProfile(props) {
                                                 post.accountLike > 2 && (
                                                     <div className="activity-icons">
                                                         <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
-                                                        <span onClick={() => handleLikeListShow(index)} style={{ marginLeft: "5px" }}>{post?.accountLike} người đã thích</span>
+                                                        <span onClick={() => handleLikeListShow(index)} style={{ marginLeft: "5px" }}>{post?.accountLike} people liked</span>
                                                     </div>
                                                 )
                                             ))}

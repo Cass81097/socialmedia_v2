@@ -133,9 +133,11 @@ export default function ListFriend() {
                                                 <h6 onClick={() => goFriendProfile(listFriend?.username)}>{listFriend?.fullname}</h6>
                                                 {commonFriendNumber?.[countFriend.indexOf(listFriend)] && user?.id !== listFriend?.id ? (
                                                     <div>
-                                                        <h6 onClick={() => handleShow(commonFriendNumber?.[countFriend.indexOf(listFriend)])}>
-                                                            {commonFriendNumber?.[countFriend.indexOf(listFriend)].length} mutual friends
-                                                        </h6>
+                                                        {commonFriendNumber?.[countFriend.indexOf(listFriend)].length > 0 && (
+                                                            <h6 onClick={() => handleShow(commonFriendNumber?.[countFriend.indexOf(listFriend)])}>
+                                                                {commonFriendNumber?.[countFriend.indexOf(listFriend)].length} mutual friends
+                                                            </h6>
+                                                        )}
                                                     </div>
                                                 ) : null}
                                             </div>

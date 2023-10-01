@@ -1,5 +1,6 @@
 .right-sidebar-container {
-    position: relative;
+    position: fixed;
+    right: 0;
     top: 90px;
 }
 

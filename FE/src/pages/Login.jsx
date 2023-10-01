@@ -40,6 +40,7 @@ const Login = (props) => {
     const navigate = useNavigate();
     const { toggleModal } = props;
     const { user, loginInfo, loginUser, loginError, updateLoginInfo, isLoginLoading, registerFinish } = useContext(AuthContext)
+    const [isShowPassword, setIsShowPassword] = useState(false)
 
     // Login with Email
     const [isSignedIn, setIsSignedIn] = useState(false);
@@ -67,24 +68,24 @@ const Login = (props) => {
                 const loginData = { email, password: email };
                 console.log(loginData, 'Login Data');
                 const resLogin = await axios.post(`${baseUrl}/users/login`, loginData);
-                localStorage.setItem('User', JSON.stringify(existingUser)); 
+                localStorage.setItem('User', JSON.stringify(existingUser));
                 // axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
                 window.location.href = "/home";
             } else {
-               console.log("dang ky moi");
+                console.log("dang ky moi");
                 const username = email.split("@")[0]; // Extract the username part before the @ symbol
                 const data = {
                     username: username,
                     password: email,
                     avatar: 'https://img.pikbest.com/png-images/qianku/black-and-white-avatar_2407270.png!w700wp',
-                    cover : 'https://inkythuatso.com/uploads/thumbnails/800/2022/04/top-50-hanh-anh-hanh-na-n-mau-trang-aap-nhayt-14-04-16-13-21.jpg',
+                    cover: 'https://inkythuatso.com/uploads/thumbnails/800/2022/04/top-50-hanh-anh-hanh-na-n-mau-trang-aap-nhayt-14-04-16-13-21.jpg',
                     email,
                     fullname: username,
                 };
                 const res = await axios.post(`${baseUrl}/users/register`, data);
                 console.log(res);
                 // const resLogin = await axios.post(`${baseUrl}/users/login`, data);
-                localStorage.setItem('User', JSON.stringify(res.data.message)); 
+                localStorage.setItem('User', JSON.stringify(res.data.message));
                 // axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
                 window.location.href = "/home";
             }
@@ -133,7 +134,7 @@ const Login = (props) => {
         } else if (email.length < 3) {
             toast.error("Your Email is not under 3 character.", toastOptions);
             return false;
-        } else if (!emailRegex.test(email)) { 
+        } else if (!emailRegex.test(email)) {
             toast.error("Please input @Email.", toastOptions);
             return false;
         } else if (password.length < 6) {
@@ -174,7 +175,24 @@ const Login = (props) => {
                                     placeholder="Email"
                                     onChange={(e) => updateLoginInfo({ email: e.target.value })}
                                 />
-                                <input type="password" placeholder="Mật khẩu" onChange={(e) => updateLoginInfo({ password: e.target.value })} />
+                                <div style={{ position: 'relative' }}>
+                                    <input
+                                        type={isShowPassword === true ? "text" : "password"}
+                                        placeholder="Password"
+                                        onChange={(e) => updateLoginInfo({ password: e.target.value })}
+                                    />
+                                    <i
+                                        className={isShowPassword === true ? 'fas fa-eye' : 'fas fa-eye-slash'}
+                                        onClick={() => setIsShowPassword(!isShowPassword)}
+                                        style={{
+                                            position: 'absolute',
+                                            top: '50%',
+                                            right: '10px',
+                                            transform: 'translateY(-78%)',
+                                            cursor: 'pointer',
+                                        }}
+                                    ></i>
+                                </div>
                                 <button type="submit" className="login__submit-btn">
                                     {isLoginLoading ? "Login..." : "Login"}
                                 </button>

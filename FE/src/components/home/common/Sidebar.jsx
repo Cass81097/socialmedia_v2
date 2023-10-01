@@ -47,28 +47,28 @@ export default function Sidebar() {
 
                 <div className="mid-content-container">
                     <li>
-                        <Link to="/watch">
+                        <Link to="">
                             <i className="watch icon"></i>
                             <span className="text nav-text">Watch</span>
                         </Link>
                     </li>
 
                     <li>
-                        <Link to="/page">
+                        <Link to="">
                             <i className="page icon"></i>
                             <span className="text nav-text">Page</span>
                         </Link>
                     </li>
 
                     <li>
-                        <Link to="/marketplace">
+                        <Link to="">
                             <i className="market icon"></i>
                             <span className="text nav-text">Marketplace</span>
                         </Link>
                     </li>
 
                     <li>
-                        <Link to="/game">
+                        <Link to="">
                             <i className="game icon"></i>
                             <span className="text nav-text">Game</span>
                         </Link>

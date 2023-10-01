@@ -177,14 +177,14 @@ export default function FriendButton(props) {
     <>
       {friendStatus?.status === "pending" && friendStatus?.userSendReq === user.id ? (
         <div className="pd-right">
-          <div className="add-button" style={{ minWidth: "150px" }}>
+          <div className="add-button">
             <button type="button" className="btn btn-primary btn-add btn-add-friend" >
               <i className="fas fa-user-check">
                 <span>Request sent</span>
               </i>
             </button>
           </div>
-          <div className="edit-button" style={{ minWidth: "160px" }}>
+          <div className="edit-button" style={{ minWidth: "140px", marginLeft:"10px" }}>
             <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" style={{ background: "#dbdbdc" }} onClick={handleUnfriend}>
               <i className="fas fa-user-times" style={{ color: "black" }}>
                 <span>Delete Request</span>
@@ -201,7 +201,7 @@ export default function FriendButton(props) {
               </i>
             </button>
           </div>
-          <div className="edit-button" style={{ minWidth: "185px" }}>
+          <div className="edit-button" style={{ minWidth: "140px", marginLeft:"10px" }}>
             <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" style={{ background: "#dbdbdc" }} onClick={handleCancelRequest}>
               <i className="fas fa-user-slash" style={{ color: "black" }}>
                 <span>Decline</span>
@@ -211,7 +211,7 @@ export default function FriendButton(props) {
         </div>
       ) : friendStatus?.status === "friend" ? (
         <div className="pd-right" style={{ position: "relative" }}>
-          <div className="add-button" style={{ minWidth: "100px" }} onClick={showUnfriend}>
+          <div className="add-button" onClick={showUnfriend}>
             <button type="button" className="btn btn-primary btn-add btn-add-friend">
               <i className="fas fa-user">
                 <span>Friend</span>
@@ -225,7 +225,7 @@ export default function FriendButton(props) {
               </div>
             </div>
           </div>
-          <div className="edit-button" style={{ minWidth: "140px" }}>
+          <div className="edit-button" style={{ minWidth: "140px", marginLeft:"10px" }}>
             <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" onClick={() => messageUser(userProfile[0]?.id)}>
               <i className="fab fa-facebook-messenger" style={{ color: "black" }}>
                 <span>Messenger</span>
@@ -235,14 +235,14 @@ export default function FriendButton(props) {
         </div>
       ) : userProfile[0]?.username === user.username ? (
         <div className="pd-right">
-          <div className="add-button" style={{ minWidth: "140px" }}>
+          <div className="add-button">
             <button type="button" className="btn btn-primary btn-add btn-add-friend" onClick={setButtonStatus}>
               <i className="fas fa-plus fa-xa">
                 <span>Add to post</span>
               </i>
             </button>
           </div>
-          <div className="edit-button">
+          <div className="edit-button" style={{ minWidth: "140px", marginLeft:"10px" }}>
             <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" onClick={goInfoUser}>
               <i className="fas fa-pen fa-xz">
                 <span>Edit profile</span>
@@ -252,14 +252,14 @@ export default function FriendButton(props) {
         </div>
       ) : (
         <div className="pd-right">
-          <div className="add-button" style={{ minWidth: "110px" }}>
+          <div className="add-button">
             <button type="button" className="btn btn-primary btn-add btn-add-friend" onClick={handleAddFriend}>
               <i className="fas fa-user-plus">
                 <span>Add friend</span>
               </i>
             </button>
           </div>
-          <div className="edit-button" style={{ minWidth: "135px" }}>
+          <div className="edit-button" style={{ minWidth: "140px", marginLeft:"10px" }}>
             <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" style={{ background: "#dbdbdc" }}>
               {/* <i className="fas fa-pen fa-xz"> */}
               <i className="fab fa-facebook-messenger" style={{ color: "black" }}>

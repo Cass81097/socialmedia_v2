@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../context/AuthContext";
@@ -6,6 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 export default function Register(props) {
     const { toggleModal } = props;
     const { registerInfo, registerUser, updateRegisterInfo, isRegisterLoading } = useContext(AuthContext);
+    const [isShowPassword, setIsShowPassword] = useState(false)
 
     const toastOptions = {
         position: "top-center",
@@ -18,7 +19,7 @@ export default function Register(props) {
     const handleValidation = () => {
         const { fullname, email, password, passwordConfirm, id, username } = registerInfo;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/; // Biểu thức chính quy kiểm tra ký tự đặc biệt
+        const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/; 
 
         if (password === "" || fullname === "" || email === "" || passwordConfirm === "") {
             toast.error("Please input all field.", toastOptions);
@@ -29,8 +30,8 @@ export default function Register(props) {
         } else if (specialCharRegex.test(fullname)) {
             toast.error("Fullname doesn't require special character.", toastOptions);
             return false;
-        } else if (!emailRegex.test(email)) { // Kiểm tra định dạng email hợp lệ
-            toast.error("Please input Email.", toastOptions);
+        } else if (!emailRegex.test(email)) { 
+            toast.error("Please input @Email.", toastOptions);
             return false;
         } else if (password.length < 6 || passwordConfirm < 6) {
             toast.error("Your password is not under 6 character.", toastOptions);
@@ -67,13 +68,48 @@ export default function Register(props) {
                         <div className="signup__form">
                             <input type="text" placeholder="Fullname" onChange={(e) => updateRegisterInfo({ fullname: e.target.value })} />
                             <input type="text" placeholder="Email" onChange={(e) => updateRegisterInfo({ email: e.target.value })} />
-                            <input type="password" placeholder="Password" onChange={(e) => updateRegisterInfo({ password: e.target.value })} />
-                            {/* <input type="username" placeholder="username" onChange={(e) => updateRegisterInfo({ username: e.target.value })} /> */}
+                            {/* <input type="password" placeholder="Password" onChange={(e) => updateRegisterInfo({ password: e.target.value })} />
                             <input
                                 type="password"
                                 placeholder="Confirm Password"
                                 onChange={(e) => updateRegisterInfo({ passwordConfirm: e.target.value })}
-                            />
+                            /> */}
+                            <div style={{ position: 'relative' }}>
+                                <input
+                                    type={isShowPassword === true ? "text" : "password"}
+                                    placeholder="Password" onChange={(e) => updateRegisterInfo({ password: e.target.value })}
+                                />
+                                <i
+                                    className={isShowPassword === true ? 'fas fa-eye' : 'fas fa-eye-slash'}
+                                    onClick={() => setIsShowPassword(!isShowPassword)}
+                                    style={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                        right: '10px',
+                                        transform: 'translateY(-50%)',
+                                        cursor: 'pointer',
+                                    }}
+                                ></i>
+                            </div>
+
+                            <div style={{ position: 'relative' }}>
+                                <input
+                                    type={isShowPassword === true ? "text" : "password"}
+                                    placeholder="Confirm Password"
+                                    onChange={(e) => updateRegisterInfo({ passwordConfirm: e.target.value })}
+                                />
+                                <i
+                                    className={isShowPassword === true ? 'fas fa-eye' : 'fas fa-eye-slash'}
+                                    onClick={() => setIsShowPassword(!isShowPassword)}
+                                    style={{
+                                        position: 'absolute',
+                                        top: '50%',
+                                        right: '10px',
+                                        transform: 'translateY(-50%)',
+                                        cursor: 'pointer',
+                                    }}
+                                ></i>
+                            </div>
                             <button className="signup__btn">
                                 {isRegisterLoading ? "Signin..." : "Signin"}
                             </button>
@@ -81,7 +117,7 @@ export default function Register(props) {
                     </div>
                 </div>
             </form>
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </>
     );
 }

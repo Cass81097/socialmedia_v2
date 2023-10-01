@@ -31,7 +31,6 @@ export default function ListPendFriend() {
     };
 
 
-
     useEffect((listPendFriend) => {
         findPendFriend();
     }, [user]);
@@ -81,7 +80,7 @@ export default function ListPendFriend() {
                     padding: "20px 20px",
                     position: "fixed",
                     right:0,backgroundColor: "#e0dede59"}}>
-                    <div  className="col-12" style={{ paddingTop:"40px", marginLeft:"20px"}}>
+                    <div  className="col-12" style={{ marginLeft:"20px"}}>
                         <div  className="row" style={{height: "40px"}}>
                             <div className="col-6"><h4>Friend request</h4></div>
                             <div className="col-6">
@@ -92,8 +91,8 @@ export default function ListPendFriend() {
                         <div className="row">
                             {listPendFriend.map(item => (
                                 <div className="col-3" key={item.id}>
-                                    <div className="card">
-                                        <img src={item?.avatar} style={{ width: "100%", height: "250px" }} className="card-img-top" alt="..." />
+                                    <div className="card" style={{overflow:"hidden"}}>
+                                        <img src={item?.avatar} style={{ width: "100%", height: "100%", objectFit:"cover" }} className="card-img-top" alt="..." />
                                         <div className="card-body">
                                             <h5  className="card-title" onClick={() => goFriendProfile(item?.username)}>{item?.fullname}</h5 >
                                             {item?.friendCommonCount.length!==0 &&
