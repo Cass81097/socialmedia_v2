@@ -118,6 +118,13 @@ export class FriendShipService {
             throw error;
         }
     };
+    findListFriendByUser = async (id) =>{
+        return await this.friendRepository
+            .createQueryBuilder("friendship")
+            .where("friendship.user1 = :userId OR friendship.user2 = :userId", { userId: id })
+            .andWhere("friendship.status = 'friend'")
+            .getMany();
+    }
 
     cancelFriendship = async (userId1, userId2) => {
         try {
@@ -208,6 +215,7 @@ export class FriendShipService {
             const blockedUsers = await this.friendRepository.find({
                 relations: {
                     user2: true,
+                    user1 : true,
                 },
                 where: [
                     { user1: { id: userId }, status: 'block' },
@@ -231,6 +239,30 @@ export class FriendShipService {
             where: [
                 { user1: { id: user1Id }, status: "pending", userSendReq: Not(user1Id) },
                 { user2: { id: user1Id }, status: "pending", userSendReq: Not(user1Id)  }
+            ]
+        });
+    };
+
+    findFriend = async (user1Id) => {
+        return await this.friendRepository.find({
+            relations: {
+                user1: true,
+                user2: true
+            },
+            where: [
+                { user1: { id: user1Id }, status: "friend" },
+                { user2: { id: user1Id }, status: "friend"  }
+            ]
+        });
+    };
+    findBlock = async () => {
+        return await this.friendRepository.find({
+            relations: {
+                user1: true,
+                user2: true
+            },
+            where: [
+                {  status: "block"  }
             ]
         });
     };

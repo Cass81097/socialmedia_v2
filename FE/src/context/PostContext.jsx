@@ -11,8 +11,11 @@ export const PostContextProvider = ({ children }) => {
     const { socket } = useContext(ProfileContext);
     const [postUser, setPostUser] = useState([]);
     const [postImageUser, setPostImageUser] = useState([]); 
-  
-   
+    const [commentList, setCommentList] = useState([]);
+    const [commentNew, setCommentNew] = useState([]);
+    const [listPostALl , setListPostAll] = useState([])
+
+
     const fetchPostUser = useCallback(async () => {
         try {
             const storedUser = localStorage.getItem('User');
@@ -51,6 +54,15 @@ export const PostContextProvider = ({ children }) => {
             console.error("Error fetchingảnh posts:", error);
         }
     }, [postUser]);
+    // const findAllPost = useCallback( async ()=>{
+    //     try {
+    //         const listPost = await getRequest(`${baseUrl}/status`)
+    //         setListPostAll(listPost)
+    //
+    //     }catch (e){
+    //         console.error(e,"Cos loi")
+    //     }
+    // })
 
     useEffect(() => {
         const fetchPostUser = async () => {
@@ -99,8 +111,11 @@ export const PostContextProvider = ({ children }) => {
         fetchImagePostUser();
     }, [postUser, baseUrl]);
 
+
+
+
     return (
-        <PostContext.Provider value={{ postUser, fetchPostUser, postImageUser, fetchImagePostUser }}>
+        <PostContext.Provider value={{ postUser, fetchPostUser, postImageUser, fetchImagePostUser, commentList, setCommentList}}>
             {children}
         </PostContext.Provider>
     );

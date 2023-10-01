@@ -202,3 +202,21 @@ hr {
 /* .sidebar-link-avatar:hover p {
     color: var(--sidebar-color);
 } */
+
+.image-group {
+    width: 35px;
+    height: 35px;
+    overflow: hidden;
+    border-radius: 6px;
+    margin-left: 5px;
+}
+
+.image-group img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.group-image span {
+    margin-left: 7px;
+}

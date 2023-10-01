@@ -13,6 +13,9 @@ import { SearchContext } from "../../context/SearchContext";
 import { ProfileContext } from "../../context/ProfileContext";
 import Navbar from "../common/Navbar";
 import Sidebar from "../home/common/Sidebar";
+import {CommentContext, CommentContextProvider} from "../../context/CommentContext";
+import {HomeContext} from "../../context/HomeContext";
+import Comment from "../common/Comment";
 
 export default function SearchPostId() {
     const { id } = useParams()
@@ -23,6 +26,7 @@ export default function SearchPostId() {
     const { postUser, postImageUser, fetchPostUser, fetchImagePostUser } = useContext(PostContext);
     const [listStatus, setListStatus] = useState([])
     const [checkFriendStatus, setCheckFriendStatus] = useState(false);//sửa lai phan hiện postById
+
 
     useEffect(() => {
         axios.get(`http://localhost:5000/status/statusId/${id}`).then((res) => {
@@ -64,6 +68,16 @@ export default function SearchPostId() {
 
     const publicPost = listStatus[0]?.visibility === "public";
     const friendPost = listStatus[0]?.visibility === "friend" && checkFriendStatus === true;
+
+
+    // comment
+    const {showComment, setShowComment} = useContext(HomeContext)
+
+    const [visibleCommentIndex, setVisibleCommentIndex] = useState(-1);
+    const handleToggleComment = (index) => {
+        setShowComment(true)
+        setVisibleCommentIndex(visibleCommentIndex === index ? -1 : index);
+    };
 
     return (
         <>
@@ -112,7 +126,8 @@ export default function SearchPostId() {
 
                                                             if (timeDiffInMinutes === 0) {
                                                                 timeAgo = "Vừa xong";
-                                                            } else if (timeDiffInMinutes < 60) {
+                                                            }
+                                                            else if (timeDiffInMinutes < 60) {
                                                                 timeAgo = `${timeDiffInMinutes} phút trước`;
                                                             } else {
                                                                 const hours = Math.floor(timeDiffInMinutes / 60);
@@ -150,34 +165,49 @@ export default function SearchPostId() {
                                                     <div className={`post-image ${status.images.length === 4 ? 'four' :
                                                         status.images.length === 5 ? 'five' :
                                                             status.images.length > 2 && status.images.length !== 4 ? 'three' : ''
-                                                        }`}>
+                                                    }`}>
                                                         {status.images.map((image, imageIndex) => (
                                                             <img src={image.imageUrl} alt="Post Image" className="post-img" key={imageIndex} />
                                                         ))}
                                                     </div>
                                                 )}
 
-                                                {status.accountLike > 0 && status.accountLike < 3 ? (
-                                                    <div className="activity-icons">
-                                                        <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
-                                                        <span style={{ marginLeft: "5px" }}>
-                                                            {status.listUserLike.map((userLike) => {
-                                                                if (status.receiver.username === userLike?.user?.username) {
-                                                                    return "Bạn";
-                                                                } else {
-                                                                    return userLike?.user?.fullname;
-                                                                }
-                                                            }).join(" và ")} đã thích
-                                                        </span>
-                                                    </div>
-                                                ) : (
-                                                    status.accountLike > 2 && (
-                                                        <div className="activity-icons">
-                                                            <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
-                                                            <span onClick={() => handleLikeClick()} style={{ marginLeft: "5px" }}>{status?.accountLike} người đã thích</span>
+                                                <div className="interact-status" style={{ display: "flex", justifyContent: "space-between" }}>
+                                                    {status.accountLike === 0 ? (
+                                                            <div>
+                                                            </div>
+                                                        ) :
+                                                        (status.accountLike > 0 && status.accountLike < 3 ? (
+                                                            <div className="activity-icons">
+                                                                <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
+                                                                <span style={{ marginLeft: "5px" }}>
+                                                        {status.listUserLike.map((userLike) => {
+                                                            if (user.username === userLike?.user?.username) {
+                                                                return "Bạn";
+                                                            } else {
+                                                                return userLike?.user?.fullname;
+                                                            }
+                                                        }).join(" và ")} đã thích
+                                                    </span>
+                                                            </div>
+                                                        ) : (
+                                                            status.accountLike > 2 && (
+                                                                <div className="activity-icons">
+                                                                    <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
+                                                                    <span style={{ marginLeft: "5px" }}>{status?.accountLike} người đã thích</span>
+                                                                </div>
+                                                            )
+                                                        ))}
+                                                    {status.commentCount.commentCount < 1 ? (
+                                                        <div></div>
+                                                    ) : (
+                                                        <div>
+                                                            <span>{status?.commentCount?.commentCount} bình luận</span>
                                                         </div>
                                                     )
-                                                )}
+                                                    }
+
+                                                </div>
                                             </div>
 
                                             <div className="post-action">
@@ -193,12 +223,17 @@ export default function SearchPostId() {
                                                     ></Like>
                                                 </div>
                                                 <div className="post-comment">
-                                                    <Button variant="light">
+                                                    <Button variant="light" onClick={() => handleToggleComment(index)}>
                                                         <i className="far fa-comment-alt"></i>
                                                         <span>Bình luận</span>
                                                     </Button>
                                                 </div>
                                             </div>
+                                            {visibleCommentIndex === index && (
+                                                <CommentContextProvider postId={status.id} >
+                                                    <Comment post={status} postVisi={status.visibility} postSenderId={status.sender.id} postId={status.id} showComment={showComment} setShowComment={setShowComment} />
+                                                </CommentContextProvider>
+                                            )}
                                         </div>
                                     </div>
                                 ))}

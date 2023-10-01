@@ -35,56 +35,6 @@ export default function FriendButton(props) {
     setShowAlertUnFriend(true);
   }
 
-  // const goProfileUser = (username) => {
-  //   setShowToast(false)
-  //   navigate(`/${username}`);
-  // }
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await getRequest(`${baseUrl}/users/find/id/${friendRequest?.senderId}`);
-  //       setUserRequest(response);
-  //     } catch (error) {
-  //       console.error("Error checking friend status:", error);
-  //     }
-  //   };
-
-  //   if (friendRequest.senderId && friendRequest.receiverId) {
-  //     fetchData();
-  //   }
-  // }, [friendRequest]);
-
-  // useEffect(() => {
-  //   if (socket === null) return;
-
-  //   socket.on("friendRequest", (res) => {
-  //     setFriendRequest(res);
-
-  //   });
-
-  //   socket.on("friendRequestAccepted", (res) => {
-  //     setUserAccepted(true)
-  //     setFriendRequest(res);
-
-  //   });
-
-  //   return () => {
-  //     socket.off("friendRequest");
-  //   };
-  // }, [socket]);
-
-  // useEffect(() => {
-  //   if (friendRequest.senderId) {
-  //     setShowToast(true);
-  //     return;
-  //   }
-  //   else {
-  //     setShowToast(false);
-  //     return;
-  //   }
-  // }, [friendRequest]);
-
   useEffect(() => {
     const checkFriendStatus = async () => {
       try {
@@ -230,14 +180,14 @@ export default function FriendButton(props) {
           <div className="add-button" style={{ minWidth: "150px" }}>
             <button type="button" className="btn btn-primary btn-add btn-add-friend" >
               <i className="fas fa-user-check">
-                <span>Đã gửi lời mời</span>
+                <span>Request sent</span>
               </i>
             </button>
           </div>
           <div className="edit-button" style={{ minWidth: "160px" }}>
             <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" style={{ background: "#dbdbdc" }} onClick={handleUnfriend}>
               <i className="fas fa-user-times" style={{ color: "black" }}>
-                <span>Hủy lời mời</span>
+                <span>Delete Request</span>
               </i>
             </button>
           </div>
@@ -247,14 +197,14 @@ export default function FriendButton(props) {
           <div className="add-button">
             <button type="button" className="btn btn-primary btn-add btn-add-friend" onClick={handleAcceptFriend}>
               <i className="fas fa-user-plus">
-                <span>Đồng ý kết bạn</span>
+                <span>Accepted</span>
               </i>
             </button>
           </div>
           <div className="edit-button" style={{ minWidth: "185px" }}>
             <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" style={{ background: "#dbdbdc" }} onClick={handleCancelRequest}>
               <i className="fas fa-user-slash" style={{ color: "black" }}>
-                <span>Từ chối kết bạn</span>
+                <span>Decline</span>
               </i>
             </button>
           </div>
@@ -264,13 +214,13 @@ export default function FriendButton(props) {
           <div className="add-button" style={{ minWidth: "100px" }} onClick={showUnfriend}>
             <button type="button" className="btn btn-primary btn-add btn-add-friend">
               <i className="fas fa-user">
-                <span>Bạn bè</span>
+                <span>Friend</span>
               </i>
             </button>
-            <div className="edit-button unfriend-button" style={{display: "none" }} onClick={handleShowAlertUnfriend}>
+            <div className="edit-button unfriend-button" style={{ display: "none" }} onClick={handleShowAlertUnfriend}>
               <div className='unfriend-icon'>
                 <i className="fas fa-user-slash" style={{ color: "black" }}>
-                  <span>Hủy kết bạn</span>
+                  <span>Unfriend</span>
                 </i>
               </div>
             </div>
@@ -278,7 +228,7 @@ export default function FriendButton(props) {
           <div className="edit-button" style={{ minWidth: "140px" }}>
             <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" onClick={() => messageUser(userProfile[0]?.id)}>
               <i className="fab fa-facebook-messenger" style={{ color: "black" }}>
-                <span>Nhắn tin</span>
+                <span>Messenger</span>
               </i>
             </button>
           </div>
@@ -288,14 +238,14 @@ export default function FriendButton(props) {
           <div className="add-button" style={{ minWidth: "140px" }}>
             <button type="button" className="btn btn-primary btn-add btn-add-friend" onClick={setButtonStatus}>
               <i className="fas fa-plus fa-xa">
-                <span>Thêm vào tin</span>
+                <span>Add to post</span>
               </i>
             </button>
           </div>
           <div className="edit-button">
             <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" onClick={goInfoUser}>
               <i className="fas fa-pen fa-xz">
-                <span>Chỉnh sửa trang cá nhân</span>
+                <span>Edit profile</span>
               </i>
             </button>
           </div>
@@ -305,7 +255,7 @@ export default function FriendButton(props) {
           <div className="add-button" style={{ minWidth: "110px" }}>
             <button type="button" className="btn btn-primary btn-add btn-add-friend" onClick={handleAddFriend}>
               <i className="fas fa-user-plus">
-                <span>Kết bạn</span>
+                <span>Add friend</span>
               </i>
             </button>
           </div>
@@ -313,7 +263,7 @@ export default function FriendButton(props) {
             <button type="button" className="btn btn-secondary btn-edit btn-edit-friend" style={{ background: "#dbdbdc" }}>
               {/* <i className="fas fa-pen fa-xz"> */}
               <i className="fab fa-facebook-messenger" style={{ color: "black" }}>
-                <span>Nhắn tin</span>
+                <span>Messenger</span>
               </i>
             </button>
           </div>
@@ -346,15 +296,15 @@ export default function FriendButton(props) {
       {/* Modal Block User  */}
       <Modal show={showAlertUnFriend} onHide={handleCloseAlertUnfriend} centered>
         <Modal.Header closeButton>
-          <Modal.Title style={{ transform: "translateX(170px)" }}>Xác nhận</Modal.Title>
+          <Modal.Title style={{ transform: "translateX(170px)" }}>Confirm :</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Bạn có chắc chắn muốn hủy kết bạn ?</Modal.Body>
+        <Modal.Body>Are you sure to Unfriend ?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseAlertUnfriend}>
-            Đóng
+            Close
           </Button>
           <Button variant="primary" onClick={() => handleUnfriend()}>
-            Có
+            Yes
           </Button>
         </Modal.Footer>
       </Modal>

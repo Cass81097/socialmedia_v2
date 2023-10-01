@@ -51,7 +51,6 @@ io.on("connection", (socket) => {
     socket.on("likeStatus", (data) => {
         const { senderId, receiverId, postId } = data;
         const receiver = onlineUsers.find(user => user?.userId === receiverId);
-        console.log(receiver);
         if (receiver) {
             io.to(receiver.socketId).emit("status", { senderId, receiverId, postId });
         }
@@ -64,6 +63,24 @@ io.on("connection", (socket) => {
         console.log(receiver);
         if (receiver) {
             io.to(receiver.socketId).emit("comment", { senderId, receiverId, postId, commentId });
+        }
+    });
+
+    socket.on("sendGroupRequest", (data) => {
+        const { senderId, receiverId, groupId } = data;
+        const receiver = onlineUsers.find(user => user.userId === receiverId);
+        console.log(receiver, "sendGroupRequest");
+        if (receiver) {
+            io.to(receiver.socketId).emit("groupRequest", { senderId, receiverId, groupId });
+        }
+    });
+
+    socket.on("acceptGroupRequest", (data) => {
+        const { senderId, receiverId, groupId } = data;
+        const receiver = onlineUsers.find(user => user.userId === receiverId);
+        console.log(receiver, "acceptGroupRequest");
+        if (receiver) {
+            io.to(receiver.socketId).emit("groupRequestAccepeted", { senderId, receiverId, groupId});
         }
     });
 

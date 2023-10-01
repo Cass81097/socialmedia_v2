@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function SidebarProfile() {
     const { user } = useContext(AuthContext);
+
     const goHome = () => {
         console.log("ab");
     }

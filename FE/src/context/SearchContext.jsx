@@ -13,6 +13,3 @@ export const SearchContextProvider = ({ children }) => {
     );
 };
 
-// export const useSearch = () => {
-//     return useContext(SearchContext);
-// };

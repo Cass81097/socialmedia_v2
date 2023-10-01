@@ -4,16 +4,17 @@ import { baseUrl, deleteRequest, getRequest, postRequest, putRequest } from '../
 import { AuthContext } from './AuthContext';
 import { PostContext } from './PostContext';
 import { HomeContext } from './HomeContext';
+import { format } from 'date-fns';
+
 import uploadImages from "../hooks/UploadMulti";
 
 export const CommentContext = createContext();
 
-export const CommentContextProvider = ({ children, postId }) => {
+export const CommentContextProvider = ({ children, postId,reloadHome }) => {
     const { socket } = useContext(HomeContext)
     const { user } = useContext(AuthContext);
-    const { fetchPostUser } = useContext(PostContext);
+    const { fetchPostUser, commentList, setCommentList } = useContext(PostContext);
     const [postStatusId, setPostStatusId] = useState(postId);
-    const [commentList, setCommentList] = useState([]);
     const [checkTime, setCheckTime] = useState(false);
     const [textMessage, setTextMessage] = useState('');
     const [textComment, setTextComment] = useState('');
@@ -30,6 +31,7 @@ export const CommentContextProvider = ({ children, postId }) => {
     useEffect(() => {
         if (postId && checkTime === false) {
             axios.get(`http://localhost:5000/comments/statusId/${postId}`).then((r) => {
+                console.log(r.data.commentRecords);
                 setCommentList(r.data.commentRecords);
             });
         }
@@ -53,10 +55,9 @@ export const CommentContextProvider = ({ children, postId }) => {
             data.user.avatar = user.avatar;
 
             const newComment = await postRequest(`${baseUrl}/comments`, JSON.stringify(data));
-
             setCommentList((prevCommentList) => [...prevCommentList, newComment]);
-
             setTextMessage("");
+
             fetchPostUser();
 
             const statusReponse =  await getRequest(`${baseUrl}/status/statusId/${data.status.id}`);
@@ -69,6 +70,7 @@ export const CommentContextProvider = ({ children, postId }) => {
                     commentId: newComment.id
                 });
             }
+            reloadHome();
 
         } catch (error) {
             console.error("Error adding comment:", error);
@@ -80,6 +82,7 @@ export const CommentContextProvider = ({ children, postId }) => {
         deleteRequest(`${baseUrl}/comments/commentId/${commentId}`)
             .then(() => {
                 const updatedCommentList = commentList.filter((comment) => comment.id !== commentId);
+                reloadHome();
                 setCommentList(updatedCommentList);
                 fetchPostUser();
             })
@@ -91,9 +94,11 @@ export const CommentContextProvider = ({ children, postId }) => {
     const handleEditMessage = useCallback((commentId, context) => {
         console.log("edit");
         const time = new Date();
+        const formattedTime = format(time, "h:mm a"); // Định dạng thời gian theo "7:10 PM"
+
         const data = {
             content: context,
-            timeEdit: time,
+            timeEdit: formattedTime,
         };
         console.log(data);
 

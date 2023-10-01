@@ -31,7 +31,6 @@ export default function Cover() {
             localStorage.setItem("User", JSON.stringify(userData));
             fetchUserProfile();
             setUser(JSON.parse(localStorage.getItem("User")))
-            console.log("Thay ảnh bìa thành công");
         } catch (error) {
             console.error("Error adding product:", error);
         }
@@ -53,20 +52,20 @@ export default function Cover() {
             <div className="edit-profile-cover">
                 {userProfile[0]?.username && user.username && userProfile[0]?.username === user.username ? (
                     <Button variant="light" onClick={handleShow}>
-                        <i className="fas fa-camera-retro"></i> <span>Chỉnh sửa ảnh bìa</span>
+                        <i className="fas fa-camera-retro"></i> <span>Edit cover photo</span>
                     </Button>
                 ) : ""}
             </div>
 
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title className="modal-avatar-title" style={{transform:"translateX(140px)"}}>Cập nhật ảnh bìa</Modal.Title>
+                    <Modal.Title className="modal-avatar-title" style={{transform:"translateX(140px)"}}>Update cover photo</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group mb-avatar">
                         <label htmlFor="formFile" className="form-label inputCode"><span></span></label>
                         <input type="file" id="image-upload" onChange={handleImageUpload} hidden />
-                        <label htmlFor="image-upload" className="file-upload-button"><span>+ Tải ảnh lên</span></label>
+                        <label htmlFor="image-upload" className="file-upload-button"><span>+ Upload cover photo</span></label>
                         <span id="file-name" style={{ fontSize: '0px' }}></span>
                         <div className="info-progress">
                             <div className="progress">
@@ -84,10 +83,10 @@ export default function Cover() {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Đóng
+                        Close
                     </Button>
                     <Button variant="primary" onClick={handleSubmit}>
-                        Lưu
+                        Save
                     </Button>
                 </Modal.Footer>
             </Modal>

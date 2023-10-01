@@ -10,7 +10,7 @@ import { baseUrl, deleteRequest, getRequest, postRequest } from "../../utils/ser
 export default function Like(props) {
     const navigate = useNavigate();
     const handleStatusRef = useRef(null);
-    const { postId, countLike, checkStatusLike, setIsCountLike, userLike, onLikeClick } = props
+    const { load,postId, countLike, checkStatusLike, setIsCountLike, userLike, onLikeClick,receiver } = props
     const { user } = useContext(AuthContext)
     const { userProfile, socket } = useContext(ProfileContext)
     const { fetchPostUser } = useContext(PostContext)
@@ -30,15 +30,19 @@ export default function Like(props) {
         const response = await postRequest(`${baseUrl}/likes/add/${postId}`, JSON.stringify(data));
         setIsLiked(true);
         fetchPostUser();
-        onLikeClick();
 
         if (socket) {
+            const receiverId = userProfile[0]?.id !== undefined ? userProfile[0]?.id : receiver;
+
             socket.emit("likeStatus", {     
                 senderId: user?.id,
-                receiverId: userProfile[0]?.id,
+                receiverId:receiverId,
                 postId: postId
             });
         }
+        load();
+        onLikeClick();
+
     };
 
     const handleRemoveLike = async () => {
@@ -46,12 +50,13 @@ export default function Like(props) {
         const response = await deleteRequest(`${baseUrl}/likes/${postId}?userId=${data}`);
         setIsLiked(false);
         fetchPostUser();
+        load();
         onLikeClick();
     };
 
     // useEffect(() => {
     //     if (socket === null) return;
-        
+    //
     //     const handleStatus = async (response) => {
     //         console.log(response);
     //         try {
@@ -63,9 +68,9 @@ export default function Like(props) {
     //             console.error("Error fetching user post:", error);
     //         }
     //     };
-    
+    //
     //     socket.on("status", handleStatus);
-    
+    //
     //     return () => {
     //         socket.off("status", handleStatus);
     //     };
@@ -97,12 +102,12 @@ export default function Like(props) {
             {isLiked ? (
                 <Button className="buttonLike" variant="light" onClick={handleRemoveLike} style={{ color: "rgb(27 97 255)" }}>
                     <i className="fas fa-thumbs-up"></i>
-                    <span className="buttonLike-span">Thích</span>
+                    <span className="buttonLike-span">Like</span>
                 </Button>
             ) : (
                 <Button className="buttonLike" variant="light" onClick={handleAddLike}>
                     <i className="far fa-thumbs-up" ></i>
-                    <span className="buttonLike-span">Thích</span>
+                    <span className="buttonLike-span">Like</span>
                 </Button>
             )}
 

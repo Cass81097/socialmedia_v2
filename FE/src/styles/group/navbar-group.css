@@ -1,0 +1,64 @@
+.task-group {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+.left-task-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.group-task {
+    padding: 19px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.group-task p {
+    font-weight: 600;
+}
+
+.btn-group-navbar:hover {
+    background-color: #d4dae0 !important;
+    border-color: #d4dae0 !important;
+}
+
+.btn-group-navbar {
+    background: #E4E6EB !important;
+    border: 1px solid white !important;
+}
+
+.group-button-invite {
+    position: relative;
+}
+
+.group-leave {
+    z-index: 1000;
+    width: 160px;
+    padding: 5px;
+    position: absolute;
+    left: -57px;
+    margin-bottom: unset;
+    border-radius: 5px;
+    background: white;
+    margin-top: 5px;
+    color: black;
+    box-shadow: 0px 0px 8px #ddd;
+    font-weight: 600;
+    list-style-type: none;
+}
+
+.group-leave li {
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 2px;
+}
+
+.group-leave li:hover {
+    background: rgb(105, 105, 170, .1);
+}

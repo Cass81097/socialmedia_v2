@@ -10,6 +10,10 @@ export class StatusController {
         let list = await statusService.findAll()
         res.json(list)
     }
+    finAllByFriend = async  (req, res) => {
+        let list = await statusService.findAllByFiends(req.query.user1,req.query.user2)
+        res.json(list)
+    }
 
     add = async (req, res) => {
         let data = await statusService.add(req.body);
@@ -63,6 +67,14 @@ export class StatusController {
         let data = await statusService.findStatusById(req.params.id)
         res.json(data);
     }
+    findAllByIdUserSender = async (req,res) => {
+            let data = await statusService.findStatusByUserSender(req.params.senderId)
+            res.json(data);
+
+    }
+
+
+
 }
 
 export default new StatusController()
