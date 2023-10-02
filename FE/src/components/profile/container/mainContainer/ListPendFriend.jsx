@@ -92,7 +92,7 @@ export default function ListPendFriend() {
                             {listPendFriend.map(item => (
                                 <div className="col-3" key={item.id}>
                                     <div className="card" style={{overflow:"hidden"}}>
-                                        <img src={item?.avatar} style={{ width: "100%", height: "100%", objectFit:"cover" }} className="card-img-top" alt="..." />
+                                        <img src={item?.avatar} style={{ width: "100%", height: "250px", objectFit:"cover" }} className="card-img-top" alt="..." />
                                         <div className="card-body">
                                             <h5  className="card-title" onClick={() => goFriendProfile(item?.username)}>{item?.fullname}</h5 >
                                             {item?.friendCommonCount.length!==0 &&
