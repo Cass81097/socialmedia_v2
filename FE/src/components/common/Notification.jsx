@@ -125,7 +125,7 @@ export default function Notification(props) {
                     setStatus({ ...resUser[0], postId: response.postId, commentId: response.commentId });
                     setShowToastComment(true);
 
-                    axios.get(`http://localhost:5000/comments/statusId/${postId}`).then((r) => {
+                    axios.get(`${baseUrl}/comments/statusId/${postId}`).then((r) => {
                         console.log(r.data.commentRecords);
                         setCommentList(r.data.commentRecords);
                     });

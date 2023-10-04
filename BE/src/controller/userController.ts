@@ -53,7 +53,8 @@ export class UserController {
         let data = await userService.updatePassword
         (req.params.id, req.body.oldPassword,req.body.newPassword);
         console.log(req.params.id, req.body);
-        res.json(data);
+        res.status(200).json(data);
+        
     }
 
     updateAvatar = async (req: Request, res: Response) => {

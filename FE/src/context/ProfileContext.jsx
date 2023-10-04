@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import { baseUrl, getRequest } from "../utils/services";
+import { baseUrl, getRequest, socketUrl } from "../utils/services";
 
 export const ProfileContext = createContext();
 
@@ -89,7 +89,7 @@ export const ProfileContextProvider = ({ children, user }) => {
 
   // Socket
   useEffect(() => {
-    const newSocket = io("http://localhost:3000")
+    const newSocket = io(`${socketUrl}`)
     setSocket(newSocket)
 
     return () => {

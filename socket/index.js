@@ -4,7 +4,7 @@ const { Server } = require("socket.io");
 const port = 3000;
 
 const io = new Server({
-    cors: "http://localhost:3001",
+    cors: "http://192.168.5.22:3001",
 });
 
 let onlineUsers = [];

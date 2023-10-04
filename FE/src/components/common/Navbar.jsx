@@ -13,6 +13,7 @@ import axios from "axios";
 import Notification from "./Notification";
 import { GroupContext } from '../../context/GroupContext';
 import { PostContext } from "../../context/PostContext";
+import { baseUrl } from "../../utils/services"
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -41,9 +42,9 @@ export default function Navbar() {
                         receiver: user.id,
                         des: userRequest.userAccepted
                             ? "accepted your friend request"
-                            : "Just sent a friend request",
+                            : "just sent a friend request",
                     };
-                    await axios.post("http://localhost:5000/friendNotifications", data);
+                    await axios.post(`${baseUrl}/friendNotifications`, data);
                     setUserRequest({});
                 }
 
@@ -53,7 +54,7 @@ export default function Navbar() {
                         status: userPost.postId,
                         des: "just like your post",
                     };
-                    await axios.post("http://localhost:5000/statusNotifications", data);
+                    await axios.post(`${baseUrl}/statusNotifications`, data);
                     setUserPost({});
                 }
                 if (Object.keys(groupRequest).length !== 0) {
@@ -64,11 +65,11 @@ export default function Navbar() {
                         group: groupRequest.groupId,
                         des: groupRequest.userAccepted ?
                             "has accepted your request to join the group"
-                            : "Just sent a request to join group"
+                            : "just sent a request to join group"
 
                     };
 
-                    await axios.post("http://localhost:5000/groupNotifications", data);
+                    await axios.post(`${baseUrl}/groupNotifications`, data);
                     setGroupRequest({});
                 }
                 if (Object.keys(status).length !== 0) {
@@ -78,12 +79,12 @@ export default function Navbar() {
                         des: "just comment your post",
                     };
 
-                    await axios.post("http://localhost:5000/statusNotifications", data);
+                    await axios.post(`${baseUrl}/statusNotifications`, data);
                     setStatus({});
                 }
 
                 const response = await axios.get(
-                    `http://localhost:5000/statusNotifications/receiverId/${user.id}`
+                    `${baseUrl}/statusNotifications/receiverId/${user.id}`
                 );
 
                 const notifications1 = response.data
@@ -174,19 +175,19 @@ export default function Navbar() {
         setResults([]);
     }
     const showPost = async (statusId, notificationId) => {
-        await axios.put(`http://localhost:5000/statusNotifications/update/${notificationId}`)
+        await axios.put(`${baseUrl}/statusNotifications/update/${notificationId}`)
         setDown(false);
         navigate(`/status/${statusId}`)
         await fetchPostUser()
     }
     const goProfileUser = async (item) => {
         if (item.group) {
-            await axios.put(`http://localhost:5000/groupNotifications/update/${item.id}`);
+            await axios.put(`${baseUrl}/groupNotifications/update/${item.id}`);
             setDown(false);
             navigate(`/groups/${item.group.id}`);
             await fetchGroupInfo(item.group.id);
         } else {
-            await axios.put(`http://localhost:5000/friendNotifications/update/${item.id}`);
+            await axios.put(`${baseUrl}/friendNotifications/update/${item.id}`);
             setDown(false);
             navigate(`/${item.sender.username}`);
             await fetchUserProfile()
@@ -195,7 +196,7 @@ export default function Navbar() {
     // xu ly nut chua doc
     const showIsReadNotification = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/statusNotifications/receiverId/${user.id}`);
+            const response = await axios.get(`${baseUrl}/statusNotifications/receiverId/${user.id}`);
             const notifications = response.data.filter(item => item.isRead === false);
             setNotifications(notifications);
             setIsUnread(true);
@@ -206,7 +207,7 @@ export default function Navbar() {
 
 
     const showAllNotification = async () => {
-        const response = await axios.get(`http://localhost:5000/statusNotifications/receiverId/${user.id}`)
+        const response = await axios.get(`${baseUrl}/statusNotifications/receiverId/${user.id}`)
         setNotifications(response.data);
         setIsUnread(false);
     }
@@ -247,7 +248,7 @@ export default function Navbar() {
                                 to=""
                                 data-toggle="tooltip"
                                 data-placement="bottom"
-                                title="Thông báo"
+                                title="Notification"
                                 style={{
                                     transform: "translateY(7px)",
                                     position: "relative"
@@ -374,16 +375,16 @@ export default function Navbar() {
                                                             if (timeDiffInMinutes === 0) {
                                                                 timeAgo = "Just now";
                                                             } else if (timeDiffInMinutes < 60) {
-                                                                timeAgo = `${timeDiffInMinutes} minute ago`;
+                                                                timeAgo = `${timeDiffInMinutes} minutes ago`;
                                                             } else {
                                                                 const hours = Math.floor(timeDiffInMinutes / 60);
                                                                 const minutes = timeDiffInMinutes % 60;
                                                                 if (hours >= 24) {
                                                                     timeAgo = "1 day ago";
                                                                 } else if (minutes === 0) {
-                                                                    timeAgo = `${hours} hour`;
+                                                                    timeAgo = `${hours} hours`;
                                                                 } else {
-                                                                    timeAgo = `${hours} hour ${minutes} minute ago`;
+                                                                    timeAgo = `${hours} hours ${minutes} minutes ago`;
                                                                 }
                                                             }
                                                             return (
@@ -456,16 +457,16 @@ export default function Navbar() {
                                                             if (timeDiffInMinutes === 0) {
                                                                 timeAgo = "Just now";
                                                             } else if (timeDiffInMinutes < 60) {
-                                                                timeAgo = `${timeDiffInMinutes} minute ago`;
+                                                                timeAgo = `${timeDiffInMinutes} minutes ago`;
                                                             } else {
                                                                 const hours = Math.floor(timeDiffInMinutes / 60);
                                                                 const minutes = timeDiffInMinutes % 60;
                                                                 if (hours >= 24) {
                                                                     timeAgo = "1 day ago";
                                                                 } else if (minutes === 0) {
-                                                                    timeAgo = `${hours} hour`;
+                                                                    timeAgo = `${hours} hours`;
                                                                 } else {
-                                                                    timeAgo = `${hours} hour ${minutes} minute ago`;
+                                                                    timeAgo = `${hours} hours ${minutes} minutes ago`;
                                                                 }
                                                             }
                                                             return (

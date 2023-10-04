@@ -10,11 +10,12 @@ import { CommentContext } from "../../context/CommentContext";
 import { PostContext } from "../../context/PostContext";
 import { ProfileContext } from "../../context/ProfileContext";
 import "../../styles/user/post/comment-status.css";
+import { baseUrl } from "../../utils/services";
 
 export default function Comment({ cmt, postSenderId, showComment, postVisi, postId }) {
     const { user } = useContext(AuthContext)
     const lastCommentRef = useRef(null);
-    const { postUser } = useContext(PostContext)
+    const { postUser, fetchPostUser } = useContext(PostContext)
     const { checkFriendStatus } = useContext(ProfileContext)
     const navigate = useNavigate()
 
@@ -95,6 +96,7 @@ export default function Comment({ cmt, postSenderId, showComment, postVisi, post
     const handleDelete = (id) => {
         handleDeleteMessage(id);
         setIsShowAlert(false);
+        fetchPostUser();
     }
 
 
@@ -148,7 +150,7 @@ export default function Comment({ cmt, postSenderId, showComment, postVisi, post
     const userLogin = JSON.parse(localStorage.getItem("User"))
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/friendShips/friendList/${userLogin.id}`).then((res) => {
+        axios.get(`${baseUrl}/friendShips/friendList/${userLogin.id}`).then((res) => {
             setCheckFriend(res.data)
         })
     }, [])

@@ -31,22 +31,22 @@ export default function SidebarProfile() {
                 </div>
                 <div className="mid-content">
                     <li>
-                        <Link to="/watch">
+                        <Link to="/">
                             <i className="watch icon" />
                         </Link>
                     </li>
                     <li>
-                        <Link to="/page">
+                        <Link to="/">
                             <i className="page icon" />
                         </Link>
                     </li>
                     <li>
-                        <Link to="/market">
+                        <Link to="/">
                             <i className="market icon" />
                         </Link>
                     </li>
                     <li>
-                        <Link to="/game">
+                        <Link to="/">
                             <i className="game icon" />
                         </Link>
                     </li>

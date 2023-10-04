@@ -4,7 +4,7 @@ import "../styles/error_page.css"
 
 const PageNotFound = () => {
     return (
-        <div className="container">
+        <div className="container" style={{maxWidth:"100%"}}>
             <div className="gif">
                 <img src="https://i.postimg.cc/2yrFyxKv/giphy.gif" alt="gif_ing" />
             </div>
@@ -13,7 +13,7 @@ const PageNotFound = () => {
                 <p className="text-page">
                 When this happens, it's usually because the owner only shared it with a small group of people, changed who can see it or it's been deleted.
                 </p>
-                <Link to="/">
+                <Link to="/home">
                     <button>Go to News Feed <i className="far fa-hand-point-right"></i></button>
                 </Link>
 

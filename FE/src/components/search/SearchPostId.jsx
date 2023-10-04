@@ -29,7 +29,7 @@ export default function SearchPostId() {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/status/statusId/${id}`).then((res) => {
+        axios.get(`${baseUrl}/status/statusId/${id}`).then((res) => {
             setListStatus(res.data)
         });
     }, [searchTerm])
@@ -50,12 +50,12 @@ export default function SearchPostId() {
                 console.error("Error fetching user profiles:", error);
             }
         };
-        fetchFriendStatus();
+        fetchFriendStatus();    
     }, [user, listStatus]);
 
 
     const handleLikeClick = async () => {
-        axios.get(`http://localhost:5000/status/statusId/${id}`).then((res) => {
+        axios.get(`${baseUrl}/status/statusId/${id}`).then((res) => {
             setListStatus(res.data);
         });
         fetchPostUser();
@@ -80,6 +80,10 @@ export default function SearchPostId() {
     };
 
     const load = () => {
+        console.log("OK")
+    }
+
+    const reloadHome = () => {
         console.log("OK")
     }
 
@@ -129,19 +133,19 @@ export default function SearchPostId() {
                                                             let timeAgo;
 
                                                             if (timeDiffInMinutes === 0) {
-                                                                timeAgo = "Vừa xong";
+                                                                timeAgo = "Just now";
                                                             }
                                                             else if (timeDiffInMinutes < 60) {
-                                                                timeAgo = `${timeDiffInMinutes} phút trước`;
+                                                                timeAgo = `${timeDiffInMinutes} minutes ago`;
                                                             } else {
                                                                 const hours = Math.floor(timeDiffInMinutes / 60);
                                                                 const minutes = timeDiffInMinutes % 60;
                                                                 if (hours >= 24) {
-                                                                    timeAgo = "1 ngày trước";
+                                                                    timeAgo = "1 day ago";
                                                                 } else if (minutes === 0) {
-                                                                    timeAgo = `${hours} giờ`;
+                                                                    timeAgo = `${hours} hours`;
                                                                 } else {
-                                                                    timeAgo = `${hours} giờ ${minutes} phút trước`;
+                                                                    timeAgo = `${hours} hours ${minutes} minutes ago`;
                                                                 }
                                                             }
 
@@ -187,18 +191,18 @@ export default function SearchPostId() {
                                                                 <span style={{ marginLeft: "5px" }}>
                                                         {status.listUserLike.map((userLike) => {
                                                             if (user.username === userLike?.user?.username) {
-                                                                return "Bạn";
+                                                                return "You";
                                                             } else {
                                                                 return userLike?.user?.fullname;
                                                             }
-                                                        }).join(" và ")} đã thích
+                                                        }).join(" and ")} liked
                                                     </span>
                                                             </div>
                                                         ) : (
                                                             status.accountLike > 2 && (
                                                                 <div className="activity-icons">
                                                                     <BiSolidLike style={{ color: "rgb(27 97 255)" }} className="like-icon" />
-                                                                    <span style={{ marginLeft: "5px" }}>{status?.accountLike} người đã thích</span>
+                                                                    <span style={{ marginLeft: "5px" }}>{status?.accountLike} people liked</span>
                                                                 </div>
                                                             )
                                                         ))}
@@ -206,7 +210,7 @@ export default function SearchPostId() {
                                                         <div></div>
                                                     ) : (
                                                         <div>
-                                                            <span>{status?.commentCount?.commentCount} bình luận</span>
+                                                            <span>{status?.commentCount?.commentCount} comment</span>
                                                         </div>
                                                     )
                                                     }
@@ -230,12 +234,12 @@ export default function SearchPostId() {
                                                 <div className="post-comment">
                                                     <Button variant="light" onClick={() => handleToggleComment(index)}>
                                                         <i className="far fa-comment-alt"></i>
-                                                        <span>Bình luận</span>
+                                                        <span>Comment</span>
                                                     </Button>
                                                 </div>
                                             </div>
                                             {visibleCommentIndex === index && (
-                                                <CommentContextProvider postId={status.id} >
+                                                <CommentContextProvider postId={status.id} reloadHome={reloadHome}>
                                                     <Comment post={status} postVisi={status.visibility} postSenderId={status.sender.id} postId={status.id} showComment={showComment} setShowComment={setShowComment} />
                                                 </CommentContextProvider>
                                             )}

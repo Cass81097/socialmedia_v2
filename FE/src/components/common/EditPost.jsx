@@ -79,7 +79,6 @@ export default function EditPost(props) {
         }
     }, [post, postEditIndex]);
   
-
     const handleInputChange = (event) => {
         const value = event.target.value;
         setTextMessage(value);
@@ -256,7 +255,7 @@ export default function EditPost(props) {
                                                             onChange={handleImageUploadMore}
                                                         />
                                                     </label>
-                                                    <Button variant="light" className="postEdit-image-change" onClick={handleShowChangeImage} >Chỉnh sửa tất cả</Button>
+                                                    <Button variant="light" className="postEdit-image-change" onClick={handleShowChangeImage} >Edit all</Button>
                                                 </>
                                             )}
                                         </div>

@@ -197,7 +197,7 @@ const Login = (props) => {
                                     {isLoginLoading ? "Login..." : "Login"}
                                 </button>
                                 <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-                                <span className="login__signup" onClick={() => toggleModal(true)}><span style={{ cursor: "pointer" }}>Tạo tài khoản mới</span></span>
+                                <span className="login__signup" onClick={() => toggleModal(true)}><span style={{ cursor: "pointer" }}>Create a new account</span></span>
                             </div>
                         </div>
                     </div>

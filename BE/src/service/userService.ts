@@ -157,12 +157,18 @@ export class UserService {
 
             user.password = hashedNewPassword;
 
-
             await this.userRepository.update(userId, { password: hashedNewPassword });
 
-            return "mat khau da duoc cap nhat";
+            return "Mật khẩu đã được cập nhật";
         } catch (error) {
-            throw new Error('Error updating password');
+            if (error.message === 'Mật khẩu cũ không đúng.') {
+                return error.message
+                // Xử lý trường hợp mật khẩu cũ không đúng ở đây
+                // Ví dụ: trả về một mã lỗi hoặc thông báo lỗi cụ thể
+            } else {
+                // Xử lý các lỗi khác (ví dụ: lỗi khi không tìm thấy người dùng hoặc lỗi bcrypt)
+                throw new Error('Lỗi khi cập nhật mật khẩu');
+            }
         }
     }
 

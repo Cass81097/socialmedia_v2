@@ -57,13 +57,13 @@ export default function ListPendFriend() {
         }
     };
     const handleDelete = async (id)=>{
-        await  axios.post(`http://localhost:5000/friendShips/unfriend/${id}/${user?.id}`);
+        await  axios.post(`${baseUrl}/friendShips/unfriend/${id}/${user?.id}`);
 
         findPendFriend();
 
     }
     const handleAccept = async (id)=>{
-        await  axios.post(`http://localhost:5000/friendShips/accept/${id}/${user?.id}`);
+        await  axios.post(`${baseUrl}/friendShips/accept/${id}/${user?.id}`);
 
         findPendFriend();
         // navigate('/listPendFriend')
@@ -108,7 +108,7 @@ export default function ListPendFriend() {
                                             </div>
                                             }
                                             <a onClick={() => handleAccept(item?.id)} className="btn btn-primary" style={{ width: "100%", marginTop: "5px" }}>Accept</a>
-                                            <a onClick={() => handleDelete(item?.id)} className="btn btn-light" style={{ width: "100%", marginTop: "5px", background: "lightgrey" }}>Delete</a>
+                                            <a onClick={() => handleDelete(item?.id)} className="btn btn-light" style={{ width: "100%", marginTop: "5px", background: "lightgrey" }}>Decline</a>
                                         </div>
                                     </div>
                                 </div>

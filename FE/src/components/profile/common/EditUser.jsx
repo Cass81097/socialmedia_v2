@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { object, string, ValidationError } from 'yup';
 import { ProfileContext } from "../../../context/ProfileContext";
 import "../../../styles/user/editTest.css"
+import { baseUrl } from "../../../utils/services";
 import { CometChatContext } from "../../../context/CometChatContext";
 
 export default function EditUser() {
@@ -62,7 +63,7 @@ export default function EditUser() {
     const id = userProfiles.id;
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/users/find/${username}`).then((res) => {
+        axios.get(`${baseUrl}/users/find/${username}`).then((res) => {
             setUser(res.data[0]);
         });
     }, [username]);
@@ -83,13 +84,11 @@ export default function EditUser() {
         };
 
         axios
-            .put(`http://localhost:5000/users/users/${id}`, updatedUser)
+            .put(`${baseUrl}/users/users/${id}`, updatedUser)
             .then((res) => {
                 if (isEditing[field]) {
                     toast.success("Update successful.", toastOptions);
-                    setTimeout(() => {
-                        toast.dismiss();
-                    }, 1000);
+                   
                 }
                 setIsEditing({ ...isEditing, [field]: false });
                 fetchUserProfile();
@@ -120,32 +119,26 @@ export default function EditUser() {
         };
         if (updatedPassword.oldPassword === "") {
             toast.error("Please input old password", toastOptions)
-            setTimeout(() => {
-                toast.dismiss()
-            }, 2000)
+            
         } else {
 
             // Kiểm tra tính hợp lệ sử dụng Yup
             validationSchema.validate(updatedPassword, { abortEarly: false })
                 .then(() => {
                     // Nếu không có lỗi, thực hiện axios request
-                    axios.put(`http://localhost:5000/users/${id}`, updatedPassword)
+                    axios.put(`${baseUrl}/users/${id}`, updatedPassword)
                         .then((res) => {
                             // console.log(res)
                             console.log(res.data)
 
-                            if (res.data === "Mật khẩu cũ của bạn không đúng.") {
+                            if (res.data === "Mật khẩu cũ không đúng.") {
                                 toast.error("Old password is not correct.", toastOptions);
-                                setTimeout(() => {
-                                    toast.dismiss()
-                                }, 2000)
+                               
                             } else {
                                 setIsEditing({ ...isEditing, password: false });
-                                if (res.data === "mat khau da duoc cap nhat") {
+                                if (res.data === "Mật khẩu đã được cập nhật") {
                                     toast.success("Password change successful.", toastOptions);
-                                    setTimeout(() => {
-                                        toast.dismiss();
-                                    }, 1000);
+                                   
                                     setPasswordFields({
                                         oldPassword: "",
                                         newPassword: "",
@@ -159,14 +152,10 @@ export default function EditUser() {
                 .catch((errors) => {
                     if (errors instanceof ValidationError) {
                         toast.error("Password is not match", toastOptions);
-                        setTimeout(() => {
-                            toast.dismiss()
-                        }, 2000)
+                      
                     } else {
                         toast.error("There was an error during the password update process.", toastOptions);
-                        setTimeout(() => {
-                            toast.dismiss()
-                        }, 2000)
+                       
                         console.log('There was an error during the password update process.', errors);
                     }
                 });
@@ -558,7 +547,7 @@ export default function EditUser() {
             {/* Kết thúc phần mật khẩu */}
             {/*End Invoice*/}
 
-            <ToastContainer />
+            {/* <ToastContainer /> */}
         </>
     );
 }

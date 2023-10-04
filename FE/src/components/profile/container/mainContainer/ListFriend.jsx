@@ -18,6 +18,8 @@ export default function ListFriend() {
     const [commonFriendList, setCommonFriendList] = useState([]);
     const [show, setShow] = useState(false);
 
+    console.log(commonFriendList);
+
     const handleClose = () => {
         setShow(false);
     }
@@ -60,7 +62,6 @@ export default function ListFriend() {
                 commonFriendNumbers.push(commonFriendNumber);
             }
             setCommonFriendNumber(commonFriendNumbers);
-            console.log(commonFriendNumber, "commonFriendNumber");
         };
         getCommonFriendNumbers();
     }, [userProfile, countFriend]);
@@ -155,7 +156,7 @@ export default function ListFriend() {
             {/* Modal Common Friend */}
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ transform: "translateX(92px)" }}>Mutual Friend list</Modal.Title>
+                    <Modal.Title style={{ transform: "translateX(145px)" }}>Mutual Friend list</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="modal-commonFriend-container">

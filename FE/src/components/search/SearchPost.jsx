@@ -12,6 +12,7 @@ import Like from "../common/Like";
 import Navbar from "../common/Navbar";
 import $ from "jquery";
 import { AuthContext } from "../../context/AuthContext";
+import { baseUrl } from "../../utils/services";
 
 export default function SearchPost() {
     const { searchTerm } = useContext(SearchContext);
@@ -25,7 +26,7 @@ export default function SearchPost() {
     console.log(listStatus);
 
     const handleLikeClick = async () => {
-        axios.get(`http://localhost:5000/status/content/${user.id}/?content=${searchTerm}`).then((res) => {
+        axios.get(`${baseUrl}/status/content/${user.id}/?content=${searchTerm}`).then((res) => {
             setListStatus(res.data);   
         });
         fetchPostUser();
@@ -60,7 +61,7 @@ export default function SearchPost() {
     };
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/status/content/${user.id}/?content=${searchTerm}`).then((res) => {
+        axios.get(`${baseUrl}/status/content/${user.id}/?content=${searchTerm}`).then((res) => {
             setListStatus(res.data)
         });
     }, [searchTerm])

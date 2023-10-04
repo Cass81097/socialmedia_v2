@@ -55,7 +55,7 @@ const Home = (props) => {
 
     useEffect(() => {
         if (loginFinish) {
-            toast.success("Đăng nhập thành công !", toastOptions);
+            toast.success("Login Sucessful !", toastOptions);
             setLoginFinish(false);
         }
     }, [loginFinish]);
@@ -111,10 +111,12 @@ const Home = (props) => {
         const list = await getRequest(`${baseUrl}/status`);
         setListPost(list)
     })
+
     const handleReloadCmt = (async () => {
         const list = await getRequest(`${baseUrl}/status`);
         setListPost(list)
     })
+
     useEffect(() => {
         if (isAddStatus && containerRef.current) {
             containerRef.current.scrollIntoView({behavior: 'smooth'});
@@ -584,16 +586,16 @@ const Home = (props) => {
                                                                                         if (timeDiffInMinutes === 0) {
                                                                                             timeAgo = "Just now";
                                                                                         } else if (timeDiffInMinutes < 60) {
-                                                                                            timeAgo = `${timeDiffInMinutes} minute ago`;
+                                                                                            timeAgo = `${timeDiffInMinutes} minutes ago`;
                                                                                         } else {
                                                                                             const hours = Math.floor(timeDiffInMinutes / 60);
                                                                                             const minutes = timeDiffInMinutes % 60;
                                                                                             if (hours >= 24) {
                                                                                                 timeAgo = "1 day ago";
                                                                                             } else if (minutes === 0) {
-                                                                                                timeAgo = `${hours} hour`;
+                                                                                                timeAgo = `${hours} hours`;
                                                                                             } else {
-                                                                                                timeAgo = `${hours} hour ${minutes} minute ago`;
+                                                                                                timeAgo = `${hours} hours ${minutes} minutes ago`;
                                                                                             }
                                                                                         }
 

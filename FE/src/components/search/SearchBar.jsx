@@ -3,6 +3,7 @@ import {FaSearch} from "react-icons/fa";
 import "../../styles/search-bar/SearchBar.css";
 import {useNavigate} from "react-router-dom";
 import {SearchContext, useSearch} from "../../context/SearchContext";
+import { baseUrl } from "../../utils/services";
 
 export const SearchBar = ({setResults, results}) => {
     const [input, setInput] = useState("");
@@ -22,10 +23,10 @@ export const SearchBar = ({setResults, results}) => {
     }, [window.location.pathname]);
 
     const fetchData = (value) => {
-        const userPromise = fetch("http://localhost:5000/users/").then((response) =>
+        const userPromise = fetch(`${baseUrl}/users/`).then((response) =>
             response.json()
         );
-        const groupPromise = fetch("http://localhost:5000/groups/").then((response) =>
+        const groupPromise = fetch(`${baseUrl}/groups/`).then((response) =>
             response.json()
         );
 

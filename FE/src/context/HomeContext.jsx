@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState, useContext } from "react";
-import { baseUrl, getRequest } from "../utils/services";
+import { baseUrl, getRequest, socketUrl } from "../utils/services";
 import { AuthContext } from "./AuthContext";
 import { io } from "socket.io-client";
 
@@ -37,7 +37,7 @@ export const HomeContextProvider = ({ children }) => {
 
     // Socket
     useEffect(() => {
-        const newSocket = io("http://localhost:3000")
+        const newSocket = io(`${socketUrl}`)
         setSocket(newSocket)
 
         return () => {

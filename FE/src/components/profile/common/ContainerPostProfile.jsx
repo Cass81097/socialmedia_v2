@@ -301,6 +301,11 @@ export default function ContainerPostProfile(props) {
         checkBlockByUser();
     }, [])
 
+    const reloadHome = () => {
+        console.log("OK")
+    }
+
+
     return (
         <>
             <div className="post-col">
@@ -653,16 +658,16 @@ export default function ContainerPostProfile(props) {
                                                     if (timeDiffInMinutes === 0) {
                                                         timeAgo = "Just now";
                                                     } else if (timeDiffInMinutes < 60) {
-                                                        timeAgo = `${timeDiffInMinutes} minute ago`;
+                                                        timeAgo = `${timeDiffInMinutes} minutes ago`;
                                                     } else {
                                                         const hours = Math.floor(timeDiffInMinutes / 60);
                                                         const minutes = timeDiffInMinutes % 60;
                                                         if (hours >= 24) {
                                                             timeAgo = "1 day ago";
                                                         } else if (minutes === 0) {
-                                                            timeAgo = `${hours} hour`;
+                                                            timeAgo = `${hours} hours`;
                                                         } else {
-                                                            timeAgo = `${hours} hour ${minutes} minute ago`;
+                                                            timeAgo = `${hours} hours ${minutes} minutes ago`;
                                                         }
                                                     }
 
@@ -838,7 +843,7 @@ export default function ContainerPostProfile(props) {
 
                                 </div>
                                 {visibleCommentIndex === index && (
-                                    <CommentContextProvider postId={post.id} >
+                                    <CommentContextProvider postId={post.id} reloadHome={reloadHome} >
                                         <Comment post={post} postVisi={post.visibility} postSenderId={post.sender.id} postId={post.id} showComment={showComment} setShowComment={setShowComment} />
                                     </CommentContextProvider>
                                 )}

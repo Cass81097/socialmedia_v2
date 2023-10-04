@@ -10,7 +10,7 @@ import uploadImages from "../hooks/UploadMulti";
 
 export const CommentContext = createContext();
 
-export const CommentContextProvider = ({ children, postId,reloadHome }) => {
+export const CommentContextProvider = ({ children, postId, reloadHome }) => {
     const { socket } = useContext(HomeContext)
     const { user } = useContext(AuthContext);
     const { fetchPostUser, commentList, setCommentList } = useContext(PostContext);
@@ -30,7 +30,7 @@ export const CommentContextProvider = ({ children, postId,reloadHome }) => {
 
     useEffect(() => {
         if (postId && checkTime === false) {
-            axios.get(`http://localhost:5000/comments/statusId/${postId}`).then((r) => {
+            axios.get(`${baseUrl}/comments/statusId/${postId}`).then((r) => {
                 console.log(r.data.commentRecords);
                 setCommentList(r.data.commentRecords);
             });
@@ -78,7 +78,6 @@ export const CommentContextProvider = ({ children, postId,reloadHome }) => {
     }, [textMessage, postStatusId, user, fetchPostUser]);
 
     const handleDeleteMessage = useCallback((commentId) => {
-        console.log("delete");
         deleteRequest(`${baseUrl}/comments/commentId/${commentId}`)
             .then(() => {
                 const updatedCommentList = commentList.filter((comment) => comment.id !== commentId);

@@ -1,4 +1,5 @@
-export const baseUrl = "http://localhost:5000";
+export const baseUrl = "http://192.168.5.22:5000";
+export const socketUrl = "http://192.168.5.22:3000";
 
 export const postRequest = async (url, body) => {
     const response = await fetch(url, {
